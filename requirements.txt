@@ -1,3 +1,2 @@
 logging
 logging.config
-itertools
