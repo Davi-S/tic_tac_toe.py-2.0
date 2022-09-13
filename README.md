@@ -130,9 +130,3 @@ Contributions are what make the open source community such an amazing place to b
 ## Authors
 
 * **Davi Sampaio** - *Python developer for 3+ years * - [Davi Sampaio](https://github.com/Davi-S/) - *Everything*
-
-## Acknowledgements
-
-* [ShaanCoding](https://github.com/ShaanCoding/)
-* [Othneil Drew](https://github.com/othneildrew/Best-README-Template)
-* [ImgShields](https://shields.io/)
