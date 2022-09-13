@@ -25,19 +25,21 @@ log.addHandler(create_file_handler(__name__))
 # - THE GAME CLASS SHOLD BE CREATED EACH TIME THAT THE USER WANT A NEW CONFIGURATION? (LIKE A NEW PLAYER OR A DIFERENT BOARD)
 
 def main():
-    # create the game with the board and win checker class
-    game = TicTacToeGame(TicTacToeBoard, ClassicalWinChecker)
-    
+    # pick board
+    board = TicTacToeBoard
     # Set board attributes
-    game.board.size  #  The TicTacToeBoard usses a square board
-    game.board.default_value
+    board.size  #  The TicTacToeBoard usses a square board
+    board.default_value
     ...
 
+    # pick win_checker
+    win_checker = ClassicalWinChecker
     # Set win cheker attributes
-    # The ClassicalWinChecker does not demand for any configuration
-    # If you use a win checker that demand a configuration, you can do it here 
     game.win_checker.preference  
     ...
+
+    # create the game with the board and win checker class
+    game = TicTacToeGame(board, win_checker)
 
     # Set game "rules"
     game.game_mode  # certain score wins the game; infinite game; 

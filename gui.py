@@ -1,6 +1,4 @@
 # IMPORTS #
-from collections import defaultdict
-
 from logs.logging_configuration import create_file_handler
 import logging
 
@@ -16,7 +14,8 @@ def print_formated_board(board: list[list]):
         print('\n', str(line).replace('[', '')
                              .replace(']', '')
                              .replace(',', ' |')
-                             .replace("'", ''))
+                             .replace("'", '')
+                             .replace('None', ' '))
         if line_idx < len(board) -1:
             for count, _ in enumerate(line, start=1):
                 print('---', end='')
@@ -24,4 +23,4 @@ def print_formated_board(board: list[list]):
                     print('|', end='')
 
 
-# TODO: MAKE A COMMAND LINE INTERFACE SO THE USER CAN PLAY THE GAME
+# TODO: MAKE A COMMAND LINE INTERFACE OR GUI SO THE USER CAN PLAY THE GAME

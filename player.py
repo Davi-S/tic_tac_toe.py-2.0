@@ -1,5 +1,5 @@
 # IMPORTS #
-from abc import ABC
+from abstracts import Player
 
 from logs.logging_configuration import create_file_handler
 import logging
@@ -9,22 +9,7 @@ log = logging.getLogger(__name__)
 log.addHandler(create_file_handler(__name__))
 
 
-# TODO: IMPLEMENT THE PLAYERs CLASS
-
-
-class Player(ABC):
-    """
-    is a player
-    connect to the game
-    colect game rules
-    act when the game calls
-    when the game calls:
-        receive board
-        decide where to play and tell the game the coordinates
-    """
-    pass
-
-
+# TODO: IMPLEMENT THE PLAYER CLASS
 class CPUPlayer(Player):
     """The CPU play the game"""
     pass
