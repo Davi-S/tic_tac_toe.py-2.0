@@ -1,7 +1,4 @@
 # IMPORTS #
-from abstracts import Board, Player, WinChecker
-import helpers
-
 from logs.logging_configuration import create_file_handler
 import logging
 
@@ -26,42 +23,7 @@ class TicTacToeGame:
     verify wins using the win check (based on what is sees on the board, the players info mark, and rules)
     count score
     """
-    def __init__(self, board_class: Board, win_checker_class: WinChecker) -> None:
-        self._board = board_class
-        self._win_checker = win_checker_class
-        self._players = []
-
-
-    def add_player(self, name: str, mark: str, player: Player) -> bool:
-        """Add a player to the game
-
-        Args:
-            name (str): Player name. Shown on GUI
-            mark (str): The player mark. What will be placed on the board
-            player (Player): The Player Class (responsible for sending the coordinates of the moves to the game)
-        """
-        if not helpers.is_char(mark):
-            return False
-        if not self._available_player_info(name, mark):
-            return False
-        self._players.append({'name': name, 'mark': mark, 'player': player})
-        return True
-
-
-    def _available_player_info(self, name: str, mark: str) -> bool: # sourcery skip: use-any, use-next
-        """Check if a player exists with the same name or mark
-
-        Args:
-            name (str): player name
-            mark (str): player mark
-
-        Returns:
-            bool: False if a player with the same info exists; Otherwise, True
-        """
-        for player in self._players:
-            if (player['name'] == name) or (player['mark'] == mark):
-                return False
-        return True
+    pass
 
     
 def main():  

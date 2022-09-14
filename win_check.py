@@ -1,5 +1,5 @@
 # IMPORTS #
-from abstracts import WinChecker
+from abstracts import ISubscriber, IWinChecker
 from helpers import Matrix
 
 from logs.logging_configuration import create_file_handler
@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 log.addHandler(create_file_handler(__name__))
 
 
-class ClassicalWinChecker(WinChecker):
+class ClassicalWinChecker(IWinChecker, ISubscriber):
     """A row, column of great diagonal if fully filled with only one mark"""
     def check_win(self) -> bool:
         """Check if there is a win on the game
@@ -23,6 +23,11 @@ class ClassicalWinChecker(WinChecker):
 
 
     def get_win_info(self) -> dict:
+        """The info where occur wins
+
+        Returns:
+            dict: {group: (mark, index)}
+        """
         return {'row':self._get_row_winner(), 'column':self._get_column_winner(), 'diagonal':self._get_diagonal_winner()}
     
 
@@ -35,8 +40,7 @@ class ClassicalWinChecker(WinChecker):
         Returns:
             bool: True is the win condition is true. False if the win condition is false
         """
-        group_set = set(group)
-        return len(group_set) == 1 and group_set != {None}
+        return len(set(group)) == 1 and set(group) != {None}
 
 
 
@@ -85,21 +89,20 @@ class ClassicalWinChecker(WinChecker):
             return great_diagonal[0], 1
         return None, -1
 
+    # TODO: CHECK OBSERVER PATTER HERE AND IN THE TICTACTOEBOARD CLASS
+    def update(self, event: str, event_args: dict) -> None:
+        """Receive update from a Publisher with a event
 
-# TODO: IMPLEMENT THIS CLASS
-class CustomWinChecker(WinChecker):
-    """There is a certain amount of consecutive marks in any group"""
-    pass
+        Args:
+            event (callable): The event triggered
+        """
+        eval(f'self.{event}(self, **{event_args})')
 
 
 def main():
-    print(bool(str))
     test = [['x', 'o', 'o'],
             ['o', 'o', 'x'],
             ['x', 'x', 'o']]
-    wc = ClassicalWinChecker()
-    wc.set_board_state(test)
-    wc.check_win()
     return
 
 
