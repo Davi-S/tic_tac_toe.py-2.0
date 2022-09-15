@@ -14,8 +14,7 @@ _log.addHandler(create_file_handler(__name__))
 
 
 class IBoard(ABC):
-    """It is and can manipulate the board"""
-
+    """Is the board of the game. A two dimension array"""
     @property
     @abstractmethod
     def board(self) -> list[list]: 
@@ -26,31 +25,33 @@ class IBoard(ABC):
         pass
     
     def _create_board(self, rows: int, columns: int) -> list[list]:
-        """Create a empty 2 dimention matrix (board)"""
+        """Create a empty two dimention matrix (board)"""
         gridline = [None for _ in range(rows)]
         gridline = [list(gridline) for _ in range(columns)]
         return gridline
 
 
 class IWinChecker(ABC):
+    """Analize wins on the board."""
     @abstractmethod
     def check_win(self) -> bool:
         pass
 
     @abstractmethod
-    def get_win_info(self):
+    def get_win_info(self) -> dict:
         pass
 
 
 class IPlayer(ABC):
+    """A player of the game. Receives a board state and chose where to play."""
     @abstractproperty
-    def name(self):
+    def name(self) -> str:
         pass
 
     @abstractproperty
-    def mark(self):
+    def mark(self) -> str:
         pass
     
     @abstractmethod
-    def play(self):
+    def play(self) -> tuple(int, int):
         pass
