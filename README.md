@@ -68,9 +68,12 @@ If you have thanks, complaints, bugs to report or want to help with development,
 The GUI is just the terminal for a while.
 
 *western wanted poster*
+
 *GUI developer*
+
 *alive only*
-*reward: zero thousand zero hundred and zero dolars*
+
+*reward: zero thousand zero hundred and zeroth zero dolars*
 
 ## Built With
 
