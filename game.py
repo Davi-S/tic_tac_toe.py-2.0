@@ -1,4 +1,6 @@
 # IMPORTS #
+from abstracts import IBoard, IPlayer, IWinChecker
+
 from logs.logging_configuration import create_file_handler
 import logging
 
@@ -24,9 +26,12 @@ class TicTacToeGame:
     count score
     """
     pass
-
+    
     
 def main():  
+    test = [['x', 'o', 'o'],
+            ['o', 'o', 'x'],
+            ['x', 'x', 'o']]
     return
 
 

@@ -1,6 +1,5 @@
 # IMPORTS #
-from abc import ABC, abstractmethod
-
+from abc import ABC, abstractmethod, abstractproperty
 from logs.logging_configuration import create_file_handler
 import logging
 
@@ -40,25 +39,23 @@ class IPublisher(ABC):
 class IBoard(ABC):
     """It is and can manipulate the board"""
 
+    @property
     @abstractmethod
-    def set_board(self):
+    def board(self):
         pass
 
     @abstractmethod
     def place_mark(self):
         pass
-
+    
     def _create_board(self, rows: int, columns: int) -> list[list]:
-        """Create a empty matrix"""
+        """Create a empty 2 dimention matrix (board)"""
         gridline = [None for _ in range(rows)]
         gridline = [list(gridline) for _ in range(columns)]
         return gridline
 
 
 class IWinChecker(ABC):
-    def set_board_state(self, board_state: list[list]) -> None:
-        self.board_state = board_state
-        
     @abstractmethod
     def check_win(self) -> bool:
         pass
@@ -69,13 +66,14 @@ class IWinChecker(ABC):
 
 
 class IPlayer(ABC):
-    """
-    is a player
-    connect to the game
-    colect game rules
-    act when the game calls
-    when the game calls:
-        receive board
-        decide where to play and tell the game the coordinates
-    """
-    pass
+    @abstractproperty
+    def name(self):
+        pass
+
+    @abstractproperty
+    def mark(self):
+        pass
+    
+    @abstractmethod
+    def play(self):
+        pass

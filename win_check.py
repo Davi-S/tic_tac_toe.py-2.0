@@ -1,5 +1,5 @@
 # IMPORTS #
-from abstracts import ISubscriber, IWinChecker
+from abstracts import IWinChecker
 from helpers import Matrix
 
 from logs.logging_configuration import create_file_handler
@@ -10,8 +10,11 @@ log = logging.getLogger(__name__)
 log.addHandler(create_file_handler(__name__))
 
 
-class ClassicalWinChecker(IWinChecker, ISubscriber):
+class ClassicalWinChecker(IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
+    # TODO: ADD THE SELF.BOARD_STATE
+    # TODO: ADD A WAY TO RECEIVE UPDATES FROM THE BOARD (OR FROM THE GAME)
+
     def check_win(self) -> bool:
         """Check if there is a win on the game
 
@@ -23,7 +26,7 @@ class ClassicalWinChecker(IWinChecker, ISubscriber):
 
 
     def get_win_info(self) -> dict:
-        """The info where occur wins
+        """The information about a win
 
         Returns:
             dict: {group: (mark, index)}
@@ -89,20 +92,8 @@ class ClassicalWinChecker(IWinChecker, ISubscriber):
             return great_diagonal[0], 1
         return None, -1
 
-    # TODO: CHECK OBSERVER PATTER HERE AND IN THE TICTACTOEBOARD CLASS
-    def update(self, event: str, event_args: dict) -> None:
-        """Receive update from a Publisher with a event
-
-        Args:
-            event (callable): The event triggered
-        """
-        eval(f'self.{event}(self, **{event_args})')
-
 
 def main():
-    test = [['x', 'o', 'o'],
-            ['o', 'o', 'x'],
-            ['x', 'x', 'o']]
     return
 
 
