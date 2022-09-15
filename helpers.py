@@ -1,10 +1,11 @@
-# THIS FILE CONTAIN GENERIC USEFUL CALLABLES # 
+"""Generic useful functions"""
 # IMPORTS #
+# LOCAL IMPORTS #
 from collections import defaultdict
 
+# LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
 import logging
-
 # Get the file logger and its handler
 log = logging.getLogger(__name__)
 log.addHandler(create_file_handler(__name__))

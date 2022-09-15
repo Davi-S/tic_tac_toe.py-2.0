@@ -1,12 +1,13 @@
+"""Player concrete classes"""
 # IMPORTS #
-from pydoc import plain
 from random import randint
 
+# LOCAL IMPORTS #
 from abstracts import IPlayer
 
+# LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
 import logging
-
 # Get the file logger and its handler
 log = logging.getLogger(__name__)
 log.addHandler(create_file_handler(__name__))

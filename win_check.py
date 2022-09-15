@@ -1,10 +1,13 @@
+"""WinCheker concrete classes"""
 # IMPORTS #
 from abstracts import IWinChecker
 from helpers import Matrix
 
+# LOCAL IMPORTS #
+
+# LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
 import logging
-
 # Get the file logger and its handler
 log = logging.getLogger(__name__)
 log.addHandler(create_file_handler(__name__))

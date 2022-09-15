@@ -1,9 +1,9 @@
 # IMPORTS #
-from abstracts import IBoard, IPlayer, IWinChecker
+# LOCAL IMPORTS #
 
+# LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
 import logging
-
 # Get the file logger and its handler
 log = logging.getLogger(__name__)
 log.addHandler(create_file_handler(__name__))
@@ -28,7 +28,7 @@ class TicTacToeGame:
     pass
     
     
-def main():  
+def main() -> None:    # sourcery skip: docstrings-for-functions
     test = [['x', 'o', 'o'],
             ['o', 'o', 'x'],
             ['x', 'x', 'o']]

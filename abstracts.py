@@ -1,39 +1,15 @@
-# IMPORTS #
+"""Abstract Classes"""
+
+# IMPORTS # 
+# LOCAL IMPORTS #
 from abc import ABC, abstractmethod, abstractproperty
+
+# LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
 import logging
-
 # Get the file logger and its handler
 log = logging.getLogger(__name__)
 log.addHandler(create_file_handler(__name__))
-
-
-class ISubscriber(ABC):
-    """The Observer interface declares the update method, used by Publisher."""
-
-    @abstractmethod
-    def update(self, event) -> None:
-        """Receive update from Publisher."""
-        pass
-
-
-class IPublisher(ABC):
-    """The Subject interface declares a set of methods for managing subscribers."""
-
-    @abstractmethod
-    def add_subscriber(self, subscriber, events) -> None:
-        """Add an subscriber to the publisher."""
-        pass
-
-    @abstractmethod
-    def remove_subscriber(self, subscriber, events) -> None:
-        """Remove an subscriber from the publisher."""
-        pass
-
-    @abstractmethod
-    def notify(self, events) -> None:
-        """Notify all subscribers about an event."""
-        pass
 
 
 class IBoard(ABC):
@@ -41,11 +17,11 @@ class IBoard(ABC):
 
     @property
     @abstractmethod
-    def board(self):
+    def board(self) -> list[list]: 
         pass
 
     @abstractmethod
-    def place_mark(self):
+    def place_mark(self) -> bool:
         pass
     
     def _create_board(self, rows: int, columns: int) -> list[list]:
