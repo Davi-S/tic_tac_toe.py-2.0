@@ -1,4 +1,5 @@
 """Player concrete classes"""
+
 # IMPORTS #
 from random import randint
 
@@ -9,8 +10,8 @@ from abstracts import IPlayer
 from logs.logging_configuration import create_file_handler
 import logging
 # Get the file logger and its handler
-log = logging.getLogger(__name__)
-log.addHandler(create_file_handler(__name__))
+_log = logging.getLogger(__name__)
+_log.addHandler(create_file_handler(__name__))
 
 """
 is a player

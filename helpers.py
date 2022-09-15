@@ -1,5 +1,7 @@
 """Generic useful functions"""
+
 # IMPORTS #
+
 # LOCAL IMPORTS #
 from collections import defaultdict
 
@@ -7,8 +9,8 @@ from collections import defaultdict
 from logs.logging_configuration import create_file_handler
 import logging
 # Get the file logger and its handler
-log = logging.getLogger(__name__)
-log.addHandler(create_file_handler(__name__))
+_log = logging.getLogger(__name__)
+_log.addHandler(create_file_handler(__name__))
 
 
 def longest_consecutive_occourence(iterable, item) -> int:
