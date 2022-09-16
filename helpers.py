@@ -72,6 +72,21 @@ def is_char(char: str) -> bool:
     return False if type(char) != str else 0 > len(char) > 1
 
 
+def print_formated_board(board: list[list]):
+    """Print a user frendly board on the terminal"""
+    for line_idx, line in enumerate(board):
+        # Formatting the list
+        print('\n', str(line).replace('[', '')
+                             .replace(']', '')
+                             .replace(',', ' |')
+                             .replace("'", '')
+                             .replace('None', ' '))
+        if line_idx < len(board) -1:
+            for count, _ in enumerate(line, start=1):
+                print('---', end='')
+                if count < len(line):
+                    print('|', end='')
+
 def main():
     return
     

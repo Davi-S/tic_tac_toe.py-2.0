@@ -12,10 +12,18 @@ _log.addHandler(create_file_handler(__name__))
 # IMPORTS #
 
 # LOCAL IMPORTS #
+from game_modes import OneVsOne
+from win_check import ClassicalWinChecker
+from player import EasyPlayer
 
 
 def main():
-    # SEE TODO.TXT FILE
+    game = OneVsOne()
+    game.set_board(3, 3)
+    game.set_win_checker(ClassicalWinChecker)
+    game.set_score_to_win(3)
+    players = [EasyPlayer('player 1', 'x'), EasyPlayer('Player 2', 'o')]
+    game.set_players(players)
     return
 
 

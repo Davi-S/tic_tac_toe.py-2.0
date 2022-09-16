@@ -16,8 +16,16 @@ _log.addHandler(create_file_handler(__name__))
 
 class ClassicalWinChecker(IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
-    # TODO: ADD THE SELF.BOARD_STATE
-    # TODO: ADD A WAY TO RECEIVE UPDATES FROM THE BOARD (OR FROM THE GAME)
+    def __init__(self) -> None:
+        self.board_state = None  # The board state to check for wins
+        
+    def update_board_state(self, board_state: list[list]) -> None:
+        """Update the board state. This method is used by a IPublisher
+
+        Args:
+            board_state (list[list]): The board state
+        """
+        self.board_state = board_state
 
     def check_win(self) -> bool:
         """Check if there is a win on the game
@@ -26,7 +34,7 @@ class ClassicalWinChecker(IWinChecker):
             bool: True is there is a win. False is there is no win
         """
         win_info = self.get_win_info()
-        return any(value != None for value in win_info.values())
+        return any(value[0] != None for value in win_info.values())
 
 
     def get_win_info(self) -> dict:
