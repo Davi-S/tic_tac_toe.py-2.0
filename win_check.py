@@ -1,10 +1,10 @@
 """WinCheker concrete classes"""
 
 # IMPORTS #
-from abstracts import IWinChecker
-from helpers import Matrix
 
 # LOCAL IMPORTS #
+from abstracts import BOARD_HINT, IWinChecker
+from helpers import Matrix
 
 # LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
@@ -16,16 +16,9 @@ _log.addHandler(create_file_handler(__name__))
 
 class ClassicalWinChecker(IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
-    def __init__(self) -> None:
-        self.board_state = None  # The board state to check for wins
-        
-    def update_board_state(self, board_state: list[list]) -> None:
-        """Update the board state. This method is used by a IPublisher
+    def __init__(self, board_state: BOARD_HINT) -> None:
+        self.board_state = board_state  # The board state to check for wins
 
-        Args:
-            board_state (list[list]): The board state
-        """
-        self.board_state = board_state
 
     def check_win(self) -> bool:
         """Check if there is a win on the game
@@ -105,7 +98,7 @@ class ClassicalWinChecker(IWinChecker):
         return None, -1
 
 
-def main():
+def main() -> None:
     return
 
 

@@ -4,7 +4,7 @@
 from random import randint
 
 # LOCAL IMPORTS #
-from abstracts import IPlayer
+from abstracts import BOARD_HINT, IPlayer
 
 # LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
@@ -20,21 +20,16 @@ class EasyPlayer(IPlayer):
         super().__init__(name, mark)
         self.board_state = None
 
-    def update_board_state(self, board_state: list[list]) -> None:
-        """Update the board state. This method is used by a IPublisher
 
-        Args:
-            board_state (list[list]): The board state
-        """
-        self.board_state = board_state
-
-    def play(self) -> tuple[int, int]:
+    def play(self, board_state: BOARD_HINT) -> tuple[int, int]:
         """Choose a random empty coordinate from the board
 
         Returns:
             tuple[int, int]: The coordinate chosen
         """
+        self.board_state = board_state
         possible_plays = self._get_empty_places()
+        self.board_state = None
         return possible_plays[randint(0, len(possible_plays) - 1)]
 
 
@@ -53,7 +48,7 @@ class EasyPlayer(IPlayer):
 
 
 
-def main(): 
+def main() -> None: 
     return
 
 

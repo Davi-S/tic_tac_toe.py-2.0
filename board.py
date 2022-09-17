@@ -3,7 +3,7 @@
 # IMPORTS #
 
 # LOCAL IMPORTS #
-from abstracts import IBoard, IBoardSubscriber
+from abstracts import BOARD_HINT, IBoard
 
 # LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
@@ -16,12 +16,11 @@ _log.addHandler(create_file_handler(__name__))
 class RectangularBoard(IBoard):
     """Two dimensional array"""
     def __init__(self, rows: int, columns: int) -> None:
-        self._board: list[list] = super()._create_board(rows, columns)
-        self._subscribers: list[IBoardSubscriber] = []
+        self._board: BOARD_HINT = super()._create_board(rows, columns)
 
 
     @property
-    def board(self) -> list[list]:
+    def board(self) -> BOARD_HINT:
         return self._board
 
 
@@ -42,26 +41,6 @@ class RectangularBoard(IBoard):
             self.notify_subscribers(self._board)
             return True
         return False
-
-    
-    def add_subscriber(self, subscriber: IBoardSubscriber) -> None:
-        """Add an subscriber to the publisher."""
-        self._subscribers.append(subscriber)
-
-
-    def remove_subscriber(self, subscriber: IBoardSubscriber) -> None:
-        """Remove an subscriber from the publisher."""
-        self._subscribers.remove(subscriber)
-
-
-    def notify_subscribers(self, board_state: list[list]) -> None:
-        """Notify all subscribers about an event.
-
-        Args:
-            board_state (list[list]): The board state to change on the subscribers
-        """
-        for subscriber in self._subscribers:
-            subscriber.update_board_state(board_state)
 
 
 def main() -> None:
