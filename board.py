@@ -13,10 +13,12 @@ _log = logging.getLogger(__name__)
 _log.addHandler(create_file_handler(__name__))
 
 
-class RectangularBoard(IBoard):
+class Board2D(IBoard):
     """Two dimensional array"""
     def __init__(self, rows: int, columns: int) -> None:
         self._board: BOARD_HINT = super()._create_board(rows, columns)
+        # TODO: CHECK IF TIME LINE IS WORKING
+        self.time_line: list[BOARD_HINT] = []
 
 
     @property
@@ -38,7 +40,8 @@ class RectangularBoard(IBoard):
         """
         if rewrite or self._board[row][column] is None:
             self._board[row][column] = mark
-            self.notify_subscribers(self._board)
+            # append to time_line
+            self.time_line.append(self._board)
             return True
         return False
 

@@ -70,7 +70,7 @@ class Matrix:
 def is_char(char: str) -> bool:
     """Check if the given str is a single char"""
     return False if type(char) != str else 0 > len(char) > 1
-    
+
 
 def main():
     return

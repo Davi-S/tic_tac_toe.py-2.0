@@ -1,6 +1,7 @@
 """User Interface"""
 
 # IMPORTS #
+import os  # os.system('cls')
 
 # LOCAL IMPORTS #
 
@@ -10,7 +11,6 @@ import logging
 # Get the file logger and its handler
 _log = logging.getLogger(__name__)
 _log.addHandler(create_file_handler(__name__))
-
 
 
 def print_formated_board(board: list[list]) -> None:
@@ -29,15 +29,33 @@ def print_formated_board(board: list[list]) -> None:
                     print('|', end='')
 
 
-def print_options(options: dict[int, str]) -> None:
-    for option_number, option_name in options.items():
-        print(f'[ {option_number} ] >>> {option_name}')
+# TODO: REFACTOR AND MEKE OPTIONS CLASSES
+class SimpleOptionsMenu:
+    def __init__(self, title: str, options: list, prompt: str) -> None:
+        self.title = title
+        self.options = options
+        self.prompt = prompt
 
 
+    def print_options(self) -> None:
+        for idx, option in enumerate(self.options):
+            print(f'[ {idx + 1} ] >>> {option}')
+        
 
-def main():
-    options = {1: 'opt1', 2: 'opt2', 3: 'opt3'}
-    
+    def get_option(self):
+        user_input = int(input(self.prompt))
+        return self.options[user_input -1]
+
+    def show(self):
+        os.system('cls')
+        print(f'{self.title.upper()}')
+        print('')
+        self.print_options()
+        print('')
+        return self.get_option()
+
+
+def main():   
     return
 
 

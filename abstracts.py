@@ -12,7 +12,9 @@ import logging
 _log = logging.getLogger(__name__)
 _log.addHandler(create_file_handler(__name__))
 
+
 BOARD_HINT = list[list]
+
 
 class IBoard(ABC):
     """Is the board of the game. A two dimension array"""
@@ -55,3 +57,6 @@ class IPlayer(ABC):
     @abstractmethod
     def play(self) -> tuple[int, int]:
         pass
+
+
+# TODO: IMPLEMET ABSTRACT FOR GAME MODES

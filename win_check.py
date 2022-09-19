@@ -14,7 +14,7 @@ _log = logging.getLogger(__name__)
 _log.addHandler(create_file_handler(__name__))
 
 
-class ClassicalWinChecker(IWinChecker):
+class ClassicWinChecker(IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
     def __init__(self, board_state: BOARD_HINT) -> None:
         self.board_state = board_state  # The board state to check for wins
