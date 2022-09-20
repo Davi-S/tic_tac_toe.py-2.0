@@ -98,8 +98,8 @@ class ClassicWinChecker(IWinChecker):
         return None, -1
 
 
-def main() -> None:
-    return
+def main() -> int:
+    return 0
 
 
 if __name__ == '__main__': 

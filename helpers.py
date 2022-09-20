@@ -88,8 +88,8 @@ def print_formated_board(board: list[list]) -> None:
                 if count < len(line):
                     print('|', end='')
 
-def main():
-    return
+def main() -> int:
+    return 0
     
 
 if __name__ == "__main__":

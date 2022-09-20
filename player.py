@@ -48,8 +48,8 @@ class EasyPlayer(IPlayer):
 
 
 
-def main() -> None: 
-    return
+def main() -> int: 
+    return 0
 
 
 if __name__ == '__main__': 

@@ -46,8 +46,8 @@ class Board2D(IBoard):
         return False
 
 
-def main() -> None:
-    return
+def main() -> int:
+    return 0
 
 
 if __name__ == '__main__': 
