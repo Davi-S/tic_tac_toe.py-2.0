@@ -10,19 +10,12 @@ _log = logging.getLogger(__name__)
 _log.addHandler(create_file_handler(__name__))
 
 # IMPORTS #
-import os  # os.system('cls')
 
 # LOCAL IMPORTS #
 
 
-# TODO: IMPLEMENT CLASSIC GAME LOOP
-def play_classic():
-    pass
-
-
-# TODO: IMPLEMENT OTHER GAME OPTIONS AND MENUS
-def main() -> None:
-    return
+def main() -> int:
+    return 0
 
 
 if __name__ == '__main__':
