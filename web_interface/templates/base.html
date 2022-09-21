@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<!-- TODO: ADD THE MISSING HEAD TAGS (https://www.w3schools.com/tags/tag_head.asp) -->
+<head>
+    <!-- title -->
+    <title>{% block title %}TicTacToe Super{% endblock %}</title>
+
+    <!-- base -->
+    <!-- TODO: ADD "BASE" TAG -->
+
+    <!-- link -->
+    <!-- TODO: ADD FLAVICON (https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs)-->
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+    <!-- meta -->
+    <!-- meta: charset -->
+    <meta charset="utf-8">
+    <!-- meta: http-equiv -->
+    <!-- meta: name -->
+    <meta name="author" content="Davi Sampaio">
+    <!-- TODO: CHECK BETTER JINJA SINTAX -->
+    {% block meta_name_application-name %}<meta name="application-name" content="TicTacToe Super">{% endblock %}
+    {% block meta_name_description %}<meta name="description" content="A TicTacToe game with many interesting features">{% endblock %}
+    {% block meta_name_keywords %}<meta name="keywords" content="game, games, tictactoe">{% endblock %}
+    {% block meta_name_viewport %}<meta name="viewport" content="width=device-width, initial-scale=1">{% endblock %}
+    <!-- meta: property -->
+    <!-- TODO: REVISE THIS META TAGS (https://ogp.me/)-->
+    <meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
+    <meta property="og:title" content="A Basic HTML5 Template">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="A simple HTML5 Template for new projects.">
+    <meta property="og:image" content="image.png">
+
+    <!-- TODO: ADD "SCRIPT" AND "NOSCRIPT" -->
+</head>
+<body>
+    <!-- your content here... -->
+    {% block script %}<script src="js/scripts.js"></script>{% endblock %}
+</body>
+</html>
