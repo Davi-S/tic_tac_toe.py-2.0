@@ -1,7 +1,7 @@
 """Flask app"""
 
 # IMPORTS # 
-from flask import Flask
+import flask
 
 # LOCAL IMPORTS #
 
@@ -15,14 +15,13 @@ from flask import Flask
 
 
 # Create and config the app object
-app = Flask(__name__)
-#app.config.from_object('config.DevelopmentConfig')
+app = flask.Flask(__name__)
+app.config.from_object('config.DevelopmentConfig')
 
 
 @app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
+def main_menu():
+    return flask.render_template('home_page.html')
 
 
 def main() -> int:

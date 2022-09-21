@@ -1,50 +1,52 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    {% block title %}
-    <title>TicTacToe Super</title>
-    {% endblock %}
+    {% block head %}
+    <title>TicTacToe: {% block title required %}{% endblock %}</title>
 
     <!-- link -->
-    <link rel="icon" type="image/x-icon" sizes="any" href="../static/logos/flavicon-32.ico">
+    <!-- TODO: UNBLUR FLAVICONS -->
+    <link rel="icon" type="image/x-icon" sizes="any" href="../static/logos/flavicon.ico">
     <link rel="icon" type="image/svg+xml" href="../static/logos/icon.svg">
     <link rel="apple-touch-icon" href="../static/logos/apple-touch-icon.png">
-    {% block stylesheet %}
-    <link rel="stylesheet" href="css/styles.css?v=1.0">
-    {% endblock %}
+
+    <link rel="stylesheet" href="{% block stylesheet_href %}../static/css/styles.css{% endblock %}">
 
     <!-- meta -->
     <meta charset="utf-8">
-    {% block meta_name %}
-    <meta name="author" content="Davi Sampaio">
-    <meta name="application-name" content="TicTacToe Super">
-    <meta name="description" content="A TicTacToe game with many interesting features">
-    <meta name="keywords" content="game, games, tictactoe">
-    {% endblock %}
+
+    <meta name="author" content="{% block meta_author %}Davi Sampaio{% endblock %}">
+    <meta name="application-name" content="Super TicTacToe {% block meta_application_name %}{% endblock %}">
+    <meta name="description" content="{% block meta_description %}A TicTacToe game with many interesting features{% endblock %}">
+    <meta name="keywords" content="game, games, tictactoe, python, flask, {% block meta_keywords %}{% endblock %}">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <!-- TODO: ADD MORE OG TAGS -->
-    {% block meta_property_og %}
-    <meta property="og:title" content="A Basic HTML5 Template">
-    <meta property="og:type" content="website">
-    <meta property="og:description" content="The revolution of TicTacToe game">
-    {% endblock %}
+    <meta property="og:title" content="Super TicTacToe {% block meta_og_title %}{% endblock %}">
+    <meta property="og:description" content="{% block meta_og_description %}A TicTacToe game with many interesting features{% endblock %}">
+    <meta property="og:type" content="{% block meta_og_type %}website{% endblock %}">
+    
 
     <!-- scripts -->
     <!-- TODO: ADD "NOSCRIPT" -->
-    {% block script %}
-    <script src="../static/javascript/scripts.js" async></script>
-    {% endblock %}
+    <script src="{% block script_src %}../static/javascript/scripts.js{% endblock %}" async></script>
 
     <!-- other tags -->
+    {% endblock %}
 </head>
+
 <body>
     {% block body %}
-    <!-- TODO: ADD BODY CONTENT -->
+    <!-- Body content here -->
     {% endblock %}
 </body>
+
 <footer>
     {% block footer %}
-    <!-- TODO: ADD FOOTER CONTENT -->
+    <!-- footer content here -->
     {% endblock %}
 </footer>
+
 </html>
