@@ -9,35 +9,44 @@
 
 <body>
     {% block body %}
-    <header>
-        <a href="#"><img src="../static/logos/icon.svg" alt="logo"></a>
-        <nav class="nav_menu_horizontal">
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </nav>
-        <div class="dropdown_wrapper">
-            <button class="dropdown_btn" type="button">
-                <img src="../static/images/user-icon.svg" alt="user icon">
-                <span>My account</span>
-            </button>
-            <div class="dropdown_content">
-                <ul>
-                    <li>
-                        <a href="#">
-                            <img src="../static/images/settings-icon.svg" alt="settings icon">
-                            <span>Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../static/images/logout-icon.svg" alt="logout icon">
-                            <span>Log Out</span>
-                        </a>
-                    </li>
-                </ul>
+    <section>
+        <header id="main_top_header">
+            <a href="#"><img src="../static/logos/icon.svg" alt="logo" style="filter: invert(1)"></a>
+            <nav class="nav_menu_horizontal">
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+            <div class="dropdown_wrapper">
+                <button class="dropdown_btn" type="button">
+                    <img src="../static/images/user-icon.svg" alt="user icon">
+                    <span>My account</span>
+                </button>
+                <div class="dropdown_content">
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <img src="../static/images/settings-icon.svg" alt="settings icon">
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="../static/images/logout-icon.svg" alt="logout icon">
+                                <span>Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
+    </section>
+    <hr color="#ffffffe6">
+    <section>
+        <!-- play section -->
+    </section>
+    <section>
+        <!-- top players section -->
+    </section>
     {% endblock %}
 </body>
 <footer>
