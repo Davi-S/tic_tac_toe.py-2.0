@@ -1,0 +1,133 @@
+@font-face {
+    font-family: 'karmaFuture';
+    src: url('../fonts/karma.future-regular.otf');
+}
+
+:root {
+    --color_Slate: #26282A;
+    --color_OffWhite: rgba(255, 255, 255, 0.9);
+    --color_TechGreen: #65E52C;
+    --color_OffTechGreen: rgba(101, 229, 44, 0.8);
+    --color_OnTechGreen: rgb(110, 250, 48)
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: var(--color_OffWhite);
+}
+
+body {
+    background-color: var(--color_Slate);
+    font-family: 'Inconsolata', monospace;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'karmaFuture';
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.nav_menu_horizontal {
+    text-transform: uppercase;
+}
+
+.nav_menu_horizontal a {
+    padding: auto 20px;
+    transition: all 0.3s ease 0s;
+}
+
+.nav_menu_horizontal a:hover {
+    color: var(--color_TechGreen)
+}
+
+.dropdown_wrapper {
+    position: relative;
+}
+
+/* Show content on hover */
+.dropdown_wrapper:hover .dropdown_content {
+    transform: translateY(0);
+    opacity: 1;
+    height: auto;
+}
+
+.dropdown_btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--color_TechGreen);
+    border: none;
+    border-radius: 0.2rem;
+}
+
+.dropdown_btn:hover {
+    cursor: pointer;
+    background-color: var(--color_OnTechGreen);
+}
+
+.dropdown_btn img {
+    vertical-align: middle;
+}
+
+.dropdown_btn span {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--color_Slate);
+    vertical-align: middle;
+}
+
+.dropdown_content {
+    transition: all 0.3s ease 0s;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-1rem);
+    /* properties above are for the dropdown effect transition */
+    width: 100%;
+    background-color: var(--color_OffWhite);
+    border-radius: 0.2rem;
+    position: absolute;
+    padding: 0.5rem
+}
+
+.dropdown_content ul {
+    list-style: none;
+}
+
+.dropdown_content ul li {
+    padding: 0.5rem 0;
+    transition: all 0.3s ease 0s;
+    border-radius: 0.2rem;
+    margin: 0.2rem 0;
+}
+
+.dropdown_content ul li:hover {
+    background-color: grey;
+}
+
+.dropdown_content ul li a {
+    padding: 0 0.5rem;
+}
+
+.dropdown_content img {
+    vertical-align: middle;
+}
+
+.dropdown_content span {
+    color: var(--color_Slate);
+    vertical-align: middle;
+}

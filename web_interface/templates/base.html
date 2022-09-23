@@ -6,12 +6,15 @@
     <title>TicTacToe: {% block title required %}{% endblock %}</title>
 
     <!-- link -->
-    <!-- TODO: UNBLUR FLAVICONS -->
-    <link rel="icon" type="image/x-icon" sizes="any" href="../static/logos/flavicon.ico">
     <link rel="icon" type="image/svg+xml" href="../static/logos/icon.svg">
+    <link rel="icon" type="image/x-icon" sizes="any" href="../static/logos/flavicon.ico">
     <link rel="apple-touch-icon" href="../static/logos/apple-touch-icon.png">
 
     <link rel="stylesheet" href="{% block stylesheet_href %}../static/css/styles.css{% endblock %}">
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap">
 
     <!-- meta -->
     <meta charset="utf-8">
@@ -21,9 +24,8 @@
     <meta name="description" content="{% block meta_description %}A TicTacToe game with many interesting features{% endblock %}">
     <meta name="keywords" content="game, games, tictactoe, python, flask, {% block meta_keywords %}{% endblock %}">
     
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <!-- TODO: ADD MORE OG TAGS -->
     <meta property="og:title" content="Super TicTacToe {% block meta_og_title %}{% endblock %}">
     <meta property="og:description" content="{% block meta_og_description %}A TicTacToe game with many interesting features{% endblock %}">
     <meta property="og:type" content="{% block meta_og_type %}website{% endblock %}">
@@ -32,7 +34,7 @@
     <!-- scripts -->
     <!-- TODO: ADD "NOSCRIPT" -->
     <script src="{% block script_src %}../static/javascript/scripts.js{% endblock %}" async></script>
-
+   
     <!-- other tags -->
     {% endblock %}
 </head>
