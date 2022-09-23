@@ -1,15 +1,14 @@
 @font-face {
     font-family: 'karmaFuture';
-    src: url('../fonts/karma.future-regular.otf');
+    src: url('../fonts/karmaFuture.ttf');
 }
 
 :root {
     --color_Slate: #26282A;
-    --color_OffSlate: #202224;
+    --color_OffSlate: #191A1B;
     --color_OffWhite: #E9E9EA;
     --color_TechGreen: #65E52C;
-    --color_OffTechGreen: rgba(101, 229, 44, 0.8);
-    --color_OnTechGreen: rgb(112, 255, 49);
+    --color_OnTechGreen: #70FF31;
 }
 
 * {
@@ -31,6 +30,7 @@ h4,
 h5,
 h6 {
     font-family: 'karmaFuture';
+    font-size: x-large;
 }
 
 #main_top_header {
@@ -98,7 +98,7 @@ a {
     opacity: 0;
     overflow: hidden;
     transform: translateY(-1rem);
-    /* properties above are for the dropdown effect transition */
+    /* properties above are for the dropdown down transition */
     width: 100%;
     background-color: var(--color_OffWhite);
     position: absolute;
@@ -130,4 +130,14 @@ a {
 .dropdown_content span {
     color: var(--color_Slate);
     vertical-align: middle;
+}
+
+.full_inline {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* TODO: ADD TITLE PROPERTIES */
+.title {
+    text-align: center;
 }

@@ -9,7 +9,7 @@
 
 <body>
     {% block body %}
-    <section>
+    <section> <!-- main header section -->
         <header id="main_top_header">
             <a href="#"><img src="../static/logos/icon.svg" alt="logo" style="filter: invert(1)"></a>
             <nav class="nav_menu_horizontal">
@@ -41,12 +41,25 @@
         </header>
     </section>
     <hr color="#ffffffe6">
-    <section>
-        <!-- play section -->
-    </section>
-    <section>
-        <!-- top players section -->
-    </section>
+    <div class="full_inline"> <!-- play and fame hall section side by side -->
+        <section style="width: 65%"> <!-- play section -->
+            <!-- TODO: TITLE DECORATION -->
+            <div class="title">
+                <h1>Wellcome back {player_name}</h1>
+            </div>
+            <!-- TODO: ADD CONTENT -->
+            <p style="padding: 50px">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+        </section>
+        <hr color="#ffffffe6">
+        <section style="width: 35%"> <!-- fame hall section -->
+            <!-- TODO: TITLE DECORATION -->
+            <div class="title">
+                <h1>Top global players</h1>
+            </div>
+            <!-- TODO: ADD CONTENT -->
+            <p style="padding: 50px">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+        </section>
+    </div>
     {% endblock %}
 </body>
 <footer>
