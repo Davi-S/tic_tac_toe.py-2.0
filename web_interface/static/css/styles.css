@@ -31,6 +31,11 @@ h5,
 h6 {
     font-family: 'karmaFuture';
     font-size: x-large;
+    letter-spacing: 0.05rem;
+}
+
+a {
+    text-decoration: none;
 }
 
 #main_top_header {
@@ -41,8 +46,15 @@ h6 {
     background-color: var(--color_OffSlate);
 }
 
-a {
-    text-decoration: none;
+.btn {
+    transition: all 0.3s ease 0s;
+    background-color: var(--color_TechGreen);
+    border: none;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: var(--color_OnTechGreen);
 }
 
 .nav_menu_horizontal {
@@ -71,14 +83,6 @@ a {
 
 .dropdown_btn {
     padding: 0.5rem 1rem;
-    background-color: var(--color_TechGreen);
-    border: none;
-    transition: all 0.3s ease 0s;
-}
-
-.dropdown_btn:hover {
-    cursor: pointer;
-    background-color: var(--color_OnTechGreen);
 }
 
 .dropdown_btn img {
@@ -137,7 +141,62 @@ a {
     justify-content: space-between;
 }
 
-/* TODO: ADD TITLE PROPERTIES */
-.title {
+.title_wrapper {
     text-align: center;
+    padding: 2rem;
+}
+
+.spacer {
+    padding: 3rem 0;
+}
+
+.center_h {
+    display: flex;
+    justify-content: center;
+}
+
+.play_btn {
+    height: 3rem;
+    width: 15rem;
+    color: var(--color_Slate);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.table_wrapper {
+    padding: 0 1rem;
+}
+
+.table_wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table_wrapper table thead {
+    border-bottom: 1px solid var(--color_OffWhite);
+}
+
+.table_wrapper table th,
+td {
+    padding: 1rem 0.5rem;
+}
+
+.table_wrapper table tr:nth-child(even) {
+    background-color: var(--color_OffSlate);
+}
+
+#menu_top_players_table th:nth-child(1),
+td:nth-child(1) {
+    text-align: left;
+}
+
+
+#menu_top_players_table th:nth-child(2),
+td:nth-child(2) {
+    text-align: center;
+}
+
+#menu_top_players_table th:nth-child(3),
+td:nth-child(3) {
+    text-align: right;
 }

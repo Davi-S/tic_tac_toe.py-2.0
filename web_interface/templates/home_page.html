@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+<!-- TODO: MAKE BUTTONS FUNCTIONALS -->
 
 <head>
     {% block title %}Home Page{% endblock %}
@@ -9,15 +10,17 @@
 
 <body>
     {% block body %}
-    <section> <!-- main header section -->
+    <section>
+        <!-- main header section -->
         <header id="main_top_header">
             <a href="#"><img src="../static/logos/icon.svg" alt="logo" style="filter: invert(1)"></a>
             <nav class="nav_menu_horizontal">
                 <a href="#">About</a>
                 <a href="#">Contact</a>
             </nav>
-            <div class="dropdown_wrapper">
-                <button class="dropdown_btn" type="button">
+            <!-- dropdown button ready to be added when accounts and users are added -->
+            <!-- <div class="dropdown_wrapper">
+                <button class="btn dropdown_btn" type="button">
                     <img src="../static/images/user-icon.svg" alt="user icon">
                     <span>My account</span>
                 </button>
@@ -37,32 +40,72 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
         </header>
     </section>
     <hr color="#ffffffe6">
-    <div class="full_inline"> <!-- play and fame hall section side by side -->
-        <section style="width: 65%"> <!-- play section -->
-            <!-- TODO: TITLE DECORATION -->
-            <div class="title">
-                <h1>Wellcome back {player_name}</h1>
+    <div class="full_inline">
+        <!-- play and fame hall section side by side -->
+        <section style="width: 65%">
+            <!-- play section -->
+            <!-- TODO: ADD MORE ELEMENTS ON THE PLAY SECTION -->
+            <div class="title_wrapper">
+                <h1>Wellcome</h1>
             </div>
-            <!-- TODO: ADD CONTENT -->
-            <p style="padding: 50px">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+            <div class="spacer center_h">
+                <button class="btn play_btn" type='button'>Play now</button>
+            </div>
         </section>
         <hr color="#ffffffe6">
-        <section style="width: 35%"> <!-- fame hall section -->
-            <!-- TODO: TITLE DECORATION -->
-            <div class="title">
+        <section style="width: 35%">
+            <!-- fame hall section -->
+            <div class="title_wrapper">
                 <h1>Top global players</h1>
             </div>
-            <!-- TODO: ADD CONTENT -->
-            <p style="padding: 50px">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+            <div class="table_wrapper">
+                <!-- ADD JINJA AND PLAYERS WHEN LOGIN IS POSSIBLE -->
+                <!-- ADD SCROLL. MAX 100 PLAYERS -->
+                <table id="menu_top_players_table">
+                    <caption style="display: none;">
+                        Top global players
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Country</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Uber Matador Capivara</td>
+                            <td>Brazil</td>
+                            <td>86447</td>
+                        </tr>
+                        <tr>
+                            <td>Iam</td>
+                            <td>United States</td>
+                            <td>86337</td>
+                        </tr>
+                        <tr>
+                            <td>The American Dude</td>
+                            <td>United States</td>
+                            <td>86321</td>
+                        </tr>
+                        <tr>
+                            <td>JadenBen</td>
+                            <td>Australia</td>
+                            <td>85647</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </div>
     {% endblock %}
 </body>
 <footer>
     {% block footer %}
+    <!-- TODO: ADD FOOTER -->
     {% endblock %}
 </footer>
