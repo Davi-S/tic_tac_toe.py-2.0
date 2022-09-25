@@ -21,8 +21,12 @@
 body {
     background-color: var(--color_Slate);
     font-family: 'Inconsolata', monospace;
+    min-height: 100vh;
 }
 
+h1 {
+    font-size: xx-large;
+}
 h1,
 h2,
 h3,
@@ -30,12 +34,36 @@ h4,
 h5,
 h6 {
     font-family: 'karmaFuture';
-    font-size: x-large;
     letter-spacing: 0.05rem;
 }
 
 a {
     text-decoration: none;
+    transition: all 0.3s ease 0s;
+}
+
+a:hover {
+    color: var(--color_TechGreen)
+}
+
+a span {
+    transition: all 0.3s ease 0s;
+}
+
+a span:hover {
+    color: var(--color_TechGreen)
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    vertical-align: middle;
+}
+
+span {
+    vertical-align: middle;
 }
 
 #main_top_header {
@@ -63,11 +91,7 @@ a {
 
 .nav_menu_horizontal a {
     padding: 0 2rem;
-    transition: all 0.3s ease 0s;
-}
-
-.nav_menu_horizontal a:hover {
-    color: var(--color_TechGreen)
+    
 }
 
 .dropdown_wrapper {
@@ -85,15 +109,10 @@ a {
     padding: 0.5rem 1rem;
 }
 
-.dropdown_btn img {
-    vertical-align: middle;
-}
-
 .dropdown_btn span {
     font-weight: bold;
     text-transform: uppercase;
     color: var(--color_Slate);
-    vertical-align: middle;
 }
 
 .dropdown_content {
@@ -107,10 +126,6 @@ a {
     background-color: var(--color_OffWhite);
     position: absolute;
     padding: 0.5rem
-}
-
-.dropdown_content ul {
-    list-style: none;
 }
 
 .dropdown_content ul li {
@@ -127,13 +142,8 @@ a {
     padding: 0 0.5rem;
 }
 
-.dropdown_content img {
-    vertical-align: middle;
-}
-
 .dropdown_content span {
     color: var(--color_Slate);
-    vertical-align: middle;
 }
 
 .full_inline {
@@ -146,9 +156,15 @@ a {
     padding: 2rem;
 }
 
-.spacer {
+.spacer_medium {
     padding: 3rem 0;
 }
+
+.spacer_small {
+    padding: 1rem 0;
+}
+
+
 
 .center_h {
     display: flex;
@@ -198,5 +214,43 @@ td:nth-child(2) {
 
 #menu_top_players_table th:nth-child(3),
 td:nth-child(3) {
+    text-align: right;
+}
+
+.bottom_fixed {
+    bottom: 0;
+    width: 100%;
+    top: 100%;
+}
+
+footer {
+    padding: 1rem;
+    background-color: var(--color_OffSlate);
+}
+
+footer h1{
+    font-size: x-large;
+    padding-bottom: 0.5rem;
+}
+
+.flex_center {
+    display: flex;
+    justify-content: center;
+}
+
+.nav_wrapper nav {
+    flex-direction: column;
+    padding: 0.5rem 2rem;
+}
+
+.nav_wrapper nav li{
+    padding: 0.2rem 0;
+}
+
+.socials ul li {
+    padding: 0.2rem 0;
+}
+
+.copyright {
     text-align: right;
 }

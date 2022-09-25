@@ -20,8 +20,13 @@ app.config.from_object('config.DevelopmentConfig')
 
 
 @app.route("/")
-def main_menu():
+def home_page():
     return flask.render_template('home_page.html')
+
+
+@app.route("/game_modes")
+def game_modes():
+    return flask.render_template('game_modes.html')
 
 
 def main() -> int:

@@ -10,41 +10,7 @@
 
 <body>
     {% block body %}
-    <section>
-        <!-- main header section -->
-        <header id="main_top_header">
-            <a href="#"><img src="../static/logos/icon.svg" alt="logo" style="filter: invert(1)"></a>
-            <nav class="nav_menu_horizontal">
-                <a href="#">About</a>
-                <a href="#">Contact</a>
-            </nav>
-            <!-- dropdown button ready to be added when accounts and users are added -->
-            <!-- <div class="dropdown_wrapper">
-                <button class="btn dropdown_btn" type="button">
-                    <img src="../static/images/user-icon.svg" alt="user icon">
-                    <span>My account</span>
-                </button>
-                <div class="dropdown_content">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <img src="../static/images/settings-icon.svg" alt="settings icon">
-                                <span>Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img src="../static/images/logout-icon.svg" alt="logout icon">
-                                <span>Log Out</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div> -->
-        </header>
-    </section>
-    <hr color="#ffffffe6">
-    <div class="full_inline">
+    <div class="full_inline" style="min-height:100vh">
         <!-- play and fame hall section side by side -->
         <section style="width: 65%">
             <!-- play section -->
@@ -52,8 +18,8 @@
             <div class="title_wrapper">
                 <h1>Wellcome</h1>
             </div>
-            <div class="spacer center_h">
-                <button class="btn play_btn" type='button'>Play now</button>
+            <div class="spacer_medium center_h">
+                <a href="/game_modes"><button class="btn play_btn" type='button'>Play now</button></a>
             </div>
         </section>
         <hr color="#ffffffe6">
@@ -104,8 +70,3 @@
     </div>
     {% endblock %}
 </body>
-<footer>
-    {% block footer %}
-    <!-- TODO: ADD FOOTER -->
-    {% endblock %}
-</footer>
