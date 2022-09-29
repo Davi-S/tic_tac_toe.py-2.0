@@ -88,6 +88,7 @@ def print_formated_board(board: list[list]) -> None:
                 if count < len(line):
                     print('|', end='')
 
+
 def main() -> int:
     return 0
     
