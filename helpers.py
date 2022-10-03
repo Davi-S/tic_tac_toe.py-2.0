@@ -1,9 +1,11 @@
 """Generic useful functions"""
 
 # IMPORTS #
+from time import sleep
+from os import system
+from collections import defaultdict
 
 # LOCAL IMPORTS #
-from collections import defaultdict
 
 # LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
@@ -87,6 +89,48 @@ def print_formated_board(board: list[list]) -> None:
                 print('---', end='')
                 if count < len(line):
                     print('|', end='')
+
+
+def get_option(max: int, prompt: str):
+    user_input = input(prompt)
+    if not user_input.isdigit():
+        print('Choose a integer number')
+        sleep(2)
+        return None
+
+    user_input = int(user_input)
+    if not 0 <= user_input < max:
+        print('Choose a number in the options range')
+        sleep(2)
+        return None
+
+    return user_input
+
+
+def print_options(options: dict):
+    for idx, values in enumerate(options.items()):
+        print(f"[ {idx} ] >>> {values[0]} --> {values[1]}")
+    return
+
+
+def options_menu(title: str, options: dict, prompt: str = 'Choose an option: '):
+    option = None
+    while not isinstance(option, int):
+        system('cls')
+        print(len(title) * '-')
+        print(title.upper())
+        print(len(title) * '-')
+        print_options(options)
+        option = get_option(len(options), prompt)
+    return list(options)[option]
+ 
+
+def type_menu(title: str, prompt: str):
+    system('cls')
+    print(len(title) * '-')
+    print(title.upper())
+    print(len(title) * '-')
+    return input(prompt)
 
 
 def main() -> int:

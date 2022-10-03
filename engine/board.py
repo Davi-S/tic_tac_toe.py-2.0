@@ -3,7 +3,6 @@
 # IMPORTS #
 
 # LOCAL IMPORTS #
-from abstracts import BOARD_HINT, IBoard
 
 # LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
@@ -13,18 +12,20 @@ _log = logging.getLogger(__name__)
 _log.addHandler(create_file_handler(__name__))
 
 
-class Board2D(IBoard):
+BOARD_HINT = list[list]
+
+
+class Board2D:
     """Two dimensional array"""
+
     def __init__(self, rows: int, columns: int) -> None:
-        self._board: BOARD_HINT = super()._create_board(rows, columns)
+        self._board: BOARD_HINT = self._create_board(rows, columns)
         # TODO: CHECK IF TIME LINE IS WORKING
         self.time_line: list[BOARD_HINT] = []
-
 
     @property
     def board(self) -> BOARD_HINT:
         return self._board
-
 
     def place_mark(self, row: int, column: int, mark: str, rewrite: bool = False) -> bool:
         """Place a mark on the board
@@ -45,10 +46,16 @@ class Board2D(IBoard):
             return True
         return False
 
+    def _create_board(self, rows: int, columns: int) -> BOARD_HINT:
+        """Create a empty two dimention matrix (board)"""
+        gridline = [None for _ in range(rows)]
+        gridline = [list(gridline) for _ in range(columns)]
+        return gridline
+
 
 def main() -> int:
     return 0
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     main()

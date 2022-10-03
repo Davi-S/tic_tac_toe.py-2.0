@@ -1,8 +1,6 @@
 """Main file. Meant do be run"""
 
 # First of all, setup logging configuration. This is only needed on the main file. Will affect all other log instances in other files
-from time import sleep
-from os import system
 import logging
 import logging.config
 from logs.logging_configuration import CONFIG_DICT, create_file_handler
@@ -12,51 +10,56 @@ _log = logging.getLogger(__name__)
 _log.addHandler(create_file_handler(__name__))
 
 # IMPORTS #
+from helpers import type_menu, options_menu
+from os import system
 
 # LOCAL IMPORTS #
+from engine.player import EasyPlayer, HumanPlayer
+from engine.board import Board2D
+
+
+
 SLEEP_TIME = 2
 
 
-def get_option(max: int, prompt: str):
-    user_input = input(prompt)
-    if not user_input.isdigit():
-        print('Choose a integer number')
-        sleep(SLEEP_TIME)
-        return None
-
-    user_input = int(user_input)
-    if not 0 <= user_input < max:
-        print('Choose a number in the options range')
-        sleep(SLEEP_TIME)
-        return None
-
-    return user_input
+def play_classic(players: list):
+    score = 0
+    
 
 
-def print_options(options: dict):
-    for idx, values in enumerate(options.items()):
-        print(f"[ {idx} ] >>> {values[0]} --> {values[1]}")
-    return
+def classic_configuration():
+    while True:
+        players = {'player1': None, 'Player2': None}
+        players_menu = options_menu('opponent', {'IA': '', 'local': '', 'back': ''})
+        match players_menu:
+            # set players name and mark
+            case 'IA':
+                name = type_menu('Your nickname: ')
+                mark = type_menu('Your mark: ')
+                players['player1'] = HumanPlayer(name, mark)
+                
+                # TODO: set dificulty and IA
+            case 'local':
+                pass
+            case 'back':
+                return
+        
+        start_menu = options_menu('start', {'start': '', 'change settings': ''})
+        match start_menu:
+            # set players name and mark
+            case 'start':
+                play_classic()
+            case 'change settings':
+                continue
+            case 'back':
+                return
+    
 
-
-def menu(title: str, options: dict, prompt: str = 'Choose an option: '):
-    option = None
-    while not isinstance(option, int):
-        system('cls')
-        print(len(title) * '-')
-        print(title.upper())
-        print(len(title) * '-')
-        print_options(options)
-        option = get_option(len(options), prompt)
-    return list(options)[option]
-
-
-# TODO: make game mode configurations
 
 def game_modes():
     while True:
         game_mode_menu_options = {'classic': '', 'teams': '', 'other': '', 'back': ''}
-        game_mode_menu = menu('game modes', game_mode_menu_options)
+        game_mode_menu = options_menu('game modes', game_mode_menu_options)
         match game_mode_menu:
             case 'classic':
                 pass
@@ -71,12 +74,12 @@ def game_modes():
 def main_menu():
     while True:
         main_menu_options = {'play': '', 'options': '', 'quit': ''}
-        main_menu = menu('main menu', main_menu_options)
+        main_menu = options_menu('main menu', main_menu_options)
         match main_menu:
             case 'play':
                 game_modes()
-            case 'option':
-                print('option')
+            case 'options':
+                print('options')
             case 'quit':
                 print('quit')
 
