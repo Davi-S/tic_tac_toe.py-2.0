@@ -91,7 +91,7 @@ def print_formated_board(board: list[list]) -> None:
                     print('|', end='')
 
 
-def get_option(max: int, prompt: str):
+def get_int_max(prompt: str, max: int) -> int:
     user_input = input(prompt)
     if not user_input.isdigit():
         print('Choose a integer number')
@@ -107,13 +107,13 @@ def get_option(max: int, prompt: str):
     return user_input
 
 
-def print_options(options: dict):
+def print_options(options: dict) -> None:
     for idx, values in enumerate(options.items()):
         print(f"[ {idx} ] >>> {values[0]} --> {values[1]}")
     return
 
 
-def options_menu(title: str, options: dict, prompt: str = 'Choose an option: '):
+def options_menu(title: str, options: dict, prompt: str = 'Choose an option: ') -> str:
     option = None
     while not isinstance(option, int):
         system('cls')
@@ -121,11 +121,11 @@ def options_menu(title: str, options: dict, prompt: str = 'Choose an option: '):
         print(title.upper())
         print(len(title) * '-')
         print_options(options)
-        option = get_option(len(options), prompt)
+        option = get_int_max(prompt, len(options))
     return list(options)[option]
  
 
-def type_menu(title: str, prompt: str):
+def type_menu(title: str, prompt: str) -> str:
     system('cls')
     print(len(title) * '-')
     print(title.upper())

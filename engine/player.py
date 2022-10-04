@@ -4,11 +4,9 @@
 from random import randint
 from abc import ABC, abstractmethod
 
-from markupsafe import Markup
-
 # LOCAL IMPORTS #
-from board import BOARD_HINT, Board2D
-from helpers import type_menu
+from helpers import get_int_max
+from board import Board2D, BOARD_HINT
 
 # LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
@@ -24,24 +22,29 @@ class IPlayer(ABC):
     def __init__(self, name: str, mark: str) -> None:
         self.name = name
         self.mark = mark
-        self.board_instance = None
+        self.board_state: BOARD_HINT = None
 
     @abstractmethod
     def play(self) -> tuple[int, int]:
         pass
 
     def set_board(self, board_instance: Board2D):
-        self.board_instance = board_instance
+        self.board_state = board_instance.board
 
 
 class HumanPlayer(IPlayer):
     def __init__(self, name: str, mark: str) -> None:
-        super().__init__(name, Markup)
+        super().__init__(name, mark)
 
 
-    def play(self):
-        row = type_menu('Place mark', 'row: ')
-        column = type_menu('Place mark', 'column: ')
+    def play(self) -> tuple[int, int]:
+        """Get row and column from user input
+
+        Returns:
+            tuple[int, int]: row and column
+        """
+        row = get_int_max('row: ', len(self.board_state))
+        column = get_int_max('column: ', len(self.board_state))
         return row, column
 
 

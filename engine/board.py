@@ -20,8 +20,6 @@ class Board2D:
 
     def __init__(self, rows: int, columns: int) -> None:
         self._board: BOARD_HINT = self._create_board(rows, columns)
-        # TODO: CHECK IF TIME LINE IS WORKING
-        self.time_line: list[BOARD_HINT] = []
 
     @property
     def board(self) -> BOARD_HINT:
@@ -41,8 +39,6 @@ class Board2D:
         """
         if rewrite or self._board[row][column] is None:
             self._board[row][column] = mark
-            # append to time_line
-            self.time_line.append(self._board)
             return True
         return False
 
@@ -51,11 +47,3 @@ class Board2D:
         gridline = [None for _ in range(rows)]
         gridline = [list(gridline) for _ in range(columns)]
         return gridline
-
-
-def main() -> int:
-    return 0
-
-
-if __name__ == '__main__':
-    main()

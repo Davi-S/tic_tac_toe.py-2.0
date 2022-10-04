@@ -3,8 +3,8 @@
 # IMPORTS #
 
 # LOCAL IMPORTS #
-from abstracts import BOARD_HINT, IWinChecker
 from helpers import Matrix
+from board import BOARD_HINT
 
 # LOGGING IMPORTS #
 from logs.logging_configuration import create_file_handler
@@ -14,10 +14,10 @@ _log = logging.getLogger(__name__)
 _log.addHandler(create_file_handler(__name__))
 
 
-class ClassicWinChecker(IWinChecker):
+class ClassicWinChecker:
     """A row, column of great diagonal if fully filled with only one mark"""
     def __init__(self, board_state: BOARD_HINT) -> None:
-        self.board_state = board_state  # The board state to check for wins
+        self.board_state: BOARD_HINT = board_state  # The board state to check for wins
 
 
     def check_win(self) -> bool:
