@@ -6,13 +6,6 @@
 from helpers import Matrix
 from board import BOARD_HINT
 
-# LOGGING IMPORTS #
-from logs.logging_configuration import create_file_handler
-import logging
-# Get the file logger and its handler
-_log = logging.getLogger(__name__)
-_log.addHandler(create_file_handler(__name__))
-
 
 class ClassicWinChecker:
     """A row, column of great diagonal if fully filled with only one mark"""

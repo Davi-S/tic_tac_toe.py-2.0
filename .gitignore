@@ -1,6 +1,4 @@
 __pycache__/
-*.log
-*.txt
+logs/
 tempCodeRunnerFile.py
 concepts/
-optimal map.png

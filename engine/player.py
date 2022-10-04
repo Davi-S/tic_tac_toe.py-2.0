@@ -8,13 +8,6 @@ from abc import ABC, abstractmethod
 from helpers import get_int_max
 from board import Board2D, BOARD_HINT
 
-# LOGGING IMPORTS #
-from logs.logging_configuration import create_file_handler
-import logging
-# Get the file logger and its handler
-_log = logging.getLogger(__name__)
-_log.addHandler(create_file_handler(__name__))
-
 
 class IPlayer(ABC):
     """A player of the game. Receives a board state and chose where to play."""

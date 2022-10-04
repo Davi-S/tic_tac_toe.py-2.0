@@ -7,13 +7,6 @@ from collections import defaultdict
 
 # LOCAL IMPORTS #
 
-# LOGGING IMPORTS #
-from logs.logging_configuration import create_file_handler
-import logging
-# Get the file logger and its handler
-_log = logging.getLogger(__name__)
-_log.addHandler(create_file_handler(__name__))
-
 
 def longest_consecutive_occourence(iterable, item) -> int:
     """Count the longest consecutive occourence of the given item on the given iterable
