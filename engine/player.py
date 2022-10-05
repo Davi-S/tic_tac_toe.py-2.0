@@ -51,13 +51,13 @@ class HumanPlayer(IPlayer):
         """
         # changing ranges to better user friendly
         while True:
-            row = get_int_max('row: ', 1, len(self.board_state) + 1) 
+            row = get_int_max('row: ', range(1, len(self.board_state) + 2))
             if not row:
                 continue
 
-            column = get_int_max('column: ', 1, len(self.board_state) + 1)
+            column = get_int_max('column: ', range(1, len(self.board_state) + 2))
             if not column:
-                continue 
+                continue
 
             if (row, column) not in self._get_empty_places():
                 print('Chosse a empty place')

@@ -13,12 +13,17 @@ from tui import type_menu, options_menu, print_formated_board
 from helpers import random_char, random_name, is_char
 
 
+# TODO: add type hints
+
+
 # players cannot have same name or mark
 PLAYERS: list[IPlayer] = []
 
 
-# TODO: make better game loop -> more user frendly
-# FIXME
+# TODO:
+# make better game loop -> more user frendly
+# make game end
+# reset players at game end
 def play_classic():
     # pre game
     while True:
@@ -30,7 +35,7 @@ def play_classic():
         players_cycle = cycle(players)  # infinity iterable
 
         # game loop
-        while True:  
+        while True:
             system('cls')
             act_player = next(players_cycle)
             print_formated_board(board.board)
@@ -43,9 +48,9 @@ def play_classic():
                 break
 
 
-# TODO: make others dificults
 def pick_dificulty():
-    dificulty_menu = options_menu('ia dificulty', {'Easy': '', 'Medium': '', 'Hard': '', 'Impossible': ''})
+    dificulty_menu = options_menu('ia dificulty',
+                                 {'Easy': '', 'Medium': '', 'Hard': '', 'Impossible': ''})
     # TODO: add dificultys
     match dificulty_menu:
         case 'Easy':
@@ -82,21 +87,22 @@ def get_user_players(amount: int) -> None:
             print('This name is alread in use')
             sleep(2)
             continue
-     
+
         PLAYERS.append(HumanPlayer(name, mark))
         count += 1
 
 
 def classic_configuration():
     while True:
-        players_menu = options_menu('opponent', {'IA': 'Play against the computer. Custom dificulty',
+        players_menu = options_menu('opponent',
+                                   {'IA': 'Play against the computer. Custom dificulty',
                                     'Local': 'Local match up',
                                     'Back': ''})
         match players_menu:
             case 'IA':
                 ia_dificulty = pick_dificulty()
 
-                # player profile 
+                # player profile
                 get_user_players(1)
 
                 # IA profile
@@ -108,7 +114,8 @@ def classic_configuration():
             case 'Back':
                 return
 
-        start_menu = options_menu('start classic game', {'Start': '', 'Change settings': '', 'Back': ''})
+        start_menu = options_menu('start classic game', {
+                                  'Start': '', 'Change settings': '', 'Back': ''})
         match start_menu:
             case 'Start':
                 play_classic()
@@ -116,15 +123,15 @@ def classic_configuration():
                 continue
             case 'Back':
                 return
-    
+
 
 # TODO: make and add more game modes
 def game_modes():
     while True:
-        game_mode_menu_options = {'Classic': 'Two players against each other. 3x3 board. Classic win rules',
-                                  'Teams': 'Up to five players on each team (two teams). board up to 12x12. Custom sequence win',
-                                  'Back': ''}
-        game_mode_menu = options_menu('game modes', game_mode_menu_options)
+        game_mode_menu = options_menu('game modes',
+                                     {'Classic': 'Two players against each other. 3x3 board. Classic win rules',
+                                      'Teams': 'Up to five players on each team (two teams). board up to 12x12. Custom sequence win',
+                                      'Back': ''})
         match game_mode_menu:
             case 'Classic':
                 classic_configuration()
@@ -137,8 +144,8 @@ def game_modes():
 # TODO: make Options option
 def main_menu():
     while True:
-        main_menu_options = {'Play': '', 'Options': '', 'Quit': ''}
-        main_menu = options_menu('main menu', main_menu_options)
+        main_menu = options_menu('main menu', 
+                                {'Play': '', 'Options': '', 'Quit': ''})
         match main_menu:
             case 'Play':
                 game_modes()

@@ -75,6 +75,7 @@ def random_char(exclude: list):
             break
     return char
 
+
 def random_name(exclude: list):
     while True:
         name = get_first_name()

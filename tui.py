@@ -7,7 +7,7 @@ from time import sleep
 # LOCAL IMPORTS #
 
 
-def get_int_max(prompt: str, minimum: int, maximum: int) -> int:
+def get_int_max(prompt: str, n_range: range) -> int:
     user_input = input(prompt)
     if not user_input.isdigit():
         print('Choose a integer number')
@@ -15,7 +15,7 @@ def get_int_max(prompt: str, minimum: int, maximum: int) -> int:
         return
 
     user_input = int(user_input)
-    if not minimum <= user_input <= maximum:
+    if user_input not in n_range:
         print('Choose a number in the options range')
         sleep(2)
         return
@@ -56,7 +56,7 @@ def options_menu(title: str, options: dict, prompt: str = 'Choose an option: ') 
         print(len(title) * '-')
         print_options(options)
         print()
-        option = get_int_max(prompt, 1, len(options))
+        option = get_int_max(prompt, range(1, len(options) + 1))
         if isinstance(option, int):
             break
     return list(options)[option - 1]
