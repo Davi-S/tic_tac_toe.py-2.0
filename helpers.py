@@ -62,9 +62,10 @@ class Matrix:
         return cls._get_groups(matrix, lambda x, y: x - y)
 
 
-def is_char(char: str) -> bool:
+def is_char(char) -> bool:
     """Return True if the given str is a single char. Else, False"""
-    return False if type(char) != str else len(char) == 1
+    char = str(char)
+    return char.isalpha() and len(char) == 1
 
 
 def random_char(exclude: list):

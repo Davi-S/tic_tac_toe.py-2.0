@@ -18,25 +18,23 @@ PLAYERS: list[IPlayer] = []
 
 
 # TODO: make better game loop -> more user frendly
-# FIXME: fix game end
+# FIXME
 def play_classic():
     # pre game
     while True:
         board = Board2D(3, 3)
         players = {player: 0 for player in PLAYERS}  # player and score
-
         # set board instance to players
         for player in players:
             player.set_board(board)
-
         players_cycle = cycle(players)  # infinity iterable
 
         # game loop
         while True:  
             system('cls')
-            print_formated_board(board.board)
             act_player = next(players_cycle)
-            print(f'{act_player.name} turn')
+            print_formated_board(board.board)
+            print(f"It's {act_player.name}'s turn -> {act_player.mark}")
             row, column = act_player.play()
             board.place_mark(row, column, act_player.mark)
             sleep(1)
