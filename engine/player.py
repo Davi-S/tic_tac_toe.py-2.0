@@ -5,8 +5,8 @@ from random import randint
 from abc import ABC, abstractmethod
 
 # LOCAL IMPORTS #
-from helpers import get_int_max
 from engine.board import Board2D, BOARD_HINT
+from tui import get_int_max
 
 
 class IPlayer(ABC):
@@ -36,8 +36,9 @@ class HumanPlayer(IPlayer):
         Returns:
             tuple[int, int]: row and column
         """
-        row = get_int_max('row: ', len(self.board_state))
-        column = get_int_max('column: ', len(self.board_state))
+        # changing ranges to better user friendly
+        row = get_int_max('row: ', min=1, max=len(self.board_state) + 1) - 1
+        column = get_int_max('column: ', min=1, max=len(self.board_state) + 1) - 1
         return row, column
 
 

@@ -3,113 +3,150 @@
 # IMPORTS #
 from os import system
 from itertools import cycle
+from time import sleep
 
 # LOCAL IMPORTS #
-from engine.player import EasyPlayer, HumanPlayer
+from engine.player import EasyPlayer, HumanPlayer, IPlayer
 from engine.win_check import ClassicWinChecker
 from engine.board import Board2D
-from helpers import type_menu, options_menu, print_formated_board
+from tui import type_menu, options_menu, print_formated_board
+from helpers import random_char, random_name, is_char
 
-# TODO: make better game loop
-def play_classic(players_init: dict):
+
+# players cannot have same name or mark
+PLAYERS: list[IPlayer] = []
+
+
+# TODO: make better game loop -> more user frendly
+# FIXME: fix game end
+def play_classic():
+    # pre game
     while True:
-        # pre game
         board = Board2D(3, 3)
-        players = players_init
+        players = {player: 0 for player in PLAYERS}  # player and score
+
         # set board instance to players
         for player in players:
             player.set_board(board)
 
         players_cycle = cycle(players)  # infinity iterable
 
-        while True:  # game loop
+        # game loop
+        while True:  
             system('cls')
             print_formated_board(board.board)
             act_player = next(players_cycle)
+            print(f'{act_player.name} turn')
             row, column = act_player.play()
             board.place_mark(row, column, act_player.mark)
+            sleep(1)
             if ClassicWinChecker(board.board).check_win():
                 input('arst')
                 break
 
 
-# TODO: make and set others dificults
+# TODO: make others dificults
 def pick_dificulty():
-    dificulty_menu = options_menu('dificulty', {'easy': '', 'medium': '', 'hard': '', 'impossible': ''})
-    dificulty = None
+    dificulty_menu = options_menu('ia dificulty', {'Easy': '', 'Medium': '', 'Hard': '', 'Impossible': ''})
     # TODO: add dificultys
     match dificulty_menu:
-        case 'easy':
+        case 'Easy':
             dificulty = EasyPlayer
-        case 'medium':
-            pass
-        case 'hard':
-            pass
-        case 'impossible':
-            pass
+        case 'Medium':
+            dificulty = None
+        case 'Hard':
+            dificulty = None
+        case 'Impossible':
+            dificulty = None
     return dificulty
 
 
-def add_players(amount, title: str):
-    players = []
-    for i in range(amount):
-        name = type_menu(title.format(i + 1), 'nickname: ')
-        mark = type_menu(title.format(i + 1), 'mark: ')
-        players.append(HumanPlayer(name, mark))
-    return players
+def get_user_players(amount: int) -> None:
+    """Add players to the global players variable by user input
+
+    Args:
+        amount (int): amount of players to add
+    """
+    count = 1
+    while count <= amount:
+        name = type_menu(f'Set {count}º player profile', 'Nickname: ')
+        mark = type_menu(f'Set {count}º player profile', 'Mark: ')
+
+        if not is_char(mark):
+            print('The mark must be one letter')
+            sleep(2)
+            continue
+        if mark in [player.mark for player in PLAYERS]:
+            print('This mark is alread in use')
+            sleep(2)
+            continue
+        if name in [player.name for player in PLAYERS]:
+            print('This name is alread in use')
+            sleep(2)
+            continue
+     
+        PLAYERS.append(HumanPlayer(name, mark))
+        count += 1
 
 
 def classic_configuration():
     while True:
-        players_menu = options_menu('opponent', {'IA': '', 'local': '', 'back': ''})
+        players_menu = options_menu('opponent', {'IA': 'Play against the computer. Custom dificulty',
+                                    'Local': 'Local match up',
+                                    'Back': ''})
         match players_menu:
             case 'IA':
                 ia_dificulty = pick_dificulty()
-                players = {player: 0 for player in add_players(1, f'set your profile')}
-                # TODO: add name and mark generator
-                players[ia_dificulty(name='randon', mark='a')] = 0
-            case 'local':
-                players = {player: 0 for player in add_players(2, 'set player {} profile')}
-            case 'back':
+
+                # player profile 
+                get_user_players(1)
+
+                # IA profile
+                PLAYERS.append(ia_dificulty(name=random_name([player.name for player in PLAYERS]),
+                                            mark=random_char([player.mark for player in PLAYERS])))
+            case 'Local':
+                # no IA profile
+                get_user_players(2)
+            case 'Back':
                 return
 
-        start_menu = options_menu('start', {'start': '', 'change settings': ''})
+        start_menu = options_menu('start classic game', {'Start': '', 'Change settings': '', 'Back': ''})
         match start_menu:
-            case 'start':
-                play_classic(players)
-            case 'change settings':
+            case 'Start':
+                play_classic()
+            case 'Change settings':
                 continue
-            case 'back':
+            case 'Back':
                 return
     
 
-# TODO: make and add other game modes
+# TODO: make and add more game modes
 def game_modes():
     while True:
-        game_mode_menu_options = {'classic': '', 'teams': '', 'other': '', 'back': ''}
+        game_mode_menu_options = {'Classic': 'Two players against each other. 3x3 board. Classic win rules',
+                                  'Teams': 'Up to five players on each team (two teams). board up to 12x12. Custom sequence win',
+                                  'Back': ''}
         game_mode_menu = options_menu('game modes', game_mode_menu_options)
         match game_mode_menu:
-            case 'classic':
+            case 'Classic':
                 classic_configuration()
-            case 'teams':
+            case 'Teams':
                 pass
-            case 'other':
-                pass
-            case 'back':
+            case 'Back':
                 return
 
 
-# TODO: make other options
+# TODO: make Options option
 def main_menu():
     while True:
-        main_menu_options = {'play': '', 'options': '', 'quit': ''}
+        main_menu_options = {'Play': '', 'Options': '', 'Quit': ''}
         main_menu = options_menu('main menu', main_menu_options)
         match main_menu:
-            case 'play':
+            case 'Play':
                 game_modes()
-            case 'options':
+            case 'Options':
                 pass
-            case 'quit':
+            case 'Quit':
                 return
 
 
