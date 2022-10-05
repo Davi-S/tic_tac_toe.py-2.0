@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 
 # LOCAL IMPORTS #
 from helpers import get_int_max
-from board import Board2D, BOARD_HINT
+from engine.board import Board2D, BOARD_HINT
 
 
 class IPlayer(ABC):

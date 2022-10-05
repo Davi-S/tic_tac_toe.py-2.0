@@ -10,8 +10,6 @@ from engine.win_check import ClassicWinChecker
 from engine.board import Board2D
 from helpers import type_menu, options_menu, print_formated_board
 
-SLEEP_TIME = 2
-
 # TODO: make better game loop
 def play_classic(players_init: dict):
     while True:

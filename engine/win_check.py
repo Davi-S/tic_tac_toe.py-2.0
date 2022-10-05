@@ -4,7 +4,7 @@
 
 # LOCAL IMPORTS #
 from helpers import Matrix
-from board import BOARD_HINT
+from engine.board import BOARD_HINT
 
 
 class ClassicWinChecker:

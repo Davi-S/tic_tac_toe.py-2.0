@@ -4,9 +4,7 @@
 
 # LOCAL IMPORTS #
 
-
 BOARD_HINT = list[list]
-
 
 class Board2D:
     """Two dimensional array"""
