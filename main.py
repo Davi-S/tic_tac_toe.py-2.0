@@ -13,42 +13,54 @@ from tui import type_menu, options_menu, print_formated_board
 from helpers import random_char, random_name, is_char
 
 
-# TODO: add type hints
-
-
 # players cannot have same name or mark
 PLAYERS: list[IPlayer] = []
 
 
-# TODO:
-# make better game loop -> more user frendly
-# make game end
-# reset players at game end
-def play_classic():
-    # pre game
+def play_classic() -> None:
+    # Pre game: variables inicialization
     while True:
         board = Board2D(3, 3)
-        players = {player: 0 for player in PLAYERS}  # player and score
-        # set board instance to players
+        players = {player: 0 for player in PLAYERS}  # Player and score
+        # Set board instance to players
         for player in players:
             player.set_board(board)
-        players_cycle = cycle(players)  # infinity iterable
+        players_cycle = cycle(players)  # Infinity iterable
 
-        # game loop
+        # Game loop
         while True:
-            system('cls')
             act_player = next(players_cycle)
-            print_formated_board(board.board)
-            print(f"It's {act_player.name}'s turn -> {act_player.mark}")
-            row, column = act_player.play()
+            # Input loop
+            while True:
+                system('cls')
+                print_formated_board(board.board)
+                print(
+                    f"It's {act_player.name.upper()} turn -> {act_player.mark}")
+                sleep(1)
+                row, column = act_player.play()
+                if not isinstance(row, int):
+                    print(row)
+                    sleep(2)
+                    continue
+                if not isinstance(column, int):
+                    print(column)
+                    sleep(2)
+                    continue
+                if (row, column) not in board.empty_places():
+                    print('Choose a empty place')
+                    sleep(2)
+                    continue
+                break
             board.place_mark(row, column, act_player.mark)
-            sleep(1)
             if ClassicWinChecker(board.board).check_win():
-                input('arst')
+                # TODO:
+                # make game end
+                # reset players at game end
+                input('press enter')
                 break
 
 
-def pick_dificulty():
+def pick_dificulty() -> IPlayer:
     dificulty_menu = options_menu('ia dificulty',
                                  {'Easy': '', 'Medium': '', 'Hard': '', 'Impossible': ''})
     # TODO: add dificultys
@@ -64,7 +76,7 @@ def pick_dificulty():
     return dificulty
 
 
-def get_user_players(amount: int) -> None:
+def get_users_players(amount: int) -> None:
     """Add players to the global players variable by user input
 
     Args:
@@ -92,7 +104,7 @@ def get_user_players(amount: int) -> None:
         count += 1
 
 
-def classic_configuration():
+def classic_configuration() -> None:
     while True:
         players_menu = options_menu('opponent',
                                    {'IA': 'Play against the computer. Custom dificulty',
@@ -103,14 +115,14 @@ def classic_configuration():
                 ia_dificulty = pick_dificulty()
 
                 # player profile
-                get_user_players(1)
+                get_users_players(1)
 
                 # IA profile
                 PLAYERS.append(ia_dificulty(name=random_name([player.name for player in PLAYERS]),
                                             mark=random_char([player.mark for player in PLAYERS])))
             case 'Local':
                 # no IA profile
-                get_user_players(2)
+                get_users_players(2)
             case 'Back':
                 return
 
@@ -126,7 +138,7 @@ def classic_configuration():
 
 
 # TODO: make and add more game modes
-def game_modes():
+def game_modes() -> None:
     while True:
         game_mode_menu = options_menu('game modes',
                                      {'Classic': 'Two players against each other. 3x3 board. Classic win rules',
@@ -142,9 +154,9 @@ def game_modes():
 
 
 # TODO: make Options option
-def main_menu():
+def main_menu() -> None:
     while True:
-        main_menu = options_menu('main menu', 
+        main_menu = options_menu('main menu',
                                 {'Play': '', 'Options': '', 'Quit': ''})
         match main_menu:
             case 'Play':

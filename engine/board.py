@@ -39,3 +39,16 @@ class Board2D:
         gridline = [None for _ in range(rows)]
         gridline = [list(gridline) for _ in range(columns)]
         return gridline
+
+    def empty_places(self) -> list[tuple[int, int]]:  # sourcery skip: for-append-to-extend
+        """Get the board empty places
+
+        Returns:
+            list[tuple[int, int]]: List of Empty coordinates
+        """
+        empty_places = []
+        for row_idx, row in enumerate(self.board):
+            for column_idx, column in enumerate(row):
+                if column is None:
+                    empty_places.append((row_idx, column_idx))
+        return empty_places

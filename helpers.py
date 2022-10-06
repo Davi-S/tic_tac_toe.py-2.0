@@ -63,12 +63,27 @@ class Matrix:
 
 
 def is_char(char) -> bool:
-    """Return True if the given str is a single char. Else, False"""
+    """Check if the given object is a single char
+
+    Args:
+        char (any type): What will be checked
+
+    Returns:
+        bool: Return True if the given object is a single char. Else, False
+    """
     char = str(char)
     return char.isalpha() and len(char) == 1
 
 
-def random_char(exclude: list):
+def random_char(exclude: list) -> str:
+    """Return a letter of the alphabet
+
+    Args:
+        exclude (list): Letters the will not be chossen
+
+    Returns:
+        str: The letter
+    """
     while True:
         char = ''.join(chr(randrange(97, 122)))
         if char not in exclude:
@@ -76,7 +91,15 @@ def random_char(exclude: list):
     return char
 
 
-def random_name(exclude: list):
+def random_name(exclude: list) -> str:
+    """Return a random person first name
+
+    Args:
+        exclude (list): Namer the will not be chossen
+
+    Returns:
+        str: The name
+    """
     while True:
         name = get_first_name()
         if name not in exclude:

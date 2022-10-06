@@ -16,27 +16,14 @@ class IPlayer(ABC):
     def __init__(self, name: str, mark: str) -> None:
         self.name = name
         self.mark = mark
-        self.board_state: BOARD_HINT = None
+        self.board_instance: Board2D = None
 
     @abstractmethod
     def play(self) -> tuple[int, int]:
         pass
 
     def set_board(self, board_instance: Board2D):
-        self.board_state = board_instance.board
-
-    def _get_empty_places(self) -> list[tuple[int, int]]:  # sourcery skip: for-append-to-extend
-        """Get the board empty places
-
-        Returns:
-            list[tuple[int, int]]: List of Empty coordinates
-        """
-        empty_places = []
-        for row_idx, row in enumerate(self.board_state):
-            for column_idx, column in enumerate(row):
-                if column is None:
-                    empty_places.append((row_idx, column_idx))
-        return empty_places
+        self.board_instance = board_instance
 
 
 class HumanPlayer(IPlayer):
@@ -50,20 +37,10 @@ class HumanPlayer(IPlayer):
             tuple[int, int]: row and column
         """
         # changing ranges to better user friendly
-        while True:
-            row = get_int_max('row: ', range(1, len(self.board_state) + 2))
-            if not row:
-                continue
-
-            column = get_int_max('column: ', range(1, len(self.board_state) + 2))
-            if not column:
-                continue
-
-            if (row, column) not in self._get_empty_places():
-                print('Chosse a empty place')
-                sleep(2)
-                continue
-            break
+        row = get_int_max('ROW: ', range(1, len(self.board_instance.board) + 2))
+        column = get_int_max('COLUMN: ', range(1, len(self.board_instance.board) + 2))
+        if isinstance(row, int) and isinstance(column, int):
+            row, column = row-1, column-1
         return row, column
 
 
@@ -79,7 +56,7 @@ class EasyPlayer(IPlayer):
         Returns:
             tuple[int, int]: The coordinate chosen
         """
-        possible_plays = self._get_empty_places()
+        possible_plays = self.board_instance.empty_places()
         return possible_plays[randint(0, len(possible_plays) - 1)]
 
 
