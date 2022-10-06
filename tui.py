@@ -65,6 +65,12 @@ def print_options(options: dict) -> None:
     return
 
 
+def print_title(title: str):
+    print(len(title) * '-')
+    print(title.upper())
+    print(len(title) * '-')
+
+
 def options_menu(title: str, options: dict, prompt: str = 'Choose an option: ') -> str:
     """A menu for the user choose a option from
 
@@ -78,9 +84,7 @@ def options_menu(title: str, options: dict, prompt: str = 'Choose an option: ') 
     """
     while True:
         system('cls')
-        print(len(title) * '-')
-        print(title.upper())
-        print(len(title) * '-')
+        print_title(title)
         print_options(options)
         print()
         option = get_int_max(prompt, range(1, len(options) + 1))
@@ -104,7 +108,5 @@ def type_menu(title: str, prompt: str) -> str:
         str: What the user typed
     """
     system('cls')
-    print(len(title) * '-')
-    print(title.upper())
-    print(len(title) * '-')
+    print_title(title)
     return input(prompt)

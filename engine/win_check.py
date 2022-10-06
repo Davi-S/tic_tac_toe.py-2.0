@@ -1,17 +1,31 @@
 """WinCheker concrete classes"""
 
 # IMPORTS #
+from abc import ABC, abstractmethod
 
 # LOCAL IMPORTS #
 from helpers import Matrix
 from engine.board import BOARD_HINT
 
 
-class ClassicWinChecker:
+class IWinChecker(ABC):
+    def __init__(self, board_state: BOARD_HINT) -> None:
+        self.board_state: BOARD_HINT = board_state  # The board state to check for wins
+
+    @abstractmethod
+    def check_win(self) -> bool:
+        pass
+
+    @abstractmethod
+    def get_win_info(self) -> dict:
+        pass
+
+
+class ClassicWinChecker(IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
 
     def __init__(self, board_state: BOARD_HINT) -> None:
-        self.board_state: BOARD_HINT = board_state  # The board state to check for wins
+        super().__init__(board_state)
 
     def check_win(self) -> bool:
         """Check if there is a win on the game

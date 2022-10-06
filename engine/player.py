@@ -3,10 +3,10 @@
 # IMPORTS #
 from random import randint
 from abc import ABC, abstractmethod
-from time import sleep
 
 # LOCAL IMPORTS #
-from engine.board import Board2D, BOARD_HINT
+from engine.board import Board2D
+from engine.win_check import IWinChecker
 from tui import get_int_max
 
 
@@ -17,6 +17,7 @@ class IPlayer(ABC):
         self.name = name
         self.mark = mark
         self.board_instance: Board2D = None
+        self.win_checker: IWinChecker = None
 
     @abstractmethod
     def play(self) -> tuple[int, int]:
@@ -24,6 +25,9 @@ class IPlayer(ABC):
 
     def set_board(self, board_instance: Board2D):
         self.board_instance = board_instance
+
+    def set_win_checker(self, win_checker: IWinChecker):
+        self.win_checker = win_checker
 
 
 class HumanPlayer(IPlayer):
@@ -60,7 +64,27 @@ class EasyPlayer(IPlayer):
         return possible_plays[randint(0, len(possible_plays) - 1)]
 
 
-# TODO: make other dificults
+# TODO: implement classes
+class MediumPlayer(EasyPlayer):
+    """Always block oponent wins if possible"""
+
+    def play(self):
+        pass
+
+
+class HardPlayer(MediumPlayer):
+    """Always win if possible"""
+
+    def play(self):
+        pass
+
+
+class ImpossiblePlayer(IPlayer):
+    """Never looses"""
+
+    def play(self):
+        # TODO: implement MinMax algorithmn
+        pass
 
 
 def main() -> int:

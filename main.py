@@ -6,10 +6,10 @@ from itertools import cycle
 from time import sleep
 
 # LOCAL IMPORTS #
-from engine.player import EasyPlayer, HumanPlayer, IPlayer
+from engine.player import EasyPlayer, HumanPlayer, IPlayer, MediumPlayer, HardPlayer, ImpossiblePlayer
 from engine.win_check import ClassicWinChecker
 from engine.board import Board2D
-from tui import type_menu, options_menu, print_formated_board
+from tui import type_menu, options_menu, print_formated_board, print_title
 from helpers import random_char, random_name, is_char
 
 
@@ -21,11 +21,17 @@ def play_classic() -> None:
     # Pre game: variables inicialization
     while True:
         board = Board2D(3, 3)
+        win_checker = ClassicWinChecker(board.board)
         players = {player: 0 for player in PLAYERS}  # Player and score
-        # Set board instance to players
+        # Set instances to players
         for player in players:
             player.set_board(board)
+            player.set_win_checker(win_checker)
         players_cycle = cycle(players)  # Infinity iterable
+
+        system('cls')
+        print_title('the game will start')
+        sleep(2)
 
         # Game loop
         while True:
@@ -34,8 +40,7 @@ def play_classic() -> None:
             while True:
                 system('cls')
                 print_formated_board(board.board)
-                print(
-                    f"It's {act_player.name.upper()} turn -> {act_player.mark}")
+                print(f"It's {act_player.name.upper()} turn -> {act_player.mark}")
                 sleep(1)
                 row, column = act_player.play()
                 if not isinstance(row, int):
@@ -52,27 +57,32 @@ def play_classic() -> None:
                     continue
                 break
             board.place_mark(row, column, act_player.mark)
-            if ClassicWinChecker(board.board).check_win():
-                # TODO:
-                # make game end
-                # reset players at game end
-                input('press enter')
-                break
+            if win_checker.check_win():
+                system('cls')
+                print_formated_board(board.board)
+                print_title(f'{act_player.name} won!')
+                sleep(2)
+                end_game_menu = options_menu('play again', {'Yes': '', 'No': ''})
+                match end_game_menu:
+                    case 'Yes':
+                        break
+                    case 'No':
+                        PLAYERS.clear()
+                        return
 
 
-def pick_dificulty() -> IPlayer:
+def pick_ia_dificulty() -> IPlayer:
     dificulty_menu = options_menu('ia dificulty',
                                  {'Easy': '', 'Medium': '', 'Hard': '', 'Impossible': ''})
-    # TODO: add dificultys
     match dificulty_menu:
         case 'Easy':
             dificulty = EasyPlayer
         case 'Medium':
-            dificulty = None
+            dificulty = MediumPlayer
         case 'Hard':
-            dificulty = None
+            dificulty = HardPlayer
         case 'Impossible':
-            dificulty = None
+            dificulty = ImpossiblePlayer
     return dificulty
 
 
@@ -106,13 +116,13 @@ def get_users_players(amount: int) -> None:
 
 def classic_configuration() -> None:
     while True:
-        players_menu = options_menu('opponent',
+        players_menu = options_menu('classic mode | opponent',
                                    {'IA': 'Play against the computer. Custom dificulty',
                                     'Local': 'Local match up',
                                     'Back': ''})
         match players_menu:
             case 'IA':
-                ia_dificulty = pick_dificulty()
+                ia_dificulty = pick_ia_dificulty()
 
                 # player profile
                 get_users_players(1)
@@ -126,8 +136,10 @@ def classic_configuration() -> None:
             case 'Back':
                 return
 
-        start_menu = options_menu('start classic game', {
-                                  'Start': '', 'Change settings': '', 'Back': ''})
+        start_menu = options_menu('classic mode | start',
+                                 {'Start': 'Players awaiting: {}'.format(str([player.name for player in PLAYERS]).replace("\'", "")),
+                                  'Change settings': '',
+                                  'Back': ''})
         match start_menu:
             case 'Start':
                 play_classic()
@@ -137,7 +149,6 @@ def classic_configuration() -> None:
                 return
 
 
-# TODO: make and add more game modes
 def game_modes() -> None:
     while True:
         game_mode_menu = options_menu('game modes',
@@ -153,7 +164,6 @@ def game_modes() -> None:
                 return
 
 
-# TODO: make Options option
 def main_menu() -> None:
     while True:
         main_menu = options_menu('main menu',
