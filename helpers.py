@@ -6,6 +6,7 @@ from random import randrange
 from names import get_first_name
 
 # LOCAL IMPORTS #
+from engine.board import BOARD_HINT
 
 
 def longest_consecutive_occourence(iterable, item) -> int:
@@ -105,6 +106,49 @@ def random_name(exclude: list) -> str:
         if name not in exclude:
             break
     return name
+
+
+def get_int_max(prompt: str, n_range: range) -> int | str:
+    """Get a int from the user in the given range.
+    If the user fails to provide a valid input a str contain the error message is return.
+    Otherwise, return the int
+
+    Args:
+        prompt (str): The prompt shown on the scree
+        n_range (range): The valid range for the input
+
+    Returns:
+        int | str: The int provided from the user or a error message
+    """
+    user_input = input(prompt)
+    if not user_input.isdigit():
+        return 'Choose a integer number'
+
+    user_input = int(user_input)
+    if user_input not in n_range:
+        return 'Choose a number in the options range'
+
+    return user_input
+
+
+def print_formated_board(board: BOARD_HINT) -> None:
+    """Print a user frendly board on the terminal
+
+    Args:
+        board (BOARD_HINT): A board
+    """
+    for line_idx, line in enumerate(board):
+        # Formatting the list
+        print('\n', str(line).replace('[', '')
+                             .replace(']', '')
+                             .replace(',', ' |')
+                             .replace("'", '')
+                             .replace('None', ' '))
+        if line_idx < len(board) - 1:
+            for count, _ in enumerate(line, start=1):
+                print('---', end='')
+                if count < len(line):
+                    print('|', end='')
 
 
 def main() -> int:
