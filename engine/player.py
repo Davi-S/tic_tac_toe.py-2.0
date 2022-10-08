@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 # LOCAL IMPORTS #
 from engine.board import Board2D
 from engine.win_check import IWinChecker
-from tui import get_int_max
+from helpers import get_int_max
 
 
 class IPlayer(ABC):
@@ -43,7 +43,7 @@ class HumanPlayer(IPlayer):
         # changing ranges to better user friendly
         row = get_int_max('ROW: ', range(1, len(self.board_instance.board) + 2))
         column = get_int_max('COLUMN: ', range(1, len(self.board_instance.board) + 2))
-        if isinstance(row, int) and isinstance(column, int):
+        if isinstance(row, int) and isinstance(column, int):  # remove input extra
             row, column = row-1, column-1
         return row, column
 

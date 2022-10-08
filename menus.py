@@ -1,4 +1,4 @@
-"""Recursive menus"""
+"""Menus"""
 
 # IMPORTS #
 from abc import ABC
@@ -6,10 +6,10 @@ from dataclasses import dataclass
 from os import system
 from time import sleep
 
-
 # LOCAL IMPORTS #
 from helpers import get_int_max
 import settings
+
 
 PREVIOUS_MENUS: list[str] = []
 
@@ -19,13 +19,72 @@ class Opt:
     name: str
     description: str
     value: dict[callable, dict]
+    
+
+def print_options(options: list[Opt]) -> None:
+    for idx, value in enumerate(options):
+        if value.description:
+            print(f"[ {idx+1} ] >>> {value.name} --> {value.description}")
+        else:
+            print(f"[ {idx+1} ] >>> {value.name}")
+    return
 
 
-class Menu(ABC):
-    def __init__(self, title: str, prompt: str) -> None:
+def print_title(title: str) -> None:
+        print('-' * len(title))
+        print(title.upper())
+        print('-' * len(title))
+
+
+class IndependentOptMenu:
+    def __init__(self, title: str, options: list[Opt], prompt: str = 'Choose an option: ') -> None:
         self.title = title
+        self.options = options
+        self.prompt = prompt     
+        
+    def run(self):  # sourcery skip: for-append-to-extend
+        results = []
+        while True:
+            system('cls')
+            print_title(self.title)
+            print_options(self.options)
+            print()
+            option = get_int_max(self.prompt, range(1, len(self.options) + 1))
+
+            if not isinstance(option, int):
+                print(option)
+                sleep(settings.MEDIUM_SLEEP_TIME)
+                continue
+
+            option -= 1
+            
+            if isinstance(self.options[option].value, str):
+                return self.options[option].value
+            
+            for key, value in self.options[option].value.items():
+                results.append(key(**value))
+            
+            return results
+        
+    
+class IndependentOpenMenu:
+    def __init__(self, title: str, text: str, prompt: str) -> None:
+        self.title = title
+        self.text = text
         self.prompt = prompt
 
+    def run(self) -> str:
+        system('cls')
+        print_title(self.title)
+        print(self.text)
+        print()
+        return input(self.prompt)
+
+
+class NestedMenu(ABC):
+    def __init__(self, title: str) -> None:
+        self.title = title
+        
     def print_title(self):
         chars = sum(len(char) for char in PREVIOUS_MENUS) + len(self.title) + 3 * len(PREVIOUS_MENUS)
         print('-' * chars)
@@ -35,47 +94,39 @@ class Menu(ABC):
         print('-' * chars)
 
 
-class OptionMenu(Menu):
-    def __init__(self, title: str, options: list[Opt], prompt: str = 'Choose a option: ', one_time: bool = False) -> None:
-        super().__init__(title, prompt)
+class NestedOptionMenu(NestedMenu):
+    def __init__(self, title: str, options: list[Opt], prompt: str = 'Choose an option: ', one_time: bool = False) -> None:
+        super().__init__(title)
         self.options = options
-        
+        self.prompt = prompt
         # one_time is used to skip the previous menu
         self.one_time = one_time
-    
-    def print_options(self) -> None:
-        for idx, value in enumerate(self.options):
-            if value.description:
-                print(f"[ {idx+1} ] >>> {value.name} --> {value.description}")
-            else:
-                print(f"[ {idx+1} ] >>> {value.name}")
-        return
 
     def run(self) -> str:
         while True:
             system('cls')
             self.print_title()
-            self.print_options()
+            print_options(self.options)
             print()
             option = get_int_max(self.prompt, range(1, len(self.options) + 1))
 
             if not isinstance(option, int):
                 print(option)
-                sleep(settings.SLEEP_TIME)
+                sleep(settings.MEDIUM_SLEEP_TIME)
                 continue
 
             option -= 1
 
-            # back to previous menu
-            if self.options[option].value == 'return':
-                return
-
-            if isinstance(self.options[option].value, str):
+            if self.options[option].value is None:
                 system('cls')
                 print(
                     f'| {self.options[option].name} | is not implemented yet')
-                sleep(settings.SLEEP_TIME)
+                sleep(settings.MEDIUM_SLEEP_TIME)
                 continue
+            
+            # back to previous menu
+            if self.options[option].value == 'return':
+                return
 
             PREVIOUS_MENUS.append(self.title)
             
@@ -89,10 +140,11 @@ class OptionMenu(Menu):
             
             PREVIOUS_MENUS.pop()
 
-class OpenMenu(Menu):
+class NestedOpenMenu(NestedMenu):
     def __init__(self, title: str, text: str, prompt: str) -> None:
-        super().__init__(title, prompt)
+        super().__init__(title)
         self.text = text
+        self.prompt = prompt
 
     def run(self) -> str:
         system('cls')
@@ -103,9 +155,6 @@ class OpenMenu(Menu):
 
 
 def main() -> int:
-    menu = OptionMenu('title', [Opt('name1', 'desc1', 'callable1'), Opt(
-        'name2', 'desc2', 'callable2'), Opt('name3', '', 'callable3')], 'prompt')
-    menu.run()
     return 0
 
 
