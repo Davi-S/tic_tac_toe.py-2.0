@@ -117,7 +117,7 @@ def main_menu() -> None:
     main_menu = NestedOptionMenu('main menu',
                            [Opt('Play', '', {game_modes: {}}),
                             Opt('Settings', '', None),
-                            Opt('Quit', '', {quit: {}})])
+                            Opt('Quit', '', 'return')])
     main_menu.run()
 
 
