@@ -20,10 +20,10 @@ class WinChecker(abstracts.IWinChecker):
         Returns:
             bool: True is there is a win. False is there is no win
         """
-        win_info = self.get_win_info()
+        win_info = self.win_info()
         return any(value[0] != None for value in win_info.values())
 
-    def get_win_info(self) -> dict:
+    def win_info(self) -> dict:
         """The information about a win
 
         Returns:

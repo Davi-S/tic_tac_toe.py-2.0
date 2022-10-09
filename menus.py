@@ -36,7 +36,7 @@ def print_title(title: str) -> None:
         print('-' * len(title))
 
 
-class IndependentOptMenu:
+class IndependentOptionMenu:
     def __init__(self, title: str, options: list[Opt], prompt: str = 'Choose an option: ') -> None:
         self.title = title
         self.options = options

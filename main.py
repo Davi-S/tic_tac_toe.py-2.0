@@ -25,7 +25,7 @@ def start_menu():
                             mn.Opt('Back',
                                 '',
                                 'return')],
-                            one_time=True)
+                           one_time=True)
     start_menu.run()
     # Prevent player stack when option 'back'
     PLAYERS.clear()

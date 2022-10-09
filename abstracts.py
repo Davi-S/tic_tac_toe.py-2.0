@@ -34,6 +34,6 @@ class IWinChecker(ABC):
         pass
 
     @abstractmethod
-    def get_win_info(self) -> dict:
+    def win_info(self) -> dict:
         pass
 

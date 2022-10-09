@@ -33,6 +33,8 @@ class ClassicGame:
         for player in self.players_score:
             player.set_game(self)
 
+        self.run()
+
     def pre_match(self) -> None:
         """Create new board"""
         self.board = bd.Board(self.board_size, self.board_size)
@@ -89,7 +91,7 @@ class ClassicGame:
     def run(self):
         while True:
             self.match()
-            new_game_menu = mn.IndependentOptMenu('play again',
+            new_game_menu = mn.IndependentOptionMenu('play again',
                                                [mn.Opt('Yes', '', 'Yes'),
                                                 mn.Opt('No', '', 'No')]).run()
             match new_game_menu:
@@ -101,7 +103,7 @@ class ClassicGame:
 
 
 def main() -> int:
-    game = ClassicGame([plr.HumanPlayer('Davi', 'x'), plr.EasyPlayer('Bot', 'o')])
+    game = ClassicGame([plr.HumanPlayer('Davi', 'x'), plr.MediumPlayer('Bot', 'o')])
     game.run()
     return 0
 
