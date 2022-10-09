@@ -6,22 +6,23 @@ from time import sleep
 
 # LOCAL IMPORTS #
 import settings
-from engine.player import IPlayer, HumanPlayer, EasyPlayer, MediumPlayer, HardPlayer, ImpossiblePlayer
-from game_modes import play_classic
-from menus import IndependentOpenMenu, NestedOpenMenu, NestedOptionMenu, Opt
-from helpers import random_char, random_name, is_char
+import game_modes as gm
+import engine.player as plr
+import abstracts
+import menus as mn
+import helpers as hp
 
 
 # players cannot have same name or mark
-PLAYERS: list[IPlayer] = []
+PLAYERS: list[abstracts.IPlayer] = []
 
 
 def start_menu():
-    start_menu = NestedOptionMenu('start game',
-                           [Opt('Start',
-                                 'Players awaiting: {}'.format(str([player.name for player in PLAYERS]).replace("\'", "")),
-                                 {play_classic: {'player_list': PLAYERS}}),
-                            Opt('Back',
+    start_menu = mn.NestedOptionMenu('start game',
+                           [mn.Opt('Start',
+                                'Players awaiting: {}'.format(str([player.name for player in PLAYERS]).replace("\'", "")),
+                                {gm.ClassicGame: {'player_list': PLAYERS}}),
+                            mn.Opt('Back',
                                 '',
                                 'return')],
                             one_time=True)
@@ -30,25 +31,25 @@ def start_menu():
     PLAYERS.clear()
 
 
-def set_ia(dificulty: IPlayer) -> None:
-    name = random_name([player.name for player in PLAYERS])
-    mark = random_char([player.mark for player in PLAYERS])
+def set_ia(dificulty: abstracts.IPlayer) -> None:
+    name = hp.random_name([player.name for player in PLAYERS])
+    mark = hp.random_char([player.mark for player in PLAYERS])
     PLAYERS.append(dificulty(name, mark))
-    IndependentOpenMenu('ia profile',
+    mn.IndependentOpenMenu('ia profile',
                    f'The IA is set\n\nName: {name}\nMark: {mark}',
                    'Press Enter to continue').run()
 
 
 def ia_configuration():
-    ia_dificulty = NestedOptionMenu('ia dificulty',
-                              [Opt('Easy', '',
-                                   {set_ia: {'dificulty': EasyPlayer}}),
-                               Opt('Medium', '', 
-                                   {set_ia: {'dificulty': MediumPlayer}}),
-                               Opt('Hard', '', 
-                                   {set_ia: {'dificulty': HardPlayer}}),
-                               Opt('Impossible', '', 
-                                   {set_ia: {'dificulty': ImpossiblePlayer}})],
+    ia_dificulty = mn.NestedOptionMenu('ia dificulty',
+                              [mn.Opt('Easy', '',
+                                   {set_ia: {'dificulty': plr.EasyPlayer}}),
+                               mn.Opt('Medium', '', 
+                                   {set_ia: {'dificulty': plr.MediumPlayer}}),
+                               mn.Opt('Hard', '', 
+                                   {set_ia: {'dificulty': plr.HardPlayer}}),
+                               mn.Opt('Impossible', '', 
+                                   {set_ia: {'dificulty': plr.ImpossiblePlayer}})],
                               one_time=True)
     ia_dificulty.run()
 
@@ -58,10 +59,10 @@ def set_players(quantity: int):
     while count <= quantity:
         text = 'Your profile' if quantity == 1 else f'Set {count}º player profile'
 
-        name = NestedOpenMenu('player profile', text, 'Nickname: ').run()
-        mark = NestedOpenMenu('player profile', text, 'Mark: ').run()
+        name = mn.NestedOpenMenu('player profile', text, 'Nickname: ').run()
+        mark = mn.NestedOpenMenu('player profile', text, 'Mark: ').run()
 
-        if not is_char(mark):
+        if not hp.is_char(mark):
             print('The mark must be one letter')
             sleep(settings.MEDIUM_SLEEP_TIME)
             continue
@@ -74,7 +75,7 @@ def set_players(quantity: int):
             sleep(settings.MEDIUM_SLEEP_TIME)
             continue
 
-        PLAYERS.append(HumanPlayer(name, mark))
+        PLAYERS.append(plr.HumanPlayer(name, mark))
         count += 1
 
 
@@ -95,29 +96,29 @@ def classic_configuration(opponent: str):
 
 
 def classic_settings() -> None:
-    players_menu = NestedOptionMenu('classic mode settings',
-                              [Opt('IA', 'Play against the computer. Custom dificulty',
+    players_menu = mn.NestedOptionMenu('classic mode settings',
+                              [mn.Opt('IA', 'Play against the computer. Custom dificulty',
                                    {classic_configuration: {'opponent': 'IA'}}),
-                               Opt('Local', 'Local match up',
+                               mn.Opt('Local', 'Local match up',
                                    {classic_configuration: {'opponent': 'Local'}}),
-                               Opt('Back', '',
+                               mn.Opt('Back', '',
                                    'return')])
     players_menu.run()
 
 
 def game_modes() -> None:
-    game_mode_menu = NestedOptionMenu('game modes',
-                                [Opt('Classic', 'Two players against each other. 3x3 board. Classic win rules', {classic_settings: {}}),
-                                 Opt('Teams', 'Up to five players on each team (two teams). board up to 12x12. Custom sequence win', None),
-                                 Opt('Back', '', 'return')])
+    game_mode_menu = mn.NestedOptionMenu('game modes',
+                                [mn.Opt('Classic', 'Two players against each other. 3x3 board. Classic win rules', {classic_settings: {}}),
+                                 mn.Opt('Teams', 'Up to five players on each team (two teams). board up to 12x12. Custom sequence win', None),
+                                 mn.Opt('Back', '', 'return')])
     game_mode_menu.run()
 
 
 def main_menu() -> None:
-    main_menu = NestedOptionMenu('main menu',
-                           [Opt('Play', '', {game_modes: {}}),
-                            Opt('Settings', '', None),
-                            Opt('Quit', '', 'return')])
+    main_menu = mn.NestedOptionMenu('main menu',
+                           [mn.Opt('Play', '', {game_modes: {}}),
+                            mn.Opt('Settings', '', None),
+                            mn.Opt('Quit', '', 'return')])
     main_menu.run()
 
 

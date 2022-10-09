@@ -2,35 +2,13 @@
 
 # IMPORTS #
 from random import randint
-from abc import ABC, abstractmethod
 
 # LOCAL IMPORTS #
-from engine.board import Board2D
-from engine.win_check import IWinChecker
-from helpers import get_int_max
+import abstracts
+import helpers as hp 
 
 
-class IPlayer(ABC):
-    """A player of the game. Receives a board state and chose where to play."""
-
-    def __init__(self, name: str, mark: str) -> None:
-        self.name = name
-        self.mark = mark
-        self.board_instance: Board2D = None
-        self.win_checker: IWinChecker = None
-
-    @abstractmethod
-    def play(self) -> tuple[int, int]:
-        pass
-
-    def set_board(self, board_instance: Board2D):
-        self.board_instance = board_instance
-
-    def set_win_checker(self, win_checker: IWinChecker):
-        self.win_checker = win_checker
-
-
-class HumanPlayer(IPlayer):
+class HumanPlayer(abstracts.IPlayer):
     def __init__(self, name: str, mark: str) -> None:
         super().__init__(name, mark)
 
@@ -41,14 +19,18 @@ class HumanPlayer(IPlayer):
             tuple[int, int]: row and column
         """
         # changing ranges to better user friendly
-        row = get_int_max('ROW: ', range(1, len(self.board_instance.board) + 2))
-        column = get_int_max('COLUMN: ', range(1, len(self.board_instance.board) + 2))
-        if isinstance(row, int) and isinstance(column, int):  # remove input extra
+        row = hp.get_int_max('ROW: ',
+                             range(1, len(self.game_instance.board.board) + 2))
+        
+        column = hp.get_int_max('COLUMN: ',
+                                range(1, len(self.game_instance.board.board) + 2))
+        
+        if isinstance(row, int) and isinstance(column, int):  # remove extra input
             row, column = row-1, column-1
         return row, column
 
 
-class EasyPlayer(IPlayer):
+class EasyPlayer(abstracts.IPlayer):
     """Play on a random place of the board"""
 
     def __init__(self, name: str, mark: str) -> None:
@@ -60,11 +42,14 @@ class EasyPlayer(IPlayer):
         Returns:
             tuple[int, int]: The coordinate chosen
         """
-        possible_plays = self.board_instance.empty_places()
+        possible_plays = self.game_instance.board.empty_places()
         return possible_plays[randint(0, len(possible_plays) - 1)]
 
 
 # TODO: implement classes
+# TODO: implement MinMax algorithmn
+# MinMax(max, min, min)
+# MinMax(max, max, max)
 class MediumPlayer(EasyPlayer):
     """Always block oponent wins if possible"""
 
@@ -79,11 +64,10 @@ class HardPlayer(MediumPlayer):
         pass
 
 
-class ImpossiblePlayer(IPlayer):
+class ImpossiblePlayer(MediumPlayer):
     """Never looses"""
 
     def play(self):
-        # TODO: implement MinMax algorithmn
         pass
 
 

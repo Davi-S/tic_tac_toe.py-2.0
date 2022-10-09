@@ -7,7 +7,7 @@ from os import system
 from time import sleep
 
 # LOCAL IMPORTS #
-from helpers import get_int_max
+import helpers as hp
 import settings
 
 
@@ -49,7 +49,7 @@ class IndependentOptMenu:
             print_title(self.title)
             print_options(self.options)
             print()
-            option = get_int_max(self.prompt, range(1, len(self.options) + 1))
+            option = hp.get_int_max(self.prompt, range(1, len(self.options) + 1))
 
             if not isinstance(option, int):
                 print(option)
@@ -81,6 +81,7 @@ class IndependentOpenMenu:
         return input(self.prompt)
 
 
+# This abstract canot go to abstracts.py because PREVIOUS_MENUS global
 class NestedMenu(ABC):
     def __init__(self, title: str) -> None:
         self.title = title
@@ -108,7 +109,7 @@ class NestedOptionMenu(NestedMenu):
             self.print_title()
             print_options(self.options)
             print()
-            option = get_int_max(self.prompt, range(1, len(self.options) + 1))
+            option = hp.get_int_max(self.prompt, range(1, len(self.options) + 1))
 
             if not isinstance(option, int):
                 print(option)

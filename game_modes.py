@@ -7,82 +7,102 @@ from itertools import cycle
 
 # LOCAL IMPORTS #
 import settings
-from engine.board import Board2D
-from engine.win_check import ClassicWinChecker
-from engine.player import EasyPlayer, HumanPlayer, IPlayer
-from menus import Opt, IndependentOptMenu, IndependentOpenMenu, print_title
-from helpers import print_formated_board
+import abstracts
+import engine.board as bd
+import engine.win_check as wc
+import engine.player as plr
+import menus as mn
+import helpers as hp
 
 
-def score_format(data: dict[IPlayer, int]):
-    result = ''
-    for player, score in data.items():
-        result += f'{player.name} [ {player.mark} ] >>> {score}\n'
-    return result
+def score_format(data: dict[abstracts.IPlayer, int]):
+    return ''.join(f'{player.name} [ {player.mark} ] >>> {score}\n' for player, score in data.items())
 
 
-# TODO: refactor this code using the new menus
-def play_classic(player_list: list[IPlayer]) -> None:
-    players = {player: 0 for player in player_list}  # Player and score
-    players_cycle = cycle(players)  # Infinity iterable
-    
-    while True:
-        board = Board2D(3, 3)
-        win_checker = ClassicWinChecker(board.board)
+class ClassicGame:
+    def __init__(self, player_list: list[abstracts.IPlayer]) -> None:
+        self.players_score = {player: 0 for player in player_list}
+        self.players_cycle = cycle(player_list)
+        self.act_player = None
+        self.board_size = 3
+        self.win_sequence = 3
+        self.board = None
+        self.win_checker = None
+
         # Set instances to players
-        for player in player_list:
-            player.set_board(board)
-            player.set_win_checker(win_checker)
-            
-        system('cls')
-        print_title('starting the game')
-        sleep(settings.SHORT_SLEEP_TIME)
+        for player in self.players_score:
+            player.set_game(self)
 
-        while True:  # Game loop
-            act_player = next(players_cycle)
-            while True:  # Input loop
+    def pre_match(self) -> None:
+        """Create new board"""
+        self.board = bd.Board(self.board_size, self.board_size)
+        self.win_checker = wc.WinChecker(self.board.board, self.win_sequence)
+
+    def get_play(self):
+        while True:  # Input loop
+            system('cls')
+            hp.print_formated_board(self.board.board)
+            print(f"It's {self.act_player.name.upper()} turn -> {self.act_player.mark}")
+            sleep(settings.SHORT_SLEEP_TIME)
+            row, column = self.act_player.play()
+            if not isinstance(row, int):
+                print(row)
+                sleep(2)
+                continue
+            if not isinstance(column, int):
+                print(column)
+                sleep(2)
+                continue
+            if (row, column) not in self.board.empty_places():
+                print('Choose a empty place')
+                sleep(2)
+                continue
+            return row, column
+
+    def match(self):
+        self.pre_match()
+        while True:
+            self.act_player = next(self.players_cycle)
+            row, column = self.get_play()
+            self.board.place_mark(row, column, self.act_player.mark)
+            if self.win_checker.check_win():
+                self.players_score[self.act_player] += 1
                 system('cls')
-                print_formated_board(board.board)
-                print(f"It's {act_player.name.upper()} turn -> {act_player.mark}")
-                sleep(settings.SHORT_SLEEP_TIME)
-                row, column = act_player.play()
-                
-                if not isinstance(row, int):
-                    print(row)
-                    sleep(2)
-                    continue
-                if not isinstance(column, int):
-                    print(column)
-                    sleep(2)
-                    continue
-                if (row, column) not in board.empty_places():
-                    print('Choose a empty place')
-                    sleep(2)
-                    continue
-                break
-            
-            board.place_mark(row, column, act_player.mark)
-            if win_checker.check_win():
-                players[act_player] += 1  # increase score
-                
-                system('cls')
-                print_formated_board(board.board)
-                print_title(f'{act_player.name} won!')
+                hp.print_formated_board(self.board.board)
+                mn.print_title(f'{self.act_player.name.upper()} won!')
                 sleep(settings.MEDIUM_SLEEP_TIME)
+                mn.IndependentOpenMenu('Score',
+                                    score_format(self.players_score),
+                                    'Press Enter to continue').run()
+                return
+
+            elif self.board.is_terminal():
                 system('cls')
-                
-                IndependentOpenMenu('Score', score_format(players), 'Press Enter to continue').run()
-                
-                end_game = IndependentOptMenu('play again',
-                                   [Opt('Yes', '', 'Yes'),
-                                    Opt('No', '', 'No')]).run()
-                match end_game:
-                    case 'Yes':
-                        break
-                    case 'No':
-                        return
-                    
+                hp.print_formated_board(self.board.board)
+                mn.print_title('draw'.upper())
+                sleep(settings.MEDIUM_SLEEP_TIME)
+                mn.IndependentOpenMenu('Score',
+                                    score_format(self.players_score),
+                                    'Press Enter to continue').run()
+                return
+
+    def run(self):
+        while True:
+            self.match()
+            new_game_menu = mn.IndependentOptMenu('play again',
+                                               [mn.Opt('Yes', '', 'Yes'),
+                                                mn.Opt('No', '', 'No')]).run()
+            match new_game_menu:
+                case 'Yes':
+                    continue
+                case 'No':
+                    return
+            return
+
+
 def main() -> int:
+    game = ClassicGame([plr.HumanPlayer('Davi', 'x'), plr.EasyPlayer('Bot', 'o')])
+    game.run()
     return 0
 
 

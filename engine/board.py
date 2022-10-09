@@ -3,18 +3,19 @@
 # IMPORTS #
 
 # LOCAL IMPORTS #
+import abstracts
 
-BOARD_HINT = list[list]
 
-
-class Board2D:
+class Board:
     """Two dimensional array"""
 
     def __init__(self, rows: int, columns: int) -> None:
-        self._board: BOARD_HINT = self._create_board(rows, columns)
+        self.rows = rows
+        self.columns = columns
+        self._board = self._create_board(rows, columns)
 
     @property
-    def board(self) -> BOARD_HINT:
+    def board(self) -> abstracts.BOARD_HINT:
         return self._board
 
     def place_mark(self, row: int, column: int, mark: str, rewrite: bool = False) -> bool:
@@ -34,7 +35,7 @@ class Board2D:
             return True
         return False
 
-    def _create_board(self, rows: int, columns: int) -> BOARD_HINT:
+    def _create_board(self, rows: int, columns: int) -> abstracts.BOARD_HINT:
         """Create a empty two dimention matrix (board)"""
         gridline = [None for _ in range(rows)]
         gridline = [list(gridline) for _ in range(columns)]
@@ -52,3 +53,7 @@ class Board2D:
                 if column is None:
                     empty_places.append((row_idx, column_idx))
         return empty_places
+    
+    def is_terminal(self):
+        return len(self.empty_places()) == 0
+            

@@ -6,7 +6,7 @@ from random import randrange
 from names import get_first_name
 
 # LOCAL IMPORTS #
-from engine.board import BOARD_HINT
+import abstracts 
 
 
 def longest_consecutive_occourence(iterable, item) -> int:
@@ -55,11 +55,11 @@ class Matrix:
         return cls._get_groups(matrix, lambda x, y: y)
 
     @classmethod
-    def p_diagonal(cls, matrix):
+    def p_diagonals(cls, matrix):
         return cls._get_groups(matrix, lambda x, y: x + y)
 
     @classmethod
-    def s_diagonal(cls, matrix):
+    def s_diagonals(cls, matrix):
         return cls._get_groups(matrix, lambda x, y: x - y)
 
 
@@ -131,7 +131,7 @@ def get_int_max(prompt: str, n_range: range) -> int | str:
     return user_input
 
 
-def print_formated_board(board: BOARD_HINT) -> None:
+def print_formated_board(board: abstracts.BOARD_HINT) -> None:
     """Print a user frendly board on the terminal
 
     Args:
