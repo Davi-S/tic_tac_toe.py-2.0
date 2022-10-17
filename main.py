@@ -1,17 +1,17 @@
 """Main file. Meant do be run"""
 
-# IMPORTS #
+# standard library imports #
 from os import system
 from time import sleep
 
-# LOCAL IMPORTS #
-import settings
-import game_modes as gm
-import engine.player as plr
+# related third party imports #
+# local application/library specific imports #
 import abstracts
-import menus as mn
+import engine.player as plr
+import game_modes as gm
 import helpers as hp
-
+import menus as mn
+import settings
 
 # players cannot have same name or mark
 PLAYERS: list[abstracts.IPlayer] = []

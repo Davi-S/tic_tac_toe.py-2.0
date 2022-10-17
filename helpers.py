@@ -1,12 +1,14 @@
 """Generic useful functions"""
 
-# IMPORTS #
+# standard library imports #
 from collections import defaultdict
 from random import randrange
+
+# related third party imports #
 from names import get_first_name
 
-# LOCAL IMPORTS #
-import abstracts 
+# local application/library specific imports #
+import engine.board as bd
 
 
 def longest_consecutive_occourence(iterable, item) -> int:
@@ -131,7 +133,7 @@ def get_int_max(prompt: str, n_range: range) -> int | str:
     return user_input
 
 
-def print_formated_board(board: abstracts.BOARD_HINT) -> None:
+def print_formated_board(board: bd.BOARD_HINT) -> None:
     """Print a user frendly board on the terminal
 
     Args:

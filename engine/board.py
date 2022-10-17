@@ -1,9 +1,11 @@
 """Board concrete classes"""
 
-# IMPORTS #
+# standard library imports #
+# related third party imports #
+# local application/library specific imports #
 
-# LOCAL IMPORTS #
-import abstracts
+
+BOARD_HINT = list[list]
 
 
 class Board:
@@ -15,7 +17,7 @@ class Board:
         self._board = self._create_board(rows, columns)
 
     @property
-    def board(self) -> abstracts.BOARD_HINT:
+    def board(self) -> BOARD_HINT:
         return self._board
 
     def place_mark(self, row: int, column: int, mark: str, rewrite: bool = False) -> bool:
@@ -35,7 +37,7 @@ class Board:
             return True
         return False
 
-    def _create_board(self, rows: int, columns: int) -> abstracts.BOARD_HINT:
+    def _create_board(self, rows: int, columns: int) -> BOARD_HINT:
         """Create a empty two dimention matrix (board)"""
         gridline = [None for _ in range(rows)]
         gridline = [list(gridline) for _ in range(columns)]

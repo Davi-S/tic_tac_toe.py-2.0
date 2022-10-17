@@ -1,11 +1,56 @@
 """Player concrete classes"""
 
-# IMPORTS #
+# standard library imports #
+from copy import deepcopy
+from itertools import product
+from math import inf
 from random import randint
 
-# LOCAL IMPORTS #
+# related third party imports #
+# local application/library specific imports #
 import abstracts
-import helpers as hp 
+import helpers as hp
+
+
+# def max_n(state, depht, alfa, beta, maximazing): pass
+# def mini_n_max(state, depht, alfa, beta, maximazing): pass
+
+def minimax(game: abstracts.IGame, maximizing: str, depht: int=-1, alpha: int=-inf, beta: int=+inf, actual_player: str=None):
+    next_player = list(game.players_score)[0].mark if actual_player == list(game.players_score)[1].mark else list(game.players_score)[1].mark
+
+    marks = [values[0] for values in game.win_checker.win_info().values()]
+    if depht == 0 or game.board.is_terminal():
+        return {'position': None, 'score': 0}
+
+    elif any(marks):
+        if [next_player] in marks:
+            return {'position': None, 'score': 1 * (len(game.board.empty_places()) + 1)}
+        else:
+            return {'position': None, 'score': -1 * (len(game.board.empty_places()) + 1)}
+
+    mval = {'position': None, 'score': -inf} if actual_player == maximizing else {'position': None, 'score': +inf}
+
+    for line, column in product(range(game.board.rows), range(game.board.columns)): # itertools replace nested for loops
+        if (line, column) in game.board.empty_places():
+            game.board.place_mark(line, column, actual_player)
+            val = minimax(game, maximizing, depht-1, alpha, beta, next_player)
+            game.board.place_mark(line, column, None, True)  # Undo move
+            val['position'] = line, column
+            
+            if (actual_player == maximizing and val['score'] > mval['score']) or (actual_player != maximizing and val['score'] < mval['score']):
+                mval = val
+            # if actual_player.mark == maximizing:
+            #     mval = val if val['score'] > mval['score'] else mval
+            #     # alpha = max(alpha, val['score'])
+                
+            # elif actual_player.mark != maximizing:
+            #     mval = val if val['score'] < mval['score'] else mval
+            #     beta = min(beta, val['score'])
+
+            # if beta <= alpha:
+            #     break
+    return mval
+
 
 
 class HumanPlayer(abstracts.IPlayer):
@@ -54,8 +99,9 @@ class MediumPlayer(EasyPlayer):
     """Always block oponent wins if possible"""
 
     def play(self):
-        pass
-
+        a = minimax(deepcopy(self.game_instance), self.mark, actual_player=self.game_instance.act_player.mark)
+        print(a)
+        return a['position']
 
 class HardPlayer(MediumPlayer):
     """Always win if possible"""

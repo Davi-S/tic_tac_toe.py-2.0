@@ -1,15 +1,15 @@
 """Menus"""
 
-# IMPORTS #
+# standard library imports #
 from abc import ABC
 from dataclasses import dataclass
 from os import system
 from time import sleep
 
-# LOCAL IMPORTS #
+# related third party imports #
+# local application/library specific imports #
 import helpers as hp
 import settings
-
 
 PREVIOUS_MENUS: list[str] = []
 

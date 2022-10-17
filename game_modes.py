@@ -1,18 +1,19 @@
 """Game modes loops"""
 
-# IMPORTS #
+# standard library imports #
+from itertools import cycle
 from os import system
 from time import sleep
-from itertools import cycle
 
-# LOCAL IMPORTS #
-import settings
+# related third party imports #
+# local application/library specific imports #
 import abstracts
 import engine.board as bd
-import engine.win_check as wc
 import engine.player as plr
-import menus as mn
+import engine.win_check as wc
 import helpers as hp
+import menus as mn
+import settings
 
 
 def score_format(data: dict[abstracts.IPlayer, int]):

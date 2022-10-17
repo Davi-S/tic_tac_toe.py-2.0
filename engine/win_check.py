@@ -1,16 +1,17 @@
 """WinCheker concrete classes"""
 
-# IMPORTS #
-
-# LOCAL IMPORTS #
+# standard library imports #
+# related third party imports #
+# local application/library specific imports #
 import abstracts
+import engine.board as bd
 import helpers as hp
 
 
 class WinChecker(abstracts.IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
 
-    def __init__(self, board_state: abstracts.BOARD_HINT, sequence_len: int) -> None:
+    def __init__(self, board_state: bd.BOARD_HINT, sequence_len: int) -> None:
         super().__init__(board_state)
         self.sequence_len = sequence_len
 
