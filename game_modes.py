@@ -22,8 +22,9 @@ def score_format(data: dict[abstracts.IPlayer, int]):
 
 class ClassicGame:
     def __init__(self, player_list: list[abstracts.IPlayer]) -> None:
-        self.players_score = {player: 0 for player in player_list}
-        self.players_cycle = cycle(player_list)
+        self.player_list = player_list
+        self.players_score = {player: 0 for player in self.player_list}
+        self.players_cycle = cycle(self.player_list)
         self.act_player = None
         self.board_size = 3
         self.win_sequence = 3
@@ -104,7 +105,7 @@ class ClassicGame:
 
 
 def main() -> int:
-    game = ClassicGame([plr.HumanPlayer('Davi', 'x'), plr.MediumPlayer('Bot', 'o')])
+    game = ClassicGame([plr.HumanPlayer('Davi', 'x'), plr.ImpossiblePlayer('Bot', 'o')])
     game.run()
     return 0
 

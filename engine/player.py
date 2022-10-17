@@ -12,61 +12,44 @@ import helpers as hp
 
 
 def minimax(player_instance: abstracts.IPlayer, actual_player: abstracts.IPlayer, depht=-1, alpha=-inf, beta=+inf):
-    if actual_player.mark == list(player_instance.game_instance.players_score.keys())[0].mark:
-        next_player = list(
-            player_instance.game_instance.players_score.keys())[1]
-    else:
-        next_player = list(
-            player_instance.game_instance.players_score.keys())[0]
+    # Swap players
+    next_player = player_instance.game_instance.player_list[1] \
+        if actual_player.mark == player_instance.game_instance.player_list[0].mark \
+        else player_instance.game_instance.player_list[0]
 
+    # Chek wins
     if [player[0] for player in player_instance.game_instance.win_checker.win_info().values() if player[0] is not None]:
-        if next_player.mark == player_instance.mark:
-            return [None, 1 * (len(player_instance.game_instance.board.empty_places()) + 1)]
-        else:
-            return [None, -1 * (len(player_instance.game_instance.board.empty_places()) + 1)]
+        # If is maximizing player turn, get a positive multiplier
+        multiplier = +1 if next_player.mark == player_instance.mark else -1
+        return [None, multiplier * (len(player_instance.game_instance.board.empty_places()) + 1)]
 
-    elif depht == 0 or len(player_instance.game_instance.board.empty_places()) == 0:
+    # Max depht or draw
+    elif depht == 0 or len(player_instance.game_instance.board.empty_places()) == 0:  
         return [None, 0]
 
-    if actual_player.mark == player_instance.mark:  # maximizing_player
-        max_eval = [None, -inf]
-        for row, column in product(range(player_instance.game_instance.board.rows), range(player_instance.game_instance.board.columns)):
-            if player_instance.game_instance.board.place_mark(row, column, actual_player.mark):
-                evaluation = minimax(
-                    player_instance, next_player, depht - 1, alpha, beta)
-                player_instance.game_instance.board.place_mark(
-                    row, column, None, True)  # undo move
-                evaluation[0] = row, column
+    maximizing = actual_player.mark == player_instance.mark  # Check if is the maximizing player turn
+    m_eval = [None, -inf] if maximizing else [None, +inf]
+    for row, column in product(range(player_instance.game_instance.board.rows), range(player_instance.game_instance.board.columns)):
+        if player_instance.game_instance.board.place_mark(row, column, actual_player.mark):
+            evaluation = minimax(player_instance, next_player, depht - 1, alpha, beta)
+            evaluation[0] = row, column
+            player_instance.game_instance.board.place_mark(row, column, None, True)  # Undo move
 
-                if evaluation[1] > max_eval[1]:
-                    max_eval = evaluation
+            # Get best score for the actual player
+            if maximizing and evaluation[1] > m_eval[1] or not maximizing and evaluation[1] < m_eval[1]:
+                m_eval = evaluation
 
+    	    # Alpha-Beta pruning
+            if maximizing:
                 if evaluation[1] > alpha:
                     alpha = evaluation[1]
+            elif evaluation[1] < beta:
+                beta = evaluation[1]
 
-                if beta <= alpha:
-                    break
-        return max_eval
+            if beta <= alpha:
+                break
 
-    else:
-        min_eval = [None, +inf]
-        for row, column in product(range(player_instance.game_instance.board.rows), range(player_instance.game_instance.board.columns)):
-            if player_instance.game_instance.board.place_mark(row, column, actual_player.mark):
-                evaluation = minimax(
-                    player_instance, next_player, depht - 1, alpha, beta)
-                player_instance.game_instance.board.place_mark(
-                    row, column, None, True)  # undo move
-                evaluation[0] = row, column
-
-                if evaluation[1] < min_eval[1]:
-                    min_eval = evaluation
-
-                if evaluation[1] < beta:
-                    beta = evaluation[1]
-
-                if beta <= alpha:
-                    break
-        return min_eval
+    return m_eval    
     
     
 # TODO: implement algorithmns:
@@ -139,14 +122,15 @@ class HardPlayer(MediumPlayer):
 class ImpossiblePlayer(abstracts.IPlayer):
     """Never looses"""
 
-    def play_MM(self):
+    def play(self):
+        a = minimax(self, self)
         return minimax(self, self)[0]
 
-    def play_MnM(self):
-        return mini_n_max()
+    # def play_MnM(self):
+    #     return mini_n_max()
 
-    def play_Mn(self):
-        return max_n()
+    # def play_Mn(self):
+    #     return max_n()
 
 
 def main() -> int:
