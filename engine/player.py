@@ -9,28 +9,42 @@ from random import randint
 # related third party imports #
 # local application/library specific imports #
 import abstracts
+import engine.board as bd
 import helpers as hp
 
 
-def evaluate(board_state, mark):
+def evaluate(board_state: bd.BOARD_HINT, mark: str) -> int:
+    """Generate a score based in how many groups the given mark is alone
+
+    Args:
+        board_state (bd.BOARD_HINT): A board state
+        mark (list): the mark to get score
+
+    Returns:
+        int: score
+    """
     groups = []
 
+    # Add sets of all groups
     groups.extend(set(i) for i in hp.Matrix(board_state).rows())
     groups.extend(set(i) for i in hp.Matrix(board_state).columns())
     groups.extend(set(i) for i in hp.Matrix(board_state).p_diagonals())
     groups.extend(set(i) for i in hp.Matrix(board_state).s_diagonals())
 
+    # Remove Nones
     n_group = []
     for sublist in groups:
         cleaned = [elem for elem in sublist if elem is not None]
         if len(cleaned):
             n_group.append(cleaned)
 
+    # Store all raw score
     df = defaultdict(int)
     for i in n_group:
         if len(i) == 1 and i[0] is not None:
             df[i[0]] += 1
 
+    # Calculate score
     divi = df[mark]
     for key, value in df.items():
         if key != mark:
@@ -39,7 +53,19 @@ def evaluate(board_state, mark):
     return int(divi)
 
 
-def minimax(player_instance: abstracts.IPlayer, actual_player: abstracts.IPlayer, depht=-1, alpha=-inf, beta=+inf):
+def minimax(player_instance: abstracts.IPlayer, actual_player: abstracts.IPlayer, depht: int = -1, alpha: int = -inf, beta: int = +inf) -> list:
+    """Only Work for games with two players 
+
+    Args:
+        player_instance (abstracts.IPlayer): The players instance. This is the maximizing player
+        actual_player (abstracts.IPlayer): The player how holds the turn
+        depht (int, optional): Depht of the "three". Negative number to infinit steps. Defaults to -1.
+        alpha (int, optional): Do not change. Defaults to -inf.
+        beta (int, optional): Do not change. Defaults to +inf.
+
+    Returns:
+        list: the best move, score
+    """
     # Swap players
     next_player = player_instance.game_instance.player_list[1] \
         if actual_player.mark == player_instance.game_instance.player_list[0].mark \
@@ -108,7 +134,7 @@ class HumanPlayer(abstracts.IPlayer):
         column = hp.get_int_max('COLUMN: ',
                                 range(1, len(self.game_instance.board.board) + 2))
 
-        if isinstance(row, int) and isinstance(column, int):  # remove extra input
+        if isinstance(row, int) and isinstance(column, int):  # remove extra from input
             row, column = row-1, column-1
         return row, column
 

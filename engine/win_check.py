@@ -10,6 +10,7 @@ import helpers as hp
 
 class WinChecker(abstracts.IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
+    # TODO: add comments on this class
 
     def __init__(self, board_state: bd.BOARD_HINT, sequence_len: int) -> None:
         super().__init__(board_state)
@@ -58,13 +59,8 @@ class WinChecker(abstracts.IWinChecker):
             if (mark != None) and (mark not in checked):
                 data.append({'mark': mark, 'sequence': hp.longest_consecutive_occourence(group, mark)})
                 checked.add(mark)
-        
-        winners = []
-        for i in data:
-            if self._win_condition(i['sequence'][0]):
-                winners.append(i)
-                
-        return winners
+
+        return [i for i in data if self._win_condition(i['sequence'][0])]
 
     def _get_winner(self, group_list: list) -> dict:
         """Return information about wins in the given group list

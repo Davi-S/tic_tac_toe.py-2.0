@@ -76,8 +76,8 @@ class ClassicGame:
                 mn.print_title(f'{self.act_player.name.upper()} won!')
                 sleep(settings.MEDIUM_SLEEP_TIME)
                 mn.IndependentOpenMenu('Score',
-                                    score_format(self.players_score),
-                                    'Press Enter to continue').run()
+                                       score_format(self.players_score),
+                                       'Press Enter to continue').run()
                 return
 
             elif self.board.is_terminal():
@@ -86,16 +86,16 @@ class ClassicGame:
                 mn.print_title('draw'.upper())
                 sleep(settings.MEDIUM_SLEEP_TIME)
                 mn.IndependentOpenMenu('Score',
-                                    score_format(self.players_score),
-                                    'Press Enter to continue').run()
+                                       score_format(self.players_score),
+                                       'Press Enter to continue').run()
                 return
 
     def run(self):
         while True:
             self.match()
-            new_game_menu = mn.IndependentOptionMenu('play again',
-                                               [mn.Opt('Yes', '', 'Yes'),
-                                                mn.Opt('No', '', 'No')]).run()
+            new_game_menu = mn.IndependentOptionMenu(['play again',
+                                                      mn.Opt('Yes', '', 'Yes'),
+                                                      mn.Opt('No', '', 'No')]).run()
             match new_game_menu:
                 case 'Yes':
                     continue

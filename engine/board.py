@@ -56,9 +56,21 @@ class Board:
                     empty_places.append((row_idx, column_idx))
         return empty_places
     
-    def is_terminal(self):
+    def is_terminal(self) -> bool:
+        """Check if the board is filled
+
+        Returns:
+            bool: True if is filled, else False
+        """
         return len(self.empty_places()) == 0
             
-    def get_value(self, coord: tuple):
+    def get_value(self, coord: tuple) -> str:
+        """return the value on the given coordinate
+        Args:
+            coord (tuple): row and column
+
+        Returns:
+            str: the value on the coord
+        """
         return self.board[coord[0]][coord[1]]
         

@@ -13,6 +13,9 @@ import helpers as hp
 import menus as mn
 import settings
 
+# TODO: IMPORTANT
+# add more comments to code
+
 # players cannot have same name or mark
 PLAYERS: list[abstracts.IPlayer] = []
 
