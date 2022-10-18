@@ -1,6 +1,7 @@
 """Generic useful functions"""
 
 # standard library imports #
+import itertools
 from collections import defaultdict
 from random import randrange
 
@@ -11,7 +12,7 @@ from names import get_first_name
 import engine.board as bd
 
 
-def longest_consecutive_occourence(iterable, item) -> int:
+def longest_consecutive_occourence(iterable, item) -> list:
     """Count the longest consecutive occourence of the given item on the given iterable
 
     Args:
@@ -19,51 +20,64 @@ def longest_consecutive_occourence(iterable, item) -> int:
         key (value): the key being searched
 
     Returns:
-        int: longest consecutive occourence of the given item
+        list: occourence_len, (start_index, end_index)
     """
-    if item not in iterable:
-        return 0
-    longest = 0
-    actual = 0
-    previous = None
-    for i in iterable:
-        if i == item and previous == item:
-            actual += 1
-            if actual >= longest:
-                longest = actual
-            continue
-        actual = 0
-        previous = i
-    # "+ 1" because the counters start at 0 and if the code reach here, the number is on the list and there is at least one occourence of it
-    return longest + 1
+    item_list = None
+    longest_len = None
+    for i, j in itertools.groupby(iterable):
+        if i == item:
+            item_list = list(j)
+            longest_len = len(item_list)
+
+    indexes = [(i, i + len(item_list)) for i in range(len(iterable))
+               if iterable[i: i + len(item_list)] == item_list]
+
+    return [longest_len, indexes[0]]
 
 
+# TODO: make this return all the coordinates of the group
 class Matrix:
-    """Get groups of a matrix. (row, columns and diagonals)"""
-    @staticmethod
-    def _get_groups(matrix, group_function):
+    """Get information on a matrix"""
+    
+    def __init__(self, matrix: bd.BOARD_HINT) -> None:
+        self.matrix = matrix
+        
+    def _get_groups(self, group_function):
         grouping = defaultdict(list)
-        for x in range(len(matrix)):
-            for y in range(len(matrix[x])):
-                grouping[group_function(x, y)].append(matrix[x][y])
+        for x in range(len(self.matrix)):
+            for y in range(len(self.matrix[x])):
+                grouping[group_function(x, y)].append(self.matrix[x][y])
         return list(map(grouping.get, sorted(grouping)))
 
-    @classmethod
-    def rows(cls, matrix):
-        return cls._get_groups(matrix, lambda x, y: x)
+    def rows(self):
+        return self._get_groups(lambda x, y: x)
 
-    @classmethod
-    def columns(cls, matrix):
-        return cls._get_groups(matrix, lambda x, y: y)
+    def row_coords(self, index: int):
+        return [(index, i) for i in range(len(self.rows()[index]))]
+    
+    def columns(self):
+        return self._get_groups(lambda x, y: y)
+        
+    def column_coords(self, index: int):
+        return [(i, index) for i in range(len(self.columns()[index]))]
 
-    @classmethod
-    def p_diagonals(cls, matrix):
-        return cls._get_groups(matrix, lambda x, y: x + y)
+    def s_diagonals(self):
+        return self._get_groups(lambda x, y: x + y)
+    
+    def s_diagonal_coords(self, index: int):
+        return two_digit_sum(index)
 
-    @classmethod
-    def s_diagonals(cls, matrix):
-        return cls._get_groups(matrix, lambda x, y: x - y)
-
+    def p_diagonals(self):
+        return self._get_groups(lambda x, y: x - y)
+    
+    def p_diagonal_coords(self, index: int):
+        coords = two_digit_sum(index)
+        coords = self.valid_coords(coords)
+        return [(i[0], len(self.rows()[i[0]]) - i[1] - 1) for i in coords]
+    
+    def valid_coords(self, coords: list):
+        return[i for i in coords if (i[0] <= len(self.columns()) - 1) and (i[1] <= len(self.rows()) - 1)]
+         
 
 def is_char(char) -> bool:
     """Check if the given object is a single char
@@ -152,8 +166,22 @@ def print_formated_board(board: bd.BOARD_HINT) -> None:
                 if count < len(line):
                     print('|', end='')
 
+def two_digit_sum(res: int) -> list:
+    """Get all two digits that when sum, results in "res"
+
+    Args:
+        res (int): The final sum
+
+    Returns:
+        list: list of tuples
+    """
+    a = list(range(res +1))
+    b = list(range(res, -1, -1))
+    return list(zip(a, b))
 
 def main() -> int:
+    b = [['x', 'x', None], [None, 'o', None], ['x', None, 'o']]
+
     return 0
 
 

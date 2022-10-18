@@ -22,7 +22,7 @@ class WinChecker(abstracts.IWinChecker):
             bool: True is there is a win. False is there is no win
         """
         win_info = self.win_info()
-        return any(value[0] != None for value in win_info.values())
+        return any(value != None for value in win_info.values())
 
     def win_info(self) -> dict:
         """The information about a win
@@ -32,7 +32,7 @@ class WinChecker(abstracts.IWinChecker):
         """
         return {'row': self._get_row_winner(), 'column': self._get_column_winner(), 'p_diagonal': self._get_p_diagonal_winner(), 's_diagonal': self._get_s_diagonal_winner()}
 
-    def _win_condition(self, group: list) -> bool:
+    def _win_condition(self, val: int) -> bool:
         """Check if the win condition is true
 
         Args:
@@ -41,68 +41,78 @@ class WinChecker(abstracts.IWinChecker):
         Returns:
             bool: True is the win condition is true. False if the win condition is false
         """
-        data = {mark: hp.longest_consecutive_occourence(
-            group, mark) for mark in group if mark != None}
-        return [key for key, value in data.items() if value >= self.sequence_len]
+        return val >= self.sequence_len
+    
+    def _check_group(self, group: list) -> list[dict]:
+        """Return information about wins in the given group
 
-        # return len(set(group)) == 1 and set(group) != {None}
-
-    # sourcery skip: use-next
-    def _get_row_winner(self) -> tuple[str | None, int]:
-        """Return the mark that won on any row of the board.
-        If none won, return None and a negative index
+        Args:
+            group (list): a column, row or diagonal
 
         Returns:
-            tuple[str, int]: str: the mark that won. int: index of the row won
+            list[dict]: list with dictionary containing: mark, sequence_info, group_idx
         """
-        for idx, row in enumerate(hp.Matrix.rows(self.board_state)):
-            if winner := self._win_condition(row):
-                # return the mark and the index of the row where it won
-                return winner, idx
-        return None, -1
+        checked = set()
+        data = []
+        for mark in group:
+            if (mark != None) and (mark not in checked):
+                data.append({'mark': mark, 'sequence': hp.longest_consecutive_occourence(group, mark)})
+                checked.add(mark)
+        
+        winners = []
+        for i in data:
+            if self._win_condition(i['sequence'][0]):
+                winners.append(i)
+                
+        return winners
 
-    # sourcery skip: use-next
-    def _get_column_winner(self) -> tuple[str | None, int]:
-        """Return the mark that won on any column of the board.
-        If none won, return None and a negative index
+    def _get_winner(self, group_list: list) -> dict:
+        """Return information about wins in the given group list
+
+        Args:
+            group_list (list): a list containing groups
 
         Returns:
-            tuple[str, int]: str: the mark that won. int: index of the column won
+            dict: mark, sequence_info, group_idx
         """
-        for idx, column in enumerate(hp.Matrix.columns(self.board_state)):
-            if winner := self._win_condition(column):
-                # return the mark and the index of the column where it won
-                return winner, idx
-        return None, -1
-
-    def _get_p_diagonal_winner(self) -> tuple[str | None, int]:
-        """Return the mark that won in the primary diagonal of the board.
-        If none won, return None and a negative index
+        for idx, group in enumerate(group_list):
+            if winner := self._check_group(group):
+                winner[0]['group_idx'] = idx
+                return winner
+        return None
+        
+    def _get_row_winner(self) -> dict:
+        """Return information about wins in the rows
 
         Returns:
-            tuple[str, int]: str -> the mark that won. int -> index of the diagonal won:
-            0 for the primary diagonal and 1 for the secundary diagonal
+            dict: mark, sequence_info, group_idx
         """
-        for idx, diagonal in enumerate(hp.Matrix.p_diagonals(self.board_state)):
-            if winner := self._win_condition(diagonal):
-                # return the mark and the index of the column where it won
-                return winner, idx
-        return None, -1
-
-    def _get_s_diagonal_winner(self) -> tuple[str | None, int]:
-        """Return the mark that won on the secundary diagonal of the board.
-        If none won, return None and a negative index
+        return self._get_winner(hp.Matrix(self.board_state).rows())
+    
+    def _get_column_winner(self) -> dict:
+        """Return information about wins in the columns
 
         Returns:
-            tuple[str, int]: str -> the mark that won. int -> index of the diagonal won:
-            0 for the primary diagonal and 1 for the secundary diagonal
+            dict: mark, sequence_info, group_idx
         """
-        for idx, diagonal in enumerate(hp.Matrix.s_diagonals(self.board_state)):
-            if winner := self._win_condition(diagonal):
-                # return the mark and the index of the column where it won
-                return winner, idx
+        return self._get_winner(hp.Matrix(self.board_state).columns())
 
-        return None, -1
+    def _get_p_diagonal_winner(self) -> dict:
+        """Return information about wins in the primary diagonals
+
+        Returns:
+            dict: mark, sequence_info, group_idx
+        """
+        return self._get_winner(hp.Matrix(self.board_state).p_diagonals())
+
+    def _get_s_diagonal_winner(self) -> dict:
+        """Return information about wins in the secondary diagonals
+
+        Returns:
+            dict: mark, sequence_info, group_idx
+        """
+        return self._get_winner(hp.Matrix(self.board_state).s_diagonals())
+
 
 
 def main() -> int:

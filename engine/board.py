@@ -59,3 +59,6 @@ class Board:
     def is_terminal(self):
         return len(self.empty_places()) == 0
             
+    def get_value(self, coord: tuple):
+        return self.board[coord[0]][coord[1]]
+        
