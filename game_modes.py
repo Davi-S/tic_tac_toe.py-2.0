@@ -21,13 +21,13 @@ def score_format(data: dict[abstracts.IPlayer, int]):
 
 
 class ClassicGame:
-    def __init__(self, player_list: list[abstracts.IPlayer]) -> None:
+    def __init__(self, player_list: list[abstracts.IPlayer], board_size=3, win_sequence=3) -> None:
         self.player_list = player_list
         self.players_score = {player: 0 for player in self.player_list}
         self.players_cycle = cycle(self.player_list)
         self.act_player = None
-        self.board_size = 3
-        self.win_sequence = 3
+        self.board_size = board_size
+        self.win_sequence = win_sequence
         self.board = None
         self.win_checker = None
 
@@ -93,8 +93,8 @@ class ClassicGame:
     def run(self):
         while True:
             self.match()
-            new_game_menu = mn.IndependentOptionMenu(['play again',
-                                                      mn.Opt('Yes', '', 'Yes'),
+            new_game_menu = mn.IndependentOptionMenu('play again',
+                                                     [mn.Opt('Yes', '', 'Yes'),
                                                       mn.Opt('No', '', 'No')]).run()
             match new_game_menu:
                 case 'Yes':
