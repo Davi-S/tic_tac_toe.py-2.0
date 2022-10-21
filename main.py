@@ -13,9 +13,6 @@ import helpers as hp
 import menus as mn
 import settings
 
-# TODO: IMPORTANT
-# add more comments to code
-
 # players cannot have same name or mark
 PLAYERS: list[abstracts.IPlayer] = []
 BOARD_SIZE = 3
@@ -189,7 +186,7 @@ def custom_start():
     print('Set players before start a game')
     sleep(settings.MEDIUM_SLEEP_TIME)
 
-# TODO
+
 def custom_settings() -> None:
     players_menu = mn.NestedOptionMenu('custom mode settings',
                               [mn.Opt('Board size', 'Default to 3',
@@ -205,10 +202,18 @@ def custom_settings() -> None:
     players_menu.run()
 
 
+def ia_adapt_settings():
+    set_ia(plr.EasyPlayer)
+    set_players(1)
+    start_menu(gm.AdaptativeGame)
+    
+
+
 def game_modes() -> None:
     game_mode_menu = mn.NestedOptionMenu('game modes',
                                 [mn.Opt('Classic', 'Two players against each other. 3x3 board. Classic win rules. 3 IA difficulties', {classic_settings: {}}),
                                  mn.Opt('Free for All', 'Up to five players against each other. board up to 12x12. Custom sequence win. 1 IA difficulty', {custom_settings: {}}),
+                                 mn.Opt('Adaptative IA', 'Play agains the IA. The IA will adapt to your level each game for a skill match based', {ia_adapt_settings: {}}),
                                  mn.Opt('Back', '', 'return')])
     game_mode_menu.run()
 

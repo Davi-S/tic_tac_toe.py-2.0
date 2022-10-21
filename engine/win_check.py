@@ -10,7 +10,6 @@ import helpers as hp
 
 class WinChecker(abstracts.IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
-    # TODO: add comments on this class
 
     def __init__(self, board_state: bd.BOARD_HINT, sequence_len: int) -> None:
         super().__init__(board_state)
@@ -29,7 +28,7 @@ class WinChecker(abstracts.IWinChecker):
         """The information about a win
 
         Returns:
-            dict: {group: (mark, index)}
+            dict: {group: (mark, group_info)}
         """
         return {'row': self._get_row_winner(), 'column': self._get_column_winner(), 'p_diagonal': self._get_p_diagonal_winner(), 's_diagonal': self._get_s_diagonal_winner()}
 
@@ -37,7 +36,7 @@ class WinChecker(abstracts.IWinChecker):
         """Check if the win condition is true
 
         Args:
-            group (list): A row, column or great diagonal of the board state
+            val (int): How many marks in sequence
 
         Returns:
             bool: True is the win condition is true. False if the win condition is false
@@ -48,7 +47,7 @@ class WinChecker(abstracts.IWinChecker):
         """Return information about wins in the given group
 
         Args:
-            group (list): a column, row or diagonal
+            group (list): columns, rows or diagonals
 
         Returns:
             list[dict]: list with dictionary containing: mark, sequence_info, group_idx
@@ -66,7 +65,7 @@ class WinChecker(abstracts.IWinChecker):
         """Return information about wins in the given group list
 
         Args:
-            group_list (list): a list containing groups
+            group_list (list): a list containing groups of same type
 
         Returns:
             dict: mark, sequence_info, group_idx

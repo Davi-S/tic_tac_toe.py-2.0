@@ -75,6 +75,8 @@ def minimax(player_instance: abstracts.IPlayer, actual_player: abstracts.IPlayer
     if [value for value in player_instance.game_instance.win_checker.win_info().values() if value is not None]:
         # If is maximizing player turn, get a positive multiplier
         multiplier = +1 if next_player.mark == player_instance.mark else -1
+        
+        # +1 to avoid multiplications with < 1
         return [None, multiplier * (len(player_instance.game_instance.board.empty_places()) + 1)]
 
     # Max depht or draw
@@ -172,8 +174,12 @@ class HardPlayer(MediumPlayer):
 class ImpossiblePlayer(HardPlayer):
     """Never looses"""
 
-    def play(self):
-        return minimax(self, self)[0]
+    def play(self, depht: int = -1):  # sourcery skip: assign-if-exp, reintroduce-else
+        if depht <= 0:
+            possible_plays = self.game_instance.board.empty_places()
+            return possible_plays[randint(0, len(possible_plays) - 1)]
+
+        return minimax(self, self, depht)[0]
 
 
 def main() -> int:

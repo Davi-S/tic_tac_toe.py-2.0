@@ -1,4 +1,5 @@
-"""Menus"""
+"""Menus are based on the "Opt" dataclass.
+The menu call a callable that is linked with the chosen option"""
 
 # standard library imports #
 from abc import ABC
@@ -37,12 +38,20 @@ def print_title(title: str) -> None:
 
 
 class IndependentOptionMenu:
+    """IndependentOptionMenu do not appear on the menu title as previous menus.
+    It return the values of the called functions    
+    """
     def __init__(self, title: str, options: list[Opt], prompt: str = 'Choose an option: ') -> None:
         self.title = title
         self.options = options
         self.prompt = prompt     
         
-    def run(self):  # sourcery skip: for-append-to-extend
+    def run(self) -> list:  # sourcery skip: for-append-to-extend
+        """start the menu
+
+        Returns:
+            list: all the return of the called callables of the choosen option
+        """
         results = []
         while True:
             system('cls')
@@ -51,16 +60,17 @@ class IndependentOptionMenu:
             print()
             option = hp.get_int_max(self.prompt, range(1, len(self.options) + 1))
 
-            if not isinstance(option, int):
+            if not isinstance(option, int):  # Error message returned
                 print(option)
                 sleep(settings.MEDIUM_SLEEP_TIME)
                 continue
 
-            option -= 1
+            option -= 1  # Remove the extra. Options start at 1; indexes start at 0.
             
-            if isinstance(self.options[option].value, str):
+            if isinstance(self.options[option].value, str):  # No callable added
                 return self.options[option].value
             
+            # Call all callables and store results
             for key, value in self.options[option].value.items():
                 results.append(key(**value))
             
@@ -68,6 +78,8 @@ class IndependentOptionMenu:
         
     
 class IndependentOpenMenu:
+    """IndependentOpenMenu ask the user for a open input and return it
+    """
     def __init__(self, title: str, text: str, prompt: str) -> None:
         self.title = title
         self.text = text
@@ -83,6 +95,8 @@ class IndependentOpenMenu:
 
 # This abstract canot go to abstracts.py because PREVIOUS_MENUS global
 class NestedMenu(ABC):
+    """NestedMenu stores the parent menus and show them on the title
+    """
     def __init__(self, title: str) -> None:
         self.title = title
         
@@ -96,11 +110,13 @@ class NestedMenu(ABC):
 
 
 class NestedOptionMenu(NestedMenu):
+    """Like a IndependentOptionMenu, but is nested with parents (see NestedMenu)"""
     def __init__(self, title: str, options: list[Opt], prompt: str = 'Choose an option: ', one_time: bool = False) -> None:
         super().__init__(title)
         self.options = options
         self.prompt = prompt
-        # one_time is used to skip the previous menu
+        
+        # one_time is used to skip the menu when returning from parent
         self.one_time = one_time
 
     def run(self) -> str:
@@ -111,13 +127,14 @@ class NestedOptionMenu(NestedMenu):
             print()
             option = hp.get_int_max(self.prompt, range(1, len(self.options) + 1))
 
-            if not isinstance(option, int):
+            if not isinstance(option, int):  # Error message returned
                 print(option)
                 sleep(settings.MEDIUM_SLEEP_TIME)
                 continue
 
-            option -= 1
+            option -= 1  # Remove the extra. Options start at 1; indexes start at 0.
 
+            # Not implemented message
             if self.options[option].value is None:
                 system('cls')
                 print(
@@ -129,19 +146,21 @@ class NestedOptionMenu(NestedMenu):
             if self.options[option].value == 'return':
                 return
 
-            PREVIOUS_MENUS.append(self.title)
+            PREVIOUS_MENUS.append(self.title)  # Add menu on title
             
+            # Call all the callables
             for key, value in self.options[option].value.items():
                 key(**value)
         
             # back to pre-previous menu
             if self.one_time:
-                PREVIOUS_MENUS.pop()
+                PREVIOUS_MENUS.pop()  # Remove from nested title
                 return
             
-            PREVIOUS_MENUS.pop()
+            PREVIOUS_MENUS.pop()  # Remove from nested title
 
 class NestedOpenMenu(NestedMenu):
+    """Like a IndependentOpenMenu but has nested titles"""
     def __init__(self, title: str, text: str, prompt: str) -> None:
         super().__init__(title)
         self.text = text
