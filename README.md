@@ -79,36 +79,9 @@ The GUI is just the terminal for a while.
 
 My hands (no major frameworks used yet)
 
-## Getting Started
-
-Here is an example of how you may setup this project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-All the requisites are on the requirements.txt file
-install then using the command
-
-```sh
-$ pip install {the requirement name}
-```
-
-### Installation
-
-1. Clone the repo
-
-```sh
-git clone https://github.com/Davi-S/tic_tac_toe.py-2.0.git
-```
-
-3. Install Python 3+
-[install python](https://www.google.com/search?q=how+to+install+python&oq=how+to+install+python&aqs=edge.0.0i512l8.2703j0j9&sourceid=chrome&ie=UTF-8)
-
-4. Run python main.py on the main file of the repo
-
 ## Usage
 
-*No GUI, no screen shots*
+Dowload and run the "app.exe"
 
 ## Roadmap
 
