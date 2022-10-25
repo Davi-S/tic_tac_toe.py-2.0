@@ -1,14 +1,14 @@
 """Player concrete classes"""
 
 # standard library imports #
-from collections import defaultdict
-from itertools import product
-from math import inf
-from random import randint
+import collections as clct
+import itertools as itt
+import math as mt
+import random as rnd
 
 # related third party imports #
 # local application/library specific imports #
-import abstracts
+import abstracts as ab
 import engine.board as bd
 import helpers as hp
 
@@ -39,7 +39,7 @@ def evaluate(board_state: bd.BOARD_HINT, mark: str) -> int:
             n_group.append(cleaned)
 
     # Store all raw score
-    df = defaultdict(int)
+    df = clct.defaultdict(int)
     for i in n_group:
         if len(i) == 1 and i[0] is not None:
             df[i[0]] += 1
@@ -53,7 +53,7 @@ def evaluate(board_state: bd.BOARD_HINT, mark: str) -> int:
     return int(divi)
 
 
-def minimax(player_instance: abstracts.IPlayer, actual_player: abstracts.IPlayer, depht: int = -1, alpha: int = -inf, beta: int = +inf) -> list:
+def minimax(player_instance: ab.IPlayer, actual_player: ab.IPlayer, depht: int = -1, alpha: int = -mt.inf, beta: int = +mt.inf) -> list:
     """Only Work for games with two players 
 
     Args:
@@ -88,8 +88,8 @@ def minimax(player_instance: abstracts.IPlayer, actual_player: abstracts.IPlayer
 
     # Check if is the maximizing player turn
     maximizing = actual_player.mark == player_instance.mark
-    m_eval = [None, -inf] if maximizing else [None, +inf]
-    for row, column in product(range(player_instance.game_instance.board.rows), range(player_instance.game_instance.board.columns)):
+    m_eval = [None, -mt.inf] if maximizing else [None, +mt.inf]
+    for row, column in itt.product(range(player_instance.game_instance.board.rows), range(player_instance.game_instance.board.columns)):
         if player_instance.game_instance.board.place_mark(row, column, actual_player.mark):
             evaluation = minimax(
                 player_instance, next_player, depht - 1, alpha, beta)
@@ -112,14 +112,15 @@ def minimax(player_instance: abstracts.IPlayer, actual_player: abstracts.IPlayer
     return m_eval
 
 
-# TODO: implement algorithmns:
-# mini_n_max(max, min, min)
-def mini_n_max(depht, alfa, beta): pass
-# max_n(max, max, max)
-def max_n(depht, alfa, beta): pass
+# # TODO: implement algorithmns:
+# # mini_n_max(max, min, min)
+# def mini_n_max(depht: int, alfa: int, beta: int): pass
+# # max_n(max, max, max)
+# def max_n(depht: int, alfa: int, beta: int): pass
 
 
-class HumanPlayer(abstracts.IPlayer):
+class HumanPlayer(ab.IPlayer):
+    """Handle the input from the user as a player"""
     def __init__(self, name: str, mark: str) -> None:
         super().__init__(name, mark)
 
@@ -141,7 +142,7 @@ class HumanPlayer(abstracts.IPlayer):
         return row, column
 
 
-class EasyPlayer(abstracts.IPlayer):
+class EasyPlayer(ab.IPlayer):
     """Play on a random place of the board"""
 
     def __init__(self, name: str, mark: str) -> None:
@@ -154,30 +155,30 @@ class EasyPlayer(abstracts.IPlayer):
             tuple[int, int]: The coordinate chosen
         """
         possible_plays = self.game_instance.board.empty_places()
-        return possible_plays[randint(0, len(possible_plays) - 1)]
+        return possible_plays[rnd.randint(0, len(possible_plays) - 1)]
 
 
 class MediumPlayer(EasyPlayer):
     """Always block oponent wins if possible"""
 
-    def play(self):
+    def play(self) -> tuple[int, int]:
         return minimax(self, self, 2)[0]
 
 
 class HardPlayer(MediumPlayer):
     """Always win if possible"""
 
-    def play(self):
+    def play(self) -> tuple[int, int]:
         return minimax(self, self, 5)[0]
 
 
 class ImpossiblePlayer(HardPlayer):
     """Never looses"""
 
-    def play(self, depht: int = -1):  # sourcery skip: assign-if-exp, reintroduce-else
+    def play(self, depht: int = -1) -> tuple[int, int]:  # sourcery skip: assign-if-exp, reintroduce-else
         if depht <= 0:
             possible_plays = self.game_instance.board.empty_places()
-            return possible_plays[randint(0, len(possible_plays) - 1)]
+            return possible_plays[rnd.randint(0, len(possible_plays) - 1)]
 
         return minimax(self, self, depht)[0]
 

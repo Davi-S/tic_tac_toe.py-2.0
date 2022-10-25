@@ -1,14 +1,13 @@
 """Game modes loops"""
 
 # standard library imports #
-from itertools import cycle
-from math import cos, sqrt
-from os import system
-from time import sleep
+import itertools as itt
+import os
+import time as tm
 
 # related third party imports #
 # local application/library specific imports #
-import abstracts
+import abstracts as ab
 import engine.board as bd
 import engine.player as plr
 import engine.win_check as wc
@@ -17,12 +16,13 @@ import menus as mn
 import settings
 
 
-class ClassicGame:
-    def __init__(self, player_list: list[abstracts.IPlayer], board_size=3, win_sequence=3) -> None:
-        self.player_list = player_list
-        self.players_score = {player: 0 for player in self.player_list}
+class SimpleGame(ab.IGame):
+    """Simple game mode that can be customized"""
+    def __init__(self, player_list: list[ab.IPlayer], board_size=3, win_sequence=3) -> None:
+        self.players = player_list
+        self.players_score = {player: 0 for player in self.players}
         self.matchs_played = 0
-        self.players_cycle = cycle(self.player_list)
+        self.players_cycle = itt.cycle(self.players)
         self.act_player = None
         self.board_size = board_size
         self.win_sequence = win_sequence
@@ -41,32 +41,32 @@ class ClassicGame:
         self.board = bd.Board(self.board_size, self.board_size)
         self.win_checker = wc.WinChecker(self.board.board, self.win_sequence)
 
-    def get_play(self):
+    def get_play(self) -> tuple[int, int]:
         while True:  # Input loop
-            system('cls')
+            os.system('cls')
             hp.print_formated_board(self.board.board)
             print(f"It's {self.act_player.name.upper()} turn -> {self.act_player.mark}")
-            sleep(settings.SHORT_SLEEP_TIME)
+            tm.sleep(settings.SHORT_SLEEP_TIME)
             row, column = self.act_player.play()
             
             # If the return is not a int, it is a error message (str)
             if not isinstance(row, int):
                 print(row)
-                sleep(2)
+                tm.sleep(2)
                 continue
             if not isinstance(column, int):
                 print(column)
-                sleep(2)
+                tm.sleep(2)
                 continue
             
             # Check for valid play
             if (row, column) not in self.board.empty_places():
                 print('Choose a empty place')
-                sleep(2)
+                tm.sleep(2)
                 continue
             return row, column
 
-    def match(self):
+    def match(self) -> None:
         self.pre_match()
         while True:
             self.act_player = next(self.players_cycle)  # Change players
@@ -76,10 +76,10 @@ class ClassicGame:
             if self.win_checker.check_win():
                 self.players_score[self.act_player] += 1  # Add score
                 self.matchs_played += 1
-                system('cls')
+                os.system('cls')
                 hp.print_formated_board(self.board.board)
                 mn.print_title(f'{self.act_player.name.upper()} won!')
-                sleep(settings.MEDIUM_SLEEP_TIME)
+                tm.sleep(settings.MEDIUM_SLEEP_TIME)
                 
                 # Show score until press enter
                 mn.IndependentOpenMenu('Score',
@@ -89,10 +89,10 @@ class ClassicGame:
 
             elif self.board.is_terminal():  # Draw
                 self.matchs_played += 1
-                system('cls')
+                os.system('cls')
                 hp.print_formated_board(self.board.board)
                 mn.print_title('draw'.upper())
-                sleep(settings.MEDIUM_SLEEP_TIME)
+                tm.sleep(settings.MEDIUM_SLEEP_TIME)
                 
                 # Show score until press enter
                 mn.IndependentOpenMenu('Score',
@@ -100,7 +100,7 @@ class ClassicGame:
                                        'Press Enter to continue').run()
                 return
 
-    def run(self):
+    def run(self) -> None:
         while True:
             self.match()
             new_game_menu = mn.IndependentOptionMenu('play again',
@@ -113,27 +113,28 @@ class ClassicGame:
                     return
             return
         
-    def score_format(self):
-        a = ''.join(f'TOTAL MATCHS: {self.matchs_played}\n\n')
-        b = ''.join(f'{player.name} [ {player.mark} ] >>> {score}\n' for player, score in self.players_score.items())
-        c = ''.join(f'\nDRAWS: {self.matchs_played - sum(self.players_score.values())}')
-        return a + b + c
+    def score_format(self) -> str:
+        header = ''.join(f'TOTAL MATCHS: {self.matchs_played}\n\n')
+        content = ''.join(f'{player.name} [ {player.mark} ] >>> {score}\n' for player, score in self.players_score.items())
+        footer = ''.join(f'\nDRAWS: {self.matchs_played - sum(self.players_score.values())}')
+        return header + content + footer
 
 
-class AdaptativeGame(ClassicGame):
-    def __init__(self, player_list: list[abstracts.IPlayer], board_size=3, win_sequence=3, mmr: int = 0) -> None:
-        self.mmr = mmr
+class AdaptativeGame(SimpleGame):
+    """Sub class of SimpleGame with MMR adaptation"""
+    def __init__(self, player_list: list[ab.IPlayer], board_size=3, win_sequence=3, mmr: int = 0) -> None:
+        self.mmr = mmr  # Macth Making Rank. Used as the AI difficulty
         super().__init__(player_list, board_size, win_sequence)
     
-    def get_play(self):
+    def get_play(self) -> tuple[int, int]:
         # Just like the super class. Differs if it is IA turn
         while True:  # Input loop
-            system('cls')
+            os.system('cls')
             hp.print_formated_board(self.board.board)
             print(f"It's {self.act_player.name.upper()} turn -> {self.act_player.mark}")
-            sleep(settings.SHORT_SLEEP_TIME)
+            tm.sleep(settings.SHORT_SLEEP_TIME)
             
-            # If is IA turn, play with the current difficulty
+            # If is IA turn, play with the current MMR
             if isinstance(self.act_player, plr.ImpossiblePlayer):
                 row, column = self.act_player.play(round(self.mmr))
             else:
@@ -141,15 +142,15 @@ class AdaptativeGame(ClassicGame):
                 
             if not isinstance(row, int):
                 print(row)
-                sleep(2)
+                tm.sleep(2)
                 continue
             if not isinstance(column, int):
                 print(column)
-                sleep(2)
+                tm.sleep(2)
                 continue
             if (row, column) not in self.board.empty_places():
                 print('Choose a empty place')
-                sleep(2)
+                tm.sleep(2)
                 continue
             return row, column
 

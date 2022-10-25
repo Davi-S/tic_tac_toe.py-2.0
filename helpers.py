@@ -1,18 +1,19 @@
 """Generic useful functions"""
 
 # standard library imports #
-import itertools
-from collections import defaultdict
-from random import randrange
+import itertools as itt
+import collections as clct
+import random as rnd
+import typing as typ
 
 # related third party imports #
-from names import get_first_name
+import names
 
 # local application/library specific imports #
 import engine.board as bd
 
 
-def longest_consecutive_occourence(iterable, item) -> list:
+def longest_consecutive_occourence(iterable: typ.Iterable, item: typ.Any) -> list:
     """Count the longest consecutive occourence of the given item on the given iterable
 
     Args:
@@ -23,15 +24,15 @@ def longest_consecutive_occourence(iterable, item) -> list:
         list: occourence_len, (start_index, end_index)
     """
     ########### found on stackoverflow ##############
-    item_list = None
+    items = None
     longest_len = None
-    for i, j in itertools.groupby(iterable):
+    for i, j in itt.groupby(iterable):
         if i == item:
-            item_list = list(j)
-            longest_len = len(item_list)
+            items = list(j)
+            longest_len = len(items)
 
-    indexes = [(i, i + len(item_list)) for i in range(len(iterable))
-               if iterable[i: i + len(item_list)] == item_list]
+    indexes = [(i, i + len(items)) for i in range(len(iterable))
+               if iterable[i: i + len(items)] == items]
 
     return [longest_len, indexes[0]]
 
@@ -44,7 +45,7 @@ class Matrix:
         
     def _get_groups(self, group_function):
         ########### found on stackoverflow ##############
-        grouping = defaultdict(list)
+        grouping = clct.defaultdict(list)
         for x in range(len(self.matrix)):
             for y in range(len(self.matrix[x])):
                 grouping[group_function(x, y)].append(self.matrix[x][y])
@@ -83,16 +84,16 @@ class Matrix:
         return[i for i in coords if (i[0] <= len(self.columns()) - 1) and (i[1] <= len(self.rows()) - 1)]
          
 
-def is_char(char) -> bool:
+def is_char(char: typ.Any) -> bool:
     """Check if the given object is a single char
 
     Args:
-        char (any type): What will be checked
+        char (Any): What will be checked
 
     Returns:
         bool: Return True if the given object is a single char. Else, False
     """
-    char = str(char)
+    char: str = str(char)
     return char.isalpha() and len(char) == 1
 
 
@@ -106,7 +107,7 @@ def random_char(exclude: list) -> str:
         str: The letter
     """
     while True:
-        char = ''.join(chr(randrange(97, 122)))
+        char = ''.join(chr(rnd.randrange(97, 122)))
         if char not in exclude:
             break
     return char
@@ -122,7 +123,7 @@ def random_name(exclude: list) -> str:
         str: The name
     """
     while True:
-        name = get_first_name()
+        name = names.get_first_name()
         if name not in exclude:
             break
     return name
@@ -170,8 +171,8 @@ def print_formated_board(board: bd.BOARD_HINT) -> None:
                 if count < len(line):
                     print('|', end='')
 
-def two_digit_sum(res: int) -> list:
-    """Get all two digits that when sum, results in "res"
+def two_digit_sum(result: int) -> list:
+    """Get all two digits that when added together, results in "result"
 
     Args:
         res (int): The final sum
@@ -179,13 +180,11 @@ def two_digit_sum(res: int) -> list:
     Returns:
         list: list of tuples
     """
-    a = list(range(res +1))
-    b = list(range(res, -1, -1))
-    return list(zip(a, b))
+    first = list(range(result +1))
+    second = list(range(result, -1, -1))
+    return list(zip(first, second))
 
 def main() -> int:
-    b = [['x', 'x', None], [None, 'o', None], ['x', None, 'o']]
-
     return 0
 
 

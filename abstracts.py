@@ -1,36 +1,38 @@
 """Abstractions"""
 
 # standard library imports #
-from abc import ABC, abstractmethod
+import abc
 
 # related third party imports #
 # local application/library specific imports #
 import engine.board as bd
 
 
-class IWinChecker(ABC):
+class IWinChecker(abc.ABC):
+    """Gets a board state to check for wins"""
     def __init__(self, board_state: bd.BOARD_HINT) -> None:
         self.board_state: bd.BOARD_HINT = board_state  # The board state to check for wins
 
-    @abstractmethod
+    @abc.abstractmethod
     def check_win(self) -> bool:
         pass
 
-    @abstractmethod
+    @abc.abstractmethod
     def win_info(self) -> dict:
         pass
 
 
-class IGame(ABC):
+class IGame(abc.ABC):
+    """"""
     board: bd.Board
     win_checker: IWinChecker
 
-    @abstractmethod
-    def run():
+    @abc.abstractmethod
+    def run() -> None:
         pass
 
 
-class IPlayer(ABC):
+class IPlayer(abc.ABC):
     """A player of the game. Receives a board state and chose where to play."""
 
     def __init__(self, name: str, mark: str) -> None:
@@ -38,5 +40,5 @@ class IPlayer(ABC):
         self.mark = mark
         self.game_instance = None
 
-    def set_game(self, game_instance: IGame):
+    def set_game(self, game_instance: IGame) -> None:
         self.game_instance = game_instance

@@ -2,13 +2,14 @@
 
 # standard library imports #
 # related third party imports #
+
 # local application/library specific imports #
-import abstracts
+import abstracts as ab
 import engine.board as bd
 import helpers as hp
 
 
-class WinChecker(abstracts.IWinChecker):
+class WinChecker(ab.IWinChecker):
     """A row, column of great diagonal if fully filled with only one mark"""
 
     def __init__(self, board_state: bd.BOARD_HINT, sequence_len: int) -> None:

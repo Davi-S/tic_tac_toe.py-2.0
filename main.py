@@ -1,25 +1,25 @@
 """Main file. Meant do be run"""
 
 # standard library imports #
-from os import system
-from time import sleep
+import os
+import time as tm
 
 # related third party imports #
 # local application/library specific imports #
-import abstracts
+import abstracts as ab
 import engine.player as plr
 import game_modes as gm
 import helpers as hp
 import menus as mn
 import settings
 
-# players cannot have same name or mark
-PLAYERS: list[abstracts.IPlayer] = []
+
+PLAYERS: list[ab.IPlayer] = []
 BOARD_SIZE = 3
 WIN_SEQUENCE = 3
 
 
-def start_menu(game_mode, **kwargs):
+def start_menu(game_mode: ab.IGame, **kwargs) -> None:
     start_menu = mn.NestedOptionMenu('start game',
                            [mn.Opt('Start',
                                 'Players awaiting: {}'.format(str([player.name for player in PLAYERS]).replace("\'", "")),
@@ -29,20 +29,21 @@ def start_menu(game_mode, **kwargs):
                                 'return')],
                            one_time=True)
     start_menu.run()
-    # Prevent player stack when option 'back'
+    
+    # Prevent player stack when choose option 'back'
     PLAYERS.clear()
 
 
-def set_ia(dificulty: abstracts.IPlayer) -> None:
+def set_ia(dificulty: ab.IPlayer) -> None:
     name = hp.random_name([player.name for player in PLAYERS])
     mark = hp.random_char([player.mark for player in PLAYERS])
     PLAYERS.append(dificulty(name, mark))
     mn.IndependentOpenMenu('ia profile',
-                   f'The IA is set\n\nName: {name}\nMark: {mark}',
-                   'Press Enter to continue').run()
+                           f'The IA is set\n\nName: {name}\nMark: {mark}',
+                           'Press Enter to continue').run()
 
 
-def ia_configuration():
+def ia_configuration() -> None:
     ia_dificulty = mn.NestedOptionMenu('ia dificulty',
                               [mn.Opt('Easy', '',
                                    {set_ia: {'dificulty': plr.EasyPlayer}}),
@@ -56,7 +57,7 @@ def ia_configuration():
     ia_dificulty.run()
 
 
-def set_players(quantity: int):
+def set_players(quantity: int) -> None:
     count = 1
     while count <= quantity:
         text = 'Your profile' if quantity == 1 else f'Set {count}º player profile'
@@ -66,27 +67,22 @@ def set_players(quantity: int):
 
         if not hp.is_char(mark):
             print('The mark must be one letter')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
         if mark in [player.mark for player in PLAYERS]:
             print('This mark is alread in use')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
         if name in [player.name for player in PLAYERS]:
             print('This name is alread in use')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
 
         PLAYERS.append(plr.HumanPlayer(name, mark))
         count += 1
 
 
-def classic_configuration(opponent: str):
-    """Sequence of functions before start the game
-
-    Args:
-        opponent (str): IA or Local
-    """
+def classic_configuration(opponent: str) -> None:
     match opponent:
         case 'IA':
             ia_configuration()
@@ -94,7 +90,7 @@ def classic_configuration(opponent: str):
         case 'Local':
             set_players(2)
 
-    start_menu(gm.ClassicGame)
+    start_menu(gm.SimpleGame)
 
 
 def classic_settings() -> None:
@@ -108,7 +104,7 @@ def classic_settings() -> None:
     players_menu.run()
 
 
-def board_configuration():
+def board_configuration() -> None:
     global BOARD_SIZE
     while True:
         board_size = mn.NestedOpenMenu('choose board size', '', 'board size: ').run()
@@ -116,19 +112,19 @@ def board_configuration():
             board_size = int(board_size)
         except ValueError:
             print('Pick a valid board size. Beetwen 3 and 12')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
             
         if not 3 <= board_size <= 12:
             print('Pick a valid board size. Beetwen 3 and 12')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
         
         BOARD_SIZE = board_size
         return
     
     
-def win_sequence_configuration():
+def win_sequence_configuration() -> None:
     global WIN_SEQUENCE
     while True:
         win_sequence = mn.NestedOpenMenu('choose win sequence size', '', 'win sequence size: ').run()
@@ -137,19 +133,19 @@ def win_sequence_configuration():
             win_sequence = int(win_sequence)
         except ValueError:
             print(f'Pick a valid win sequence size. Beetwen 3 and {BOARD_SIZE} (board size)')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
         
         if not 3 <= win_sequence <= BOARD_SIZE:
             print(f'Pick a valid win sequence size. Beetwen 3 and {BOARD_SIZE}')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
         
         WIN_SEQUENCE = win_sequence
         return
 
 
-def custom_players_configuration():
+def custom_players_configuration() -> None:
     while True:
         local_players_amount = mn.NestedOpenMenu('Local Players number', 'How many local players are going to play', 'amout: ').run()
         IA_amount = mn.NestedOpenMenu('IA Players number', 'How many IA are going to play (easy difficulty)', 'amout: ').run()
@@ -158,14 +154,14 @@ def custom_players_configuration():
             IA_amount = int(IA_amount)
         except ValueError:
             print('Pick a valid integer number')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
         
         total = local_players_amount + IA_amount
             
         if not 2 <= total <= 5:
             print('Pick a valid total players amout. Beetwen 2 and 5')
-            sleep(settings.MEDIUM_SLEEP_TIME)
+            tm.sleep(settings.MEDIUM_SLEEP_TIME)
             continue
         
         for _ in range(IA_amount):
@@ -175,16 +171,16 @@ def custom_players_configuration():
         return
 
 
-def custom_start():
+def custom_start() -> None:
     if PLAYERS:
         print('\n\nActual settings')
         print(f'Board size: {BOARD_SIZE}\nWin sequence: {WIN_SEQUENCE}')
-        sleep(settings.LONG_SLEEP_TIME)
-        start_menu(gm.ClassicGame, board_size = BOARD_SIZE, win_sequence = WIN_SEQUENCE)
+        tm.sleep(settings.LONG_SLEEP_TIME)
+        start_menu(gm.SimpleGame, board_size = BOARD_SIZE, win_sequence = WIN_SEQUENCE)
         return
 
     print('Set players before start a game')
-    sleep(settings.MEDIUM_SLEEP_TIME)
+    tm.sleep(settings.MEDIUM_SLEEP_TIME)
 
 
 def custom_settings() -> None:
@@ -202,7 +198,7 @@ def custom_settings() -> None:
     players_menu.run()
 
 
-def ia_adapt_settings():
+def ia_adapt_settings() -> None:
     set_ia(plr.EasyPlayer)
     set_players(1)
     start_menu(gm.AdaptativeGame)
@@ -226,7 +222,7 @@ def main_menu() -> None:
 
 
 def main() -> int:
-    system('cls')
+    os.system('cls')
     main_menu()
     return 0
 
