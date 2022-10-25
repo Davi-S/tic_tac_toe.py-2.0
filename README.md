@@ -27,14 +27,11 @@
 
 * [About the Project](#about-the-project)
 * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
 * [Usage](#usage)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [Authors](#authors)
-* [Acknowledgements](#acknowledgements)
+* [CS50 Final Project](#cs50-final-project)
 
 ## About The Project
 
@@ -79,36 +76,9 @@ The GUI is just the terminal for a while.
 
 My hands (no major frameworks used yet)
 
-## Getting Started
-
-Here is an example of how you may setup this project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-All the requisites are on the requirements.txt file
-install then using the command
-
-```sh
-$ pip install {the requirement name}
-```
-
-### Installation
-
-1. Clone the repo
-
-```sh
-git clone https://github.com/Davi-S/tic_tac_toe.py-2.0.git
-```
-
-3. Install Python 3+
-[install python](https://www.google.com/search?q=how+to+install+python&oq=how+to+install+python&aqs=edge.0.0i512l8.2703j0j9&sourceid=chrome&ie=UTF-8)
-
-4. Run python main.py on the main file of the repo
-
 ## Usage
 
-*No GUI, no screen shots*
+Dowload and run the "app.exe"
 
 ## Roadmap
 
@@ -132,4 +102,41 @@ Contributions are what make the open source community such an amazing place to b
 
 ## Authors
 
-* **Davi Sampaio** - *Python developer for 3+ years * - [Davi Sampaio](https://github.com/Davi-S/) - *Everything*
+* **Davi Sampaio** - *Python developer for 3+ years * - [Davi Sampaio](https://github.com/Davi-S/) - *Made everything*
+
+## CS50 Final Project
+
+This Project was made as the final project of CS50
+
+### What is being approach in this project
+
+#### Matrices relations and patterns
+
+Every matrix is compose of rows, columns, and its intersections, the diagonals. Any of these groups can be found with X and Y axis relation. Find these relations is very important to find patterns and information on each group of the matrix
+
+![image](https://user-images.githubusercontent.com/67160664/197230849-e44591b0-a0e2-4c6c-b173-275aa5e08f0d.png)
+
+The python implementation of this pattern can be found on the "Matrix" class in the "helpers.py" file.
+
+#### Implementation of Minimax algorithm and its variations (AI)
+
+The minimax is a AI algorithm. It is very popular and usefull. Taking a look at the "engine\players.py" file, you can find a implementation of the "minimax" algorithm with "alfa-beta pruning".
+
+Together with the "evaluate function" it can find the best interaction with the matrix. It can be: adding a value on the matrix, finding a combination, excluding information, etc...
+
+#### Usage of the above topics in a TicTacToe engine
+
+Matices and AI can be very powerfull. In this project, I chose to implement a TicTacToe game engine.
+
+The engine is not just a simple 2 player game on a 3x3 board.
+
+The implementation of the "Board Class" allow us to have simple irregular boards, like 3x4 and 8x18; and complex irregular boards, like:
+
+![image](https://user-images.githubusercontent.com/67160664/197236042-8e4aac95-7ed6-414c-aaa6-5157c2487a8b.png)
+
+and still be able to get all information needed; in this case, check for winning patters on the board.
+
+The "WinChecker" class, also can interpret multiple patters on the board and tell if there is a win
+
+The engine, has potential to be inplement in several game modes and even online multiplayer. On the "main.py" and "game_modes.py" file, you can find some simple implementations of game modes and terminal menus
+
