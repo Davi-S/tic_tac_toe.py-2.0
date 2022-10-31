@@ -113,7 +113,7 @@ def minimax(player_instance: ab.IPlayer, actual_player: ab.IPlayer, depht: int =
     return m_eval
 
 
-# # TODO: implement algorithmns:
+# # TODO: implement algorithmns
 # # mini_n_max(max, min, min)
 # def mini_n_max(depht: int, alfa: int, beta: int): pass
 # # max_n(max, max, max)
