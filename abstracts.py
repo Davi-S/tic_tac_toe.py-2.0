@@ -6,26 +6,13 @@ import abc
 # related third party imports #
 # local application/library specific imports #
 import engine.board as bd
-
-
-class IWinChecker(abc.ABC):
-    """Gets a board state to check for wins"""
-    def __init__(self, board_state: bd.BOARD_HINT) -> None:
-        self.board_state: bd.BOARD_HINT = board_state  # The board state to check for wins
-
-    @abc.abstractmethod
-    def check_win(self) -> bool:
-        pass
-
-    @abc.abstractmethod
-    def win_info(self) -> dict:
-        pass
+from engine.win_check import WinChecker
 
 
 class IGame(abc.ABC):
     """"""
     board: bd.Board
-    win_checker: IWinChecker
+    win_checker: WinChecker
 
     @abc.abstractmethod
     def run() -> None:

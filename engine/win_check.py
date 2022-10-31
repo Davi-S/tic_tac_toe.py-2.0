@@ -9,11 +9,11 @@ import engine.board as bd
 import helpers as hp
 
 
-class WinChecker(ab.IWinChecker):
+class WinChecker:
     """A row, column of great diagonal if fully filled with only one mark"""
 
     def __init__(self, board_state: bd.BOARD_HINT, sequence_len: int) -> None:
-        super().__init__(board_state)
+        self.board_state: bd.BOARD_HINT = board_state  # The board state to check for wins
         self.sequence_len = sequence_len
 
     def check_win(self) -> bool:
