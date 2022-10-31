@@ -199,7 +199,7 @@ def custom_settings() -> None:
 
 
 def ia_adapt_settings() -> None:
-    set_ia(plr.EasyPlayer)
+    set_ia(plr.AdaptativePlayer)
     set_players(1)
     start_menu(gm.AdaptativeGame)
     

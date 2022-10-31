@@ -135,7 +135,7 @@ class AdaptativeGame(SimpleGame):
             tm.sleep(settings.SHORT_SLEEP_TIME)
             
             # If is IA turn, play with the current MMR
-            if isinstance(self.act_player, plr.ImpossiblePlayer):
+            if isinstance(self.act_player, plr.AdaptativePlayer):
                 row, column = self.act_player.play(round(self.mmr))
             else:
                 row, column = self.act_player.play()
@@ -183,7 +183,7 @@ class AdaptativeGame(SimpleGame):
         return
     
 def main() -> int:
-    game = AdaptativeGame([plr.HumanPlayer('Davi', 'x'), plr.ImpossiblePlayer('Bot', 'o')])
+    game = AdaptativeGame([plr.HumanPlayer('Davi', 'x'), plr.AdaptativePlayer('Bot', 'o')])
     game.run()
     return 0
 

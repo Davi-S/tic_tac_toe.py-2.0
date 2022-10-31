@@ -75,7 +75,7 @@ def minimax(player_instance: ab.IPlayer, actual_player: ab.IPlayer, depht: int =
     if [value for value in player_instance.game_instance.win_checker.win_info().values() if value is not None]:
         # If is maximizing player turn, get a positive multiplier
         multiplier = +1 if next_player.mark == player_instance.mark else -1
-        
+
         # +1 to avoid multiplications with < 1
         return [None, multiplier * (len(player_instance.game_instance.board.empty_places()) + 1)]
 
@@ -94,7 +94,8 @@ def minimax(player_instance: ab.IPlayer, actual_player: ab.IPlayer, depht: int =
             evaluation = minimax(
                 player_instance, next_player, depht - 1, alpha, beta)
             evaluation[0] = row, column
-            player_instance.game_instance.board.place_mark(row, column, None, True)  # Undo move
+            player_instance.game_instance.board.place_mark(
+                row, column, None, True)  # Undo move
 
             # Get best score for the actual player
             if maximizing and evaluation[1] > m_eval[1] or not maximizing and evaluation[1] < m_eval[1]:
@@ -121,6 +122,7 @@ def minimax(player_instance: ab.IPlayer, actual_player: ab.IPlayer, depht: int =
 
 class HumanPlayer(ab.IPlayer):
     """Handle the input from the user as a player"""
+
     def __init__(self, name: str, mark: str) -> None:
         super().__init__(name, mark)
 
@@ -158,24 +160,23 @@ class EasyPlayer(ab.IPlayer):
         return possible_plays[rnd.randint(0, len(possible_plays) - 1)]
 
 
-class MediumPlayer(EasyPlayer):
-    """Always block oponent wins if possible"""
-
+class MediumPlayer(ab.IPlayer):
     def play(self) -> tuple[int, int]:
         return minimax(self, self, 2)[0]
 
 
-class HardPlayer(MediumPlayer):
-    """Always win if possible"""
-
+class HardPlayer(ab.IPlayer):
     def play(self) -> tuple[int, int]:
         return minimax(self, self, 5)[0]
 
 
-class ImpossiblePlayer(HardPlayer):
-    """Never looses"""
+class ImpossiblePlayer(ab.IPlayer):
+    def play(self) -> tuple[int, int]:
+        return minimax(self, self, -1)[0]
 
-    def play(self, depht: int = -1) -> tuple[int, int]:  # sourcery skip: assign-if-exp, reintroduce-else
+
+class AdaptativePlayer(ab.IPlayer): # sourcery skip: assign-if-exp, reintroduce-else
+    def play(self, depht: int = -1) -> tuple[int, int]:
         if depht <= 0:
             possible_plays = self.game_instance.board.empty_places()
             return possible_plays[rnd.randint(0, len(possible_plays) - 1)]
