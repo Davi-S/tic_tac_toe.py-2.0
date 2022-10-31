@@ -1,5 +1,5 @@
 <p align="center">
-	<a><img src="assets/Logo.png" alt="logo" width="200" height="200"></a>
+	<a><img src="assets/logo.png" alt="logo" width="200" height="200"></a>
 	<h3 align="center">Matriks</h3>
 	<p align="center">The engine upgrade of the old tic-tac-toe</p>
 </p>
