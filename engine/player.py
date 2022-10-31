@@ -67,9 +67,9 @@ def minimax(player_instance: ab.IPlayer, actual_player: ab.IPlayer, depht: int =
         list: the best move, score
     """
     # Swap players
-    next_player = player_instance.game_instance.player_list[1] \
-        if actual_player.mark == player_instance.game_instance.player_list[0].mark \
-        else player_instance.game_instance.player_list[0]
+    next_player = player_instance.game_instance.players[1] \
+        if actual_player.mark == player_instance.game_instance.players[0].mark \
+        else player_instance.game_instance.players[0]
 
     # Chek wins
     if [value for value in player_instance.game_instance.win_checker.win_info().values() if value is not None]:
