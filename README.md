@@ -1,35 +1,36 @@
 <p align="center">
-	<a href="https://github.com/Davi-S/tic_tac_toe.py-2.0"><img src="TODO: add logo" alt="Logo" width="100" height="100"></a>
+	<a><img src="assets/Logo.png" alt="logo" width="200" height="200"></a>
 	<h3 align="center">Matriks</h3>
 	<p align="center">The engine upgrade of the old tic-tac-toe</p>
 </p>
 
 ## Table Of Contents
-
-* [About the Project](#about-the-project)
-* [Overal view](#overal-view)
-* [Screenshots](#screenshots)
-* [Code Explained](#code-explained)
- * [engine/](#engine/)
-   * [board.py](#board.py)
-   * [player.py](#player.py)
-     * [def minimax](#def-minimax)
-	 * [class IPlayer](#class-iplayer)
-   * [win_check.py](#win_check.py)
- * [abstracts.py](#abstracts.py)
- * [game_modes.py](#game_modes.py)
- * [helpers.py](#helpers.py)
-   * [class Matrix](#class-matrix)
- * [main.py](#main.py)
- * [menus.py](#menus.py)
- * [settings.py](#settings.py)
-
-
+- [Table Of Contents](#table-of-contents)
+- [About The Project](#about-the-project)
+- [Overal view](#overal-view)
+- [Screenshots](#screenshots)
+- [Code Explained](#code-explained)
+  - [engine/](#engine)
+    - [board.py](#boardpy)
+    - [player.py](#playerpy)
+      - [def minimax](#def-minimax)
+      - [class IPlayer](#class-iplayer)
+    - [win_check.py](#win_checkpy)
+  - [abstracts.py](#abstractspy)
+  - [game_modes.py](#game_modespy)
+  - [helpers.py](#helperspy)
+    - [class Matrix](#class-matrix)
+  - [main.py](#mainpy)
+  - [menus.py](#menuspy)
+  - [settings.py](#settingspy)
 
 ## About The Project
-> [YouTube video](TODO: add the yt video)
-[GitHub repository](https://github.com/Davi-S/tic_tac_toe.py-2.0)
-[Author GitHub](https://github.com/Davi-S)
+TODO: add the yt video
+> [YouTube video]()
+
+> [GitHub repository](https://github.com/Davi-S/tic_tac_toe.py-2.0)
+
+> [Author GitHub](https://github.com/Davi-S)
 
 This project is about **Matrices relations** and **Artificial Intelligence** integrated with the tic-tac-toe game to create an uncommon **game engine**.
 There are many great tic-tac-toe games out there, however, I didn't find one that suit my expectations of the game potential, so I created this enhanced one.
@@ -48,7 +49,11 @@ As said earlier, this project is not a game itself, it is an **engine** for crea
 The code was written using the [Google Python Style Guide Rules](https://google.github.io/styleguide/pyguide.html).
 
 ## Screenshots
-TODO: add screenshots
+<img src='assets/ss1-c.png'/>
+<img src='assets/ss2-c.png'/>
+<img src='assets/ss3-c.png'/>
+<img src='assets/ss4-c.png'/>
+<img src='assets/ss6-c.png'/>
 
 ## Code Explained
 ### engine/
