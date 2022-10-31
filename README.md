@@ -1,142 +1,130 @@
-<br/>
 <p align="center">
-  <a href="https://github.com/Davi-S/tic_tac_toe.py-2.0">
-    <img src="https://raw.githubusercontent.com/SarvarKh/Tic-Tac-Toe-with_Ruby/master/tic1.gif?raw=true" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">TicTacToe v2.0</h3>
-
-  <p align="center">
-    The new version of the old TicTacToe. More game options and a lot of fun with a bigger player limit (and more).
-    <br/>
-    <br/>
-    <a href="https://github.com/Davi-S/tic_tac_toe.py-2.0"><strong>Explore the docs »</strong></a>
-    <br/>
-    <br/>
-    <a href="https://github.com/Davi-S/tic_tac_toe.py-2.0">View Demo</a>
-    .
-    <a href="https://github.com/Davi-S/tic_tac_toe.py-2.0/issues">Report Bug</a>
-    .
-    <a href="https://github.com/Davi-S/tic_tac_toe.py-2.0/issues">Request Feature</a>
-  </p>
+	<a href="https://github.com/Davi-S/tic_tac_toe.py-2.0"><img src="TODO: add logo" alt="Logo" width="100" height="100"></a>
+	<h3 align="center">Matriks</h3>
+	<p align="center">The engine upgrade of the old tic-tac-toe</p>
 </p>
-
-![Downloads](https://img.shields.io/github/downloads/Davi-S/tic_tac_toe.py-2.0/total) ![Contributors](https://img.shields.io/github/contributors/Davi-S/tic_tac_toe.py-2.0?color=dark-green) ![Forks](https://img.shields.io/github/forks/Davi-S/tic_tac_toe.py-2.0?style=social) ![Stargazers](https://img.shields.io/github/stars/Davi-S/tic_tac_toe.py-2.0?style=social) ![Issues](https://img.shields.io/github/issues/Davi-S/tic_tac_toe.py-2.0) ![License](https://img.shields.io/github/license/Davi-S/tic_tac_toe.py-2.0) 
 
 ## Table Of Contents
 
 * [About the Project](#about-the-project)
-* [Built With](#built-with)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [Authors](#authors)
-* [CS50 Final Project](#cs50-final-project)
+* [Overal view](#overal-view)
+* [Screenshots](#screenshots)
+* [Code Explained](#code-explained)
+ * [engine/](#engine/)
+   * [board.py](#board.py)
+   * [player.py](#player.py)
+     * [def minimax](#def-minimax)
+	 * [class IPlayer](#class-iplayer)
+   * [win_check.py](#win_check.py)
+ * [abstracts.py](#abstracts.py)
+ * [game_modes.py](#game_modes.py)
+ * [helpers.py](#helpers.py)
+   * [class Matrix](#class-matrix)
+ * [main.py](#main.py)
+ * [menus.py](#menus.py)
+ * [settings.py](#settings.py)
+
+
 
 ## About The Project
+> [YouTube video](TODO: add the yt video)
+[GitHub repository](https://github.com/Davi-S/tic_tac_toe.py-2.0)
+[Author GitHub](https://github.com/Davi-S)
 
-From the creators of Chess (may not)... It's coming... Tic-to-Tac 2.0!
-As the original developers (ancient egyptians) abandoned the project and didn't give us an update for about {2022 - (-1300)} years, I decided to implement some new features by myself on the E-version of the game.
+This project is about **Matrices relations** and **Artificial Intelligence** integrated with the tic-tac-toe game to create an uncommon **game engine**.
+There are many great tic-tac-toe games out there, however, I didn't find one that suit my expectations of the game potential, so I created this enhanced one.
+With Matriks, the possibilities for variations of the classical game are unlimited.
 
-Here is some of the new and upcoming features of the game:
-* Wider board.
-No more 3x3 boring board, now you can play on a board the size of your monitor with as many squares as you want.
-(The size of a square should not be smaller than 3x3 pixels)
+Here are some key potentials of Matriks:
 
-* No player limit.
-Now you can play with more than two people! No more people waiting in line to play.
-(Calm down, you can still play against the computer if you don't have friends)
+* Can be easily incorporated with a UI.
+* No 3x3 board limitations. Tic-tac-toe can now be played even on irregular boards.
+* More players. With Matriks, the 2 player limit is gone! More players, more fun.
+* AI to make everything more interesting.
 
-* More game modes.
-Now you can play in:
--teams play
--every man for himself
--multiple games at once
--quickmatch
--puzzes
--and more!
+## Overal view
+As said earlier, this project is not a game itself, it is an **engine** for creating variations of the classical tic-tac-toe. That's why I have not implemented a fancy **GUI** (graphical user interface). Instead, I made a simple text-based **TUI** (terminal user interface) just for some presentation of the project.
 
-This project is still in development.
+The code was written using the [Google Python Style Guide Rules](https://google.github.io/styleguide/pyguide.html).
 
-Of course, not all features are available yet. But we (only me) are working (weekends only) to make updates available as soon as possible.
+## Screenshots
+TODO: add screenshots
 
-If you have thanks, complaints, bugs to report or want to help with development, just contact me.
+## Code Explained
+### engine/
+The main part of the project is the content inside the **engine/** folder. It is composed of a **board**, a **player**, and a **win checker**.
+Here is where all the important logic happens
 
-The GUI is just the terminal for a while.
+#### board.py
+The board file contains the **class Board**.
+The **class Board**  has a **two-dimensional list** as an attribute that stores the game state and some other methods to modify it
 
-*western wanted poster*
+#### player.py
+This file is responsible for managing all player-related stuff; like inputs and decisions about where to place a mark.
 
-*GUI developer*
+##### def minimax
+This minimax function has a **depth** and **alfa-beta-pruning** implementation.
 
-*alive only*
+The **alfa-beta-pruning** makes the code faster, as it ignores branches that do not have a better evaluation than those already analyzed.
 
-*reward: zero thousand zero hundred and zeroth zero dolars*
+The **depth** is used in two ways; as a **difficulty level** and as a **breakpoint**.
+As a difficulty level because more depth leads to more game branches and more optimal options to play (and vice-versa). And as a breakpoint, because using greater boards can lead to a great delay, so, the depth prevents long wait times.
 
-## Built With
+##### class IPlayer
+Most player classes use the **def minimax** with different depths to choose a place on the board, except for the **class HumanPlayer** and **class EasyPlayer**.
 
-My hands (no major frameworks used yet)
+The **class HumanPlayer** collects input from the user (terminal).
+And the **class EasyPlayer** just plays randomly. Normally does not win, but is fast
 
-## Usage
+#### win_check.py
+The win_check file contains the **class WinChecker**.
+The **class WinChecker** receives a board state and calculates if there is a win in this state.
 
-Dowload and run the "app.exe"
+I preferred to implement it as a class and not as a function because this way it's possible to pass a board on the **class WinChecker** instance creation instead of passing the board in every call of the WinChecker (if it was a function).
 
-## Roadmap
+### abstracts.py
+Just hold some abstract classes. I used a separate file for this to be more organized.
 
-See the [open issues](https://github.com/Davi-S/tic_tac_toe.py-2.0/issues) for a list of proposed features (and known issues).
+### game_modes.py
+This file uses the **engine/** content to make some fun games.
 
-## Contributing
+Each game can be implemented in its way. For example:
+The **Simple** game mode uses a loop and changes players each round.
+A **Teams** game mode can swap teams and players of each team every round.
+In a **Mass** game mode, all players can play at the same time.
+And so on. The possibilities are almost infinite.
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/Davi-S/tic_tac_toe.py-2.0/issues/new) to discuss it, or directly create a pull request after you edit the *README.md* file with necessary changes.
-* Please make sure you check your spelling and grammar.
-* Create individual PR for each suggestion.
-* Please also read through the [Code Of Conduct](https://github.com/Davi-S/tic_tac_toe.py-2.0/blob/main/CODE_OF_CONDUCT.md) before posting your first idea as well.
+An important observation is that those currently implemented game modes start the game on instance creation (by calling the **def run** method on the **def __init__** method).
+This is because of the **class Menu** implementation (see the [**menus.py**](#menus.py) for more information). **It is not necessary if another GUI is used.**
 
-### Creating A Pull Request
+### helpers.py
+This file contains generic and helpful functions that can be used in many places of the code.
+The functions here are usually simple.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+An important thing here is the **class Matrix**.
 
-## Authors
+#### class Matrix
+This class can be a little confusing. It uses the relations between the X and Y axis to find groups (a row, column, or diagonal) in the given matrix.
 
-* **Davi Sampaio** - *Python developer for 3+ years * - [Davi Sampaio](https://github.com/Davi-S/) - *Made everything*
+font: https://stackoverflow.com/a/43311126/14593213
 
-## CS50 Final Project
+The groups can be used to verify wins.
 
-This Project was made as the final project of CS50
+### main.py
+This is the file meant to be run.
+It uses the **menus.py** (see the [**menus.py**](#menus.py) for more information) to create the TUI and join everything together.
 
-### What is being approach in this project
+### menus.py
+This is a very important file, as it dictates how many other things are going to work. Even though it interferes with the **engine/** content.
 
-#### Matrices relations and patterns
+It creates a user-friendly interface with options to choose from. Every option has a callable attached to it. When the user chooses an option, the callable is called.
 
-Every matrix is compose of rows, columns, and its intersections, the diagonals. Any of these groups can be found with X and Y axis relation. Find these relations is very important to find patterns and information on each group of the matrix
+To make nested menus it's necessary to put a **Menu.run()** as a callable option.
+This is what happens on the **main.py** file. Menus are called inside functions (for more organization of the menus) **recursively**.
+This is also why the game mode classes start the game on instance creation. The class must be created and called on the option callable.
 
-![image](https://user-images.githubusercontent.com/67160664/197230849-e44591b0-a0e2-4c6c-b173-275aa5e08f0d.png)
+Menus like these are not these good for bigger projects, but for a small presentation of the **Matriks**, they are acceptable.
 
-The python implementation of this pattern can be found on the "Matrix" class in the "helpers.py" file.
-
-#### Implementation of Minimax algorithm and its variations (AI)
-
-The minimax is a AI algorithm. It is very popular and usefull. Taking a look at the "engine\players.py" file, you can find a implementation of the "minimax" algorithm with "alfa-beta pruning".
-
-Together with the "evaluate function" it can find the best interaction with the matrix. It can be: adding a value on the matrix, finding a combination, excluding information, etc...
-
-#### Usage of the above topics in a TicTacToe engine
-
-Matices and AI can be very powerfull. In this project, I chose to implement a TicTacToe game engine.
-
-The engine is not just a simple 2 player game on a 3x3 board.
-
-The implementation of the "Board Class" allow us to have simple irregular boards, like 3x4 and 8x18; and complex irregular boards, like:
-
-![image](https://user-images.githubusercontent.com/67160664/197236042-8e4aac95-7ed6-414c-aaa6-5157c2487a8b.png)
-
-and still be able to get all information needed; in this case, check for winning patters on the board.
-
-The "WinChecker" class, also can interpret multiple patters on the board and tell if there is a win
-
-The engine, has potential to be inplement in several game modes and even online multiplayer. On the "main.py" and "game_modes.py" file, you can find some simple implementations of game modes and terminal menus
-
+### settings.py
+A simple file to put some global constants for slight changes in the TUI behavior.
+It is currently used to store sleep times.
