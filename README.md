@@ -25,8 +25,7 @@
   - [settings.py](#settingspy)
 
 ## About The Project
-TODO: add the yt video
-> [YouTube video]()
+> [YouTube video](https://youtu.be/XREOomG4Nsk)
 
 > [GitHub repository](https://github.com/Davi-S/tic_tac_toe.py-2.0)
 
